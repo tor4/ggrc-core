@@ -62,6 +62,10 @@ setup () {
 
   git submodule update --init
 
+  # allow non-privileged mysqld to read provisioned mysql configs
+  chmod o+r ./provision/docker/mysql
+  chmod o+r ./provision/docker/mysql/*
+
   docker-compose --file "$DOCKERFILE" --project-name "$PROJECT" \
     build $MACHINE_IDS
   docker-compose --file "$DOCKERFILE" --project-name "$PROJECT" \
