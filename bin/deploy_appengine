@@ -16,6 +16,8 @@ cd "${SCRIPTPATH}/.."
 source "bin/init_env"
 source "${SETTINGS_FILE}"
 
+set -o nounset
+
 make clean_deploy
 make deploy \
 	APPENGINE_INSTANCE="${APPENGINE_INSTANCE}" \
