@@ -7,7 +7,8 @@ set -o errexit
 
 declare -r SCRIPTPATH=$( cd "$(dirname "$0")" ; pwd -P )
 
-declare -r DOCKERFILE="docker-compose-clean.yml"
+declare -r DOCKERFILE_DEV="docker-compose-clean.yml"
+declare -r DOCKERFILE_DEPLOY="docker-compose-deploy.yml"
 
 cd "${SCRIPTPATH}/../"
 source "$SCRIPTPATH/util.sh"
@@ -53,11 +54,11 @@ main () {
   esac
 }
 
-mode_to_machine_ids () {
+mode_to_docker_compose_yml () {
   MODE="$1"
   case "$MODE" in
-    "dev") echo "cleandev db";;
-    "deploy") echo "cleandev";;
+    "dev") echo $DOCKERFILE_DEV;;
+    "deploy") echo $DOCKERFILE_DEPLOY;;
   esac
 }
 
@@ -65,7 +66,7 @@ setup () {
   MODE="$1"
   PROJECT="$2"
 
-  MACHINE_IDS=$(mode_to_machine_ids "$MODE")
+  DOCKERFILE=$(mode_to_docker_compose_yml "$MODE")
 
   git submodule update --init
 
@@ -74,9 +75,9 @@ setup () {
   chmod o+r ./provision/docker/mysql/*
 
   docker-compose --file "$DOCKERFILE" --project-name "$PROJECT" \
-    build $MACHINE_IDS
+    build
   docker-compose --file "$DOCKERFILE" --project-name "$PROJECT" \
-    up --force-recreate -d $MACHINE_IDS
+    up --force-recreate -d
 
   docker exec -i "${PROJECT}_cleandev_1" su -c "
     source /vagrant/bin/init_vagrant_env
@@ -95,7 +96,7 @@ stop () {
   MODE="$1"
   PROJECT="$2"
 
-  MACHINE_IDS=$(mode_to_machine_ids "$MODE")
+  DOCKERFILE=$(mode_to_docker_compose_yml "$MODE")
 
   docker-compose --file "$DOCKERFILE" --project-name "$PROJECT" stop
 }
