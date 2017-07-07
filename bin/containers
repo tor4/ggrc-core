@@ -18,6 +18,9 @@ Allowed ACTIONs:
 Allowed MODEs:
   dev             (default) Setup application container + db container
   deploy          Setup only application container
+
+PROJECT parameter is cleaned and passed to "--project-name" parameter
+for docker-compose. Default is the current directory name.
 EOF
 }
 
@@ -27,13 +30,10 @@ fail_invalid_usage () {
 }
 
 main () {
+  declare -r DEFAULT_PROJECT="$(basename $(pwd))"
   ACTION="${1:-}"
-  PROJECT="${2:-}"
+  PROJECT="${2:-$DEFAULT_PROJECT}"
   MODE="${3:-dev}"
-
-  if [[ -z "$PROJECT" ]]; then
-    fail_invalid_usage
-  fi
 
   if [[ "$MODE" != "dev" && "$MODE" != "deploy" ]]; then
     fail_invalid_usage
