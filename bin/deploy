@@ -98,6 +98,12 @@ main () {
     /vagrant/bin/do_deploy $SETTINGS_FILE $ACCOUNT $KEY_FILE
   " ; rc=$?
 
+  echo "Cleaning up Python dependencies"
+
+  docker exec -i "${PROJECT}_cleandev_1" su root -c "
+    make clean_appengine_packages
+  " ; rc=$?
+
   ./bin/containers stop deploy "$PROJECT"
   exit $rc
 }
