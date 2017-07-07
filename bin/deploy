@@ -89,7 +89,7 @@ main () {
   fi
 
   PROJECT=$(clean_project_name "$PROJECT")
-  ./bin/containers setup "$PROJECT" deploy
+  ./bin/containers setup deploy "$PROJECT"
 
   echo "Running deploy"
 
@@ -98,7 +98,7 @@ main () {
     /vagrant/bin/do_deploy $SETTINGS_FILE $ACCOUNT $KEY_FILE
   " ; rc=$?
 
-  ./bin/containers stop "$PROJECT"
+  ./bin/containers stop deploy "$PROJECT"
   exit $rc
 }
 
