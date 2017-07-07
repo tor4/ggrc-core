@@ -5,7 +5,12 @@
 set -o nounset
 set -o errexit
 
+declare -r SCRIPTPATH=$( cd "$(dirname "$0")" ; pwd -P )
+
 declare -r DOCKERFILE="docker-compose-clean.yml"
+
+cd "${SCRIPTPATH}/../"
+source "$SCRIPTPATH/util.sh"
 
 usage () {
   cat <<EOF
@@ -38,6 +43,8 @@ main () {
   if [[ "$MODE" != "dev" && "$MODE" != "deploy" ]]; then
     fail_invalid_usage
   fi
+
+  PROJECT=$(clean_project_name "$PROJECT")
 
   case "$ACTION" in
     "setup") setup "$MODE" "$PROJECT" ;;
