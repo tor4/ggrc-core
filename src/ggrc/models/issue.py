@@ -42,6 +42,7 @@ class Issue(Roleable, HasObjectState, TestPlanned, CustomAttributable,
       reflection.Attribute("allow_map_to_audit", create=False, update=False),
       reflection.Attribute("allow_unmap_from_audit",
                            create=False, update=False),
+      reflection.Attribute('folder', create=False, update=False),
   )
 
   _aliases = {
@@ -59,6 +60,10 @@ class Issue(Roleable, HasObjectState, TestPlanned, CustomAttributable,
   audit_id = deferred(
       db.Column(db.Integer, db.ForeignKey('audits.id'), nullable=True),
       'Issue')
+
+  @builder.simple_property
+  def folder(self):
+    return self.audit.folder if self.audit else ""
 
   @builder.simple_property
   def allow_map_to_audit(self):
