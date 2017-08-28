@@ -330,7 +330,15 @@ class CycleTaskGroupObjectTask(roleable.Roleable,
             "description",
             "id"
         ),
+        orm.Load(cls).joinedload("cycle").joinedload("workflow").undefer_group(
+            "Workflow_complete"
+        ),
     )
+
+  def log_json(self):
+    out_json = super(CycleTaskGroupObjectTask, self).log_json()
+    out_json["folder"] = self.folder
+    return out_json
 
   @classmethod
   def bulk_update(cls, src):
