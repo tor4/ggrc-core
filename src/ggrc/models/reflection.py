@@ -83,6 +83,7 @@ ATTRIBUTE_ORDER = (
     "updated_at",
     "modified_by",
     "created_at",
+    "folder",
     "delete",
     "repeat_every",
     "unit",
