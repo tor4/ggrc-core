@@ -400,59 +400,6 @@ import {uploadFiles} from '../utils/gdrive-picker-utils.js';
   }, {
   });
 
-  can.Model.Join('CMS.Models.ObjectFolder', {
-    root_object: 'object_folder',
-    root_collection: 'object_folders',
-    findAll: 'GET /api/object_folders?__include=folder',
-    create: 'POST /api/object_folders',
-    update: 'PUT /api/object_folders/{id}',
-    destroy: 'DELETE /api/object_folders/{id}',
-    join_keys: {
-      folderable: can.Model.Cacheable,
-      folder: CMS.Models.GDriveFolder
-    },
-    attributes: {
-      modified_by: 'CMS.Models.Person.stub',
-      folder: 'CMS.Models.GDriveFolder.stub',
-      folderable: 'CMS.Models.get_stub'
-    },
-    model: function (params) {
-      if (typeof params === 'object') {
-        if (params.folder_id) {
-          params.folder = new CMS.Models.GDriveFolder({
-            id: params.folder_id,
-            href: '/drive/v2/files/' + params.folder_id
-          }).stub();
-        }
-      }
-      return this._super(params);
-    }
-  }, {
-    init: function () {
-      this._super.apply(this, arguments);
-      if (!this.folder && this.folder_id) {
-        this.attr('folder', new CMS.Models.GDriveFolder({
-          id: this.folder_id,
-          parentfolderid: this.parent_folder_id,
-          href: '/drive/v2/files/' + this.folder_id
-        }));
-      }
-    },
-    serialize: function (attr) {
-      var serial;
-      if (!attr) {
-        serial = this._super.apply(this, arguments);
-        serial.folder_id = serial.folder ? serial.folder.id : serial.folder_id;
-        delete serial.folder;
-        return serial;
-      }
-      if (attr === 'folder_id') {
-        return this.folder_id || this.folder.id;
-      }
-      return this._super.apply(this, arguments);
-    }
-  });
-
   $(document).ready(function () {
     gapi_request_with_auth = GGRC.gapi_request_with_auth;
   });

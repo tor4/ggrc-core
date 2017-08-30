@@ -184,22 +184,7 @@
         refreshAttrWrap('cycle_task_group_object_task').bind(this));
       this.validateNonBlank('description');
     }
-  }, {
-    workflowFolder: function () {
-      return this.refresh_all('cycle', 'workflow').then(function (workflow) {
-        if (workflow.has_binding('folders')) {
-          return workflow.refresh_all('folders').then(function (folders) {
-            if (folders.length === 0) {
-              return null;  // workflow folder has not been assigned
-            }
-            return folders[0].instance;
-          }, function (result) {
-            return result;
-          });
-        }
-      });
-    }
-  });
+  }, {});
 
   _mustachePath = GGRC.mustache_path + '/cycle_task_groups';
   can.Model.Cacheable('CMS.Models.CycleTaskGroup', {
