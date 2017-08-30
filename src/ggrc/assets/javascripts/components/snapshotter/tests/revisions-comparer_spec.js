@@ -147,15 +147,15 @@ describe('GGRC.Components.revisionsComparer', function () {
 
     it('getAttachmentsDfds() should return 1 dfd', function () {
       var dfds;
-      revisions[0].attr('instance').folders = [{id: 'EWheNKvwjhrcwWer'}];
+      revisions[0].attr('instance').folder = 'EWheNKvwjhrcwWer';
       dfds = method(revisions);
       expect(dfds.length).toEqual(1);
     });
 
     it('getAttachmentsDfds() should return 2 dfds', function () {
       var dfds;
-      revisions[0].attr('instance').folders = [{id: 'EWheNKvwjhrcwWer'}];
-      revisions[1].attr('instance').folders = [{id: 'vewbetWhercwWer'}];
+      revisions[0].attr('instance').folder = 'EWheNKvwjhrcwWer';
+      revisions[1].attr('instance').folder = 'vewbetWhercwWer';
       dfds = method(revisions);
       expect(dfds.length).toEqual(2);
     });

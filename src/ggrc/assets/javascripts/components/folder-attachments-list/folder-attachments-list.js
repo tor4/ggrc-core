@@ -26,12 +26,24 @@
         readonly: {
           type: 'boolean',
           value: false
+        },
+        /**
+         * Indicates whether uploading files without parent folder allowed
+         * @type {boolean}
+         */
+        isNoFolderUploadingAllowed: {
+          type: 'boolean',
+          get: function () {
+            return !this.attr('denyNoFolder') && !this.attr('folderError');
+          }
         }
       },
       title: '@',
       tooltip: '@',
       subLabel: '@',
       instance: null,
+      currentFolder: null,
+      folderError: null,
       isFilesLoaded: false,
       itemsUploadedCallback: function () {
         if (this.instance instanceof CMS.Models.Control) {

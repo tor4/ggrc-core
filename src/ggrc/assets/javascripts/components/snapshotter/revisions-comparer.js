@@ -79,7 +79,7 @@
         revisions.forEach(function (revision) {
           var instance = revision.attr('instance');
 
-          if (instance.folders && instance.folders.length) {
+          if (instance.folder) {
             dfds.push(
               that.buildAttachmentsDfd(instance, 'isRevisionFolderLoaded'));
           }

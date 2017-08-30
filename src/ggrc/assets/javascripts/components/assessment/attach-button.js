@@ -57,37 +57,22 @@
           }
           self.attr('canAttach', true);
         }, function (err) {
-          console.log(err);
           self.attr('error', err);
           self.attr('canAttach', false);
         }).always(function () {
           self.attr('checksPassed', true);
         });
       },
-      findFolderId: function () {
-        var self = this;
-        var auditId = this.attr('instance.audit.id');
-        var foldersDfd = CMS.Models.ObjectFolder.findAll({
-          folderable_id: auditId,
-          folderable_type: 'Audit'});
-
-        return foldersDfd.then(function (folders) {
-          if (folders.length > 0) {
-            return folders[0].folder_id;
-          }
-          self.attr('canAttach', true);
-        });
-      },
       findFolder: function () {
         var GFolder = CMS.Models.GDriveFolder;
+        var folderId = this.attr('instance.folder');
 
-        return this.findFolderId().then(function (id) {
-          if (!id) {
-            return can.Deferred().resolve();
-          }
+        if (!folderId) {
+          this.attr('canAttach', true);
+          return can.Deferred().resolve();
+        }
 
-          return GFolder.findOne({id: id});
-        });
+        return GFolder.findOne({id: folderId});
       }
     }
   });

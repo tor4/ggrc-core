@@ -234,51 +234,24 @@ import errorTpl from './templates/gdrive_picker_launcher_upload_error.mustache';
         // upload files with a parent folder (audits and workflows)
         var that = this;
         var parentFolderDfd;
-        var folderInstance = this.folder_instance || this.instance;
-
-        function isOwnFolder(mapping, instance) {
-          if (mapping.binding.instance !== instance) {
-            return false;
-          }
-          if (!mapping.mappings ||
-            mapping.mappings.length < 1 ||
-            mapping.instance === true) {
-            return true;
-          }
-          return can.reduce(mapping.mappings, function (current, mp) {
-            return current || isOwnFolder(mp, instance);
-          }, false);
-        }
+        var folderId;
 
         if (that.instance.attr('_transient.folder')) {
           parentFolderDfd = can.when(
-            [{instance: folderInstance.attr('_transient.folder')}]
+            [{instance: this.instance.attr('_transient.folder')}]
           );
         } else {
-          parentFolderDfd = folderInstance
-            .get_binding('extended_folders')
-            .refresh_instances();
+          folderId = this.instance.attr('folder');
+
+          parentFolderDfd = new CMS.Models.GDriveFolder({
+            id: folderId,
+            href: '/drive/v2/files/' + folderId
+          }).refresh();
         }
         can.Control.prototype.bindXHRToButton(parentFolderDfd, el);
 
         parentFolderDfd
-          .done(function (bindings) {
-            var parentFolder;
-            if (bindings.length < 1 || !bindings[0].instance.selfLink) {
-              // no ObjectFolder or cannot access folder from GAPI
-              el.trigger('ajax:flash', {
-                warning: 'Can\'t upload: No GDrive folder found'
-              });
-              return;
-            }
-
-            parentFolder = can.map(bindings, function (binding) {
-              return can.reduce(binding.mappings, function (current, mp) {
-                return current || isOwnFolder(mp, that.instance);
-              }, false) ? binding.instance : undefined;
-            });
-            parentFolder = parentFolder[0] || bindings[0].instance;
-
+          .done(function (parentFolder) {
             parentFolder.uploadFiles()
               .then(that.beforeCreateHandler.bind(that))
               .then(that.addFilesSuffixes.bind(that, {dest: parentFolder}))
@@ -304,6 +277,11 @@ import errorTpl from './templates/gdrive_picker_launcher_upload_error.mustache';
                   GGRC.Errors.notifier('error', error && error.message);
                 }
               });
+          })
+          .fail(function () {
+            el.trigger('ajax:flash', {
+              warning: 'Can\'t upload: No GDrive folder found'
+            });
           });
       },
 
