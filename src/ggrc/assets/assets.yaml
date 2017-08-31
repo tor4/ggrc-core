@@ -43,6 +43,7 @@ dashboard-js-template-files:
   - components/info-pin-buttons/info-pin-buttons.mustache
   - components/questions-link/questions-link.mustache
   - components/folder-attachments-list/folder-attachments-list.mustache
+  - components/audit/attach-folder-button.mustache
   - base_objects/empty.mustache
   - base_objects/autocomplete_result.mustache
   - base_objects/confirm_archive.mustache

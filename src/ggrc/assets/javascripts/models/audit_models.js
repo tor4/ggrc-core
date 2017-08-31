@@ -3,6 +3,8 @@
  Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
  */
 
+import '../components/audit/attach-folder-button'
+
 (function (can, CMS) {
   function update_program_authorizations(programs, person) {
     return can.when(
