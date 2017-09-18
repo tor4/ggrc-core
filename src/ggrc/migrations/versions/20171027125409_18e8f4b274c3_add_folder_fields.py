@@ -4,7 +4,7 @@
 """
 add folder fields
 
-Create Date: 2017-07-25 13:24:56.968236
+Create Date: 2017-10-27 12:54:09.459832
 """
 # disable Invalid constant name pylint warning for mandatory Alembic variables.
 # pylint: disable=invalid-name
@@ -13,16 +13,22 @@ import sqlalchemy as sa
 
 from alembic import op
 
+
 # revision identifiers, used by Alembic.
-revision = '185634b02433'
-down_revision = '4991c5731711'
+revision = '18e8f4b274c3'
+down_revision = '2ad7783c176'
+
+
+TABLES = ('programs', 'audits', 'controls', )
 
 
 def upgrade():
   """Upgrade database schema and/or data, creating a new revision."""
-  op.add_column('workflows', sa.Column('folder', sa.Text(), nullable=True))
+  for table in TABLES:
+    op.add_column(table, sa.Column('folder', sa.Text(), nullable=True))
 
 
 def downgrade():
   """Downgrade database schema and/or data back to the previous revision."""
-  op.drop_column('workflows', sa.Column('folder', sa.Text(), nullable=True))
+  for table in TABLES:
+    op.drop_column(table, 'folder')

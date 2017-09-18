@@ -2,36 +2,28 @@
 # Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 
 """
-setup folder field value
+add folder fields
 
-Create Date: 2017-07-25 13:27:15.808163
+Create Date: 2017-10-27 12:58:42.499466
 """
 # disable Invalid constant name pylint warning for mandatory Alembic variables.
 # pylint: disable=invalid-name
 
-from alembic import op
+import sqlalchemy as sa
 
-from ggrc.migrations.utils import object_folders
+from alembic import op
 
 
 # revision identifiers, used by Alembic.
-revision = '3c8e2a4c4f43'
-down_revision = 'ba01ec28bff'
-
-PAIRS = (
-    ('programs', 'Program'),
-    ('audits', 'Audit'),
-    ('controls', 'Control'),
-)
+revision = '5739abdd2fe4'
+down_revision = '251191c050d0'
 
 
 def upgrade():
   """Upgrade database schema and/or data, creating a new revision."""
-  for table, model in PAIRS:
-    object_folders.update(op, table, model)
+  op.add_column('workflows', sa.Column('folder', sa.Text(), nullable=True))
 
 
 def downgrade():
   """Downgrade database schema and/or data back to the previous revision."""
-  for table, model in PAIRS:
-    object_folders.downgrade(op, table, model)
+  op.drop_column('workflows', sa.Column('folder', sa.Text(), nullable=True))

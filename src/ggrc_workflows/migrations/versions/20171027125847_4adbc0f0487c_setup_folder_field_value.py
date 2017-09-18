@@ -4,7 +4,7 @@
 """
 setup folder field value
 
-Create Date: 2017-07-25 13:28:58.446726
+Create Date: 2017-10-27 12:58:47.557361
 """
 # disable Invalid constant name pylint warning for mandatory Alembic variables.
 # pylint: disable=invalid-name
@@ -13,9 +13,11 @@ from alembic import op
 
 from ggrc.migrations.utils import object_folders
 
+
 # revision identifiers, used by Alembic.
-revision = '5a5e844e1c95'
-down_revision = '185634b02433'
+revision = '4adbc0f0487c'
+down_revision = '5739abdd2fe4'
+
 
 PAIRS = (('workflows', 'Workflow'), )
 
