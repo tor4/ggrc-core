@@ -29,4 +29,48 @@ describe('GGRC.Components.attachButton', function () {
         .not.toThrowError();
     });
   });
+
+  describe('checkFolder() method', function () {
+    it('should set isFolderAttached to true when folder is attached',
+      function () {
+        viewModel.attr('isFolderAttached', false);
+        viewModel.attr('instance.folder', 'gdrive_folder_id');
+
+        spyOn(viewModel, 'findFolder').and
+          .returnValue(can.Deferred().resolve({}));
+
+        viewModel.checkFolder();
+        expect(viewModel.attr('isFolderAttached')).toBe(true);
+      });
+
+    it('should set isFolderAttached to false when folder is not attached',
+      function () {
+        viewModel.attr('isFolderAttached', true);
+        viewModel.attr('instance.folder', null);
+
+        spyOn(viewModel, 'findFolder').and
+          .returnValue(can.Deferred().resolve());
+
+        viewModel.checkFolder();
+        expect(viewModel.attr('isFolderAttached')).toBe(false);
+      });
+
+    it('set correct isFolderAttached if instance refreshes during ' +
+      'request to GDrive', function () {
+      var dfd = can.Deferred();
+      spyOn(CMS.Models.GDriveFolder, 'findOne').and.returnValue(dfd);
+
+      viewModel.attr('instance.folder', 'gdrive_folder_id');
+      viewModel.checkFolder(); // makes request to GDrive
+
+      // instance is refreshed and folder becomes null
+      viewModel.attr('instance.folder', null);
+      viewModel.checkFolder();
+
+      // resolve request to GDrive after instance refreshing
+      dfd.resolve({folderId: 'gdrive_folder_id'});
+
+      expect(viewModel.attr('isFolderAttached')).toBe(false);
+    });
+  });
 });
