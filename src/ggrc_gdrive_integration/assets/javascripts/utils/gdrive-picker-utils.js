@@ -23,7 +23,8 @@ export function uploadFiles(opts = {}) {
     .reAuthorize(gapi.auth.getToken())
     .done(()=>{
       gapi.load('picker', {callback: createPicker});
-    });
+    })
+    .fail(dfd.reject);
 
     // Create and render a Picker object for searching images.
   function createPicker() {
