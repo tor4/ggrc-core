@@ -18,6 +18,7 @@ import '../people/editable-people-group';
             var instance = this.attr('instance');
             var isSnapshot = GGRC.Utils.Snapshots.isSnapshot(instance);
             var canEdit = !isSnapshot &&
+              !instance.attr('archived') &&
               !this.attr('updatableGroupId') &&
               (this.attr('isNewInstance') ||
                 Permission.is_allowed_for('update', instance));
