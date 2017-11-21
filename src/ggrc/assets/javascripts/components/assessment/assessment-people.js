@@ -17,6 +17,11 @@ import '../related-objects/related-people-mapping';
     template: tpl,
     viewModel: {
       define: {
+        canEdit: {
+          get: function () {
+            return !this.attr('instance.archived');
+          },
+        },
         emptyMessage: {
           type: 'string',
           value: '',
