@@ -57,14 +57,30 @@
 
       {{#if_equals state "success"}}
         <div class="import-wrap import-final">
-          <ul>
-            {{#data}}
+          <show-more items="import" limit="1">
+            <ul>
               {{#if created}} <li><strong>{{created}}</strong> records created</li>{{/if}}
               {{#if updated}} <li><strong>{{updated}}</strong> records updated</li>{{/if}}
               {{#if ignored}} <li><strong>{{ignored}}</strong> records ignored</li>{{/if}}
               {{#if deleted}} <li><strong>{{deleted}}</strong> records deleted</li>{{/if}}
-            {{/data}}
-          </ul>
+              {{#data}}
+                <li>
+                  <strong>{{status}}</strong>
+                  {{#if_equals status "errors"}}
+                    <i class="fa fa-exclamation-triangle red"></i>
+                  {{/if}}
+                  {{#if messages.length}}
+                    <ul>
+                      {{#messages}}
+                        <li>{{.}}</li>
+                      {{/messages}}
+                    </ul>
+                  {{/if}}
+                </li>
+              {{/data}}
+            </ul>
+            <hr />
+          </show-more>
         </div>
       {{/if_equals}}
 

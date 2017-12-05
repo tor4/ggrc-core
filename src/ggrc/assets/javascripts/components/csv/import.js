@@ -123,7 +123,6 @@ export default can.Component.extend({
         }
         return element;
       }));
-      this.attr('state', 'import');
     },
     needWarning: function (checkObj, data) {
       var hasWarningTypes = _.every(data, function (item) {
@@ -152,6 +151,7 @@ export default can.Component.extend({
           },
           () => {
             this.processLoadedInfo(data);
+            this.attr('state', 'import');
           },
           () => {
             this.attr('state', 'import');
@@ -162,6 +162,7 @@ export default can.Component.extend({
       }
 
       this.processLoadedInfo(data);
+      this.attr('state', 'import');
     },
     getOperationNameFromCheckObj: function (checkObj) {
       var action = _.compact([
@@ -183,7 +184,7 @@ export default can.Component.extend({
         state: 'select',
         fileId: '',
         fileName: '',
-        'import': null
+        'import': null,
       });
       element.find('.csv-upload').val('');
     },
@@ -224,15 +225,8 @@ export default can.Component.extend({
         data: {id: this.viewModel.attr('fileId')},
       }, false)
       .done((data) => {
-        var result_count = data.reduce(function (prev, curr) {
-              _.each(Object.keys(prev), function (key) {
-                prev[key] += curr[key] || 0;
-              });
-              return prev;
-            }, {created: 0, updated: 0, deleted: 0, ignored: 0});
-
+        this.viewModel.processLoadedInfo(data);
         this.viewModel.attr('state', 'success');
-        this.viewModel.attr('data', [result_count]);
       })
       .fail((data) => {
         this.viewModel.attr('state', 'select');

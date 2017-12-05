@@ -293,4 +293,60 @@ describe('GGRC.Components.csvImportWidget', function () {
         {callback: jasmine.any(Function)});
     });
   });
+
+  describe('".state-import click" handler', () => {
+    let method;
+    let ev;
+
+    beforeEach(() => {
+      method = Component.prototype.events['.state-import click']
+        .bind({viewModel});
+      ev = document.createEvent('event');
+    });
+
+    it('sets "importing" state', () => {
+      viewModel.attr('state', 'any state');
+      spyOn(GGRC.Utils, 'import_request').and.returnValue(can.Deferred());
+
+      method({}, ev);
+      expect(viewModel.attr('state')).toEqual('importing');
+    });
+
+    it('makes import request', () => {
+      spyOn(GGRC.Utils, 'import_request').and.returnValue(can.Deferred());
+
+      method({}, ev);
+      expect(GGRC.Utils.import_request).toHaveBeenCalled();
+    });
+
+    it('handles success request result', () => {
+      let dfd = can.Deferred().resolve();
+
+      viewModel.attr('isLoading', true);
+      spyOn(GGRC.Utils, 'import_request').and
+        .returnValue(dfd);
+      spyOn(viewModel, 'processLoadedInfo');
+
+      method({}, ev);
+
+      expect(viewModel.processLoadedInfo).toHaveBeenCalled();
+      expect(viewModel.attr('state')).toEqual('success');
+      expect(viewModel.attr('isLoading')).toEqual(false);
+    });
+
+    it('handles failed request result', () => {
+      let dfd = can.Deferred().reject({responseJSON: {}});
+
+      viewModel.attr('isLoading', true);
+      spyOn(GGRC.Utils, 'import_request').and
+        .returnValue(dfd);
+      spyOn(GGRC.Errors, 'notifier');
+
+      method({}, ev);
+
+      expect(viewModel.attr('state')).toEqual('select');
+      expect(GGRC.Errors.notifier).toHaveBeenCalled();
+      expect(viewModel.attr('isLoading')).toEqual(false);
+    });
+  });
 });
