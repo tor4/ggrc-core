@@ -8,21 +8,21 @@ import Component from '../import';
 describe('GGRC.Components.csvImportWidget', function () {
   'use strict';
 
-  var method;  // the method under test
-  var fakeScope;
+  var method; // the method under test
+  var viewModel;
 
   beforeEach(function () {
-    fakeScope = new can.Map({});
+    viewModel = new (can.Map.extend(Component.prototype.viewModel));
   });
 
-  describe('scope.states() method', function () {
+  describe('viewModel.states() method', function () {
     beforeEach(function () {
-      method = Component.prototype.scope.states.bind(fakeScope);
+      method = Component.prototype.viewModel.states.bind(viewModel);
     });
 
     describe('the returned "import" state config\'s isDisabled() method',
       function () {
-        var isDisabled;  // the method under test
+        var isDisabled; // the method under test
 
         /**
          * A factory function for dummy import block info objects.
@@ -68,21 +68,21 @@ describe('GGRC.Components.csvImportWidget', function () {
 
         beforeEach(function () {
           var importStateConfig;
-          fakeScope.attr('state', 'import');
+          viewModel.attr('state', 'import');
           importStateConfig = method();
           isDisabled = importStateConfig.isDisabled;
         });
 
         it('returns true when import blocks list not available', function () {
           var result;
-          fakeScope.attr('import', null);
+          viewModel.attr('import', null);
           result = isDisabled();
           expect(result).toBe(true);
         });
 
         it('returns true when import blocks list is empty', function () {
           var result;
-          fakeScope.attr('import', []);
+          viewModel.attr('import', []);
           result = isDisabled();
           expect(result).toBe(true);
         });
@@ -93,7 +93,7 @@ describe('GGRC.Components.csvImportWidget', function () {
             makeImportBlock('Assessment', {totalRows: 0}),
             makeImportBlock('Market', {totalRows: 0})
           ];
-          fakeScope.attr('import', importBlocks);
+          viewModel.attr('import', importBlocks);
 
           result = isDisabled();
 
@@ -108,7 +108,7 @@ describe('GGRC.Components.csvImportWidget', function () {
             makeImportBlock(
               'Contract', {totalRows: 3, created: 1, ignored: 2})
           ];
-          fakeScope.attr('import', importBlocks);
+          viewModel.attr('import', importBlocks);
 
           result = isDisabled();
 
@@ -121,7 +121,7 @@ describe('GGRC.Components.csvImportWidget', function () {
             var importBlocks = [
               makeImportBlock('Assessment', {totalRows: 4, ignored: 4})
             ];
-            fakeScope.attr('import', importBlocks);
+            viewModel.attr('import', importBlocks);
 
             result = isDisabled();
 
@@ -139,7 +139,7 @@ describe('GGRC.Components.csvImportWidget', function () {
               makeImportBlock(
                 'Contract', {totalRows: 3, created: 1, ignored: 2})
             ];
-            fakeScope.attr('import', importBlocks);
+            viewModel.attr('import', importBlocks);
 
             result = isDisabled();
 
@@ -154,35 +154,35 @@ describe('GGRC.Components.csvImportWidget', function () {
     var importDfd;
 
     beforeEach(function () {
-      method = Component.prototype.scope.requestImport.bind(fakeScope);
+      method = Component.prototype.viewModel.requestImport.bind(viewModel);
       importDfd = new can.Deferred();
       spyOn(GGRC.Utils, 'import_request').and.returnValue(importDfd);
-      fakeScope.prepareDataForCheck = jasmine.createSpy();
-      fakeScope.beforeProcess = jasmine.createSpy();
+      viewModel.prepareDataForCheck = jasmine.createSpy();
+      viewModel.beforeProcess = jasmine.createSpy();
     });
 
     it('sets "analyzing" value to "state" attribute', function () {
-      fakeScope.attr('state', null);
+      viewModel.attr('state', null);
       method({});
-      expect(fakeScope.attr('state')).toEqual('analyzing');
+      expect(viewModel.attr('state')).toEqual('analyzing');
     });
 
     it('sets true to "isLoading" attribute', function () {
-      fakeScope.attr('isLoading', null);
+      viewModel.attr('isLoading', null);
       method({});
-      expect(fakeScope.attr('isLoading')).toEqual(true);
+      expect(viewModel.attr('isLoading')).toEqual(true);
     });
 
     it('sets file id to "fileId" attribute', function () {
-      fakeScope.attr('fileId', null);
+      viewModel.attr('fileId', null);
       method({id: '12343'});
-      expect(fakeScope.attr('fileId')).toEqual('12343');
+      expect(viewModel.attr('fileId')).toEqual('12343');
     });
 
     it('sets file name to "fileName" attribute', function () {
-      fakeScope.attr('fileName', null);
+      viewModel.attr('fileName', null);
       method({name: 'import_objects'});
-      expect(fakeScope.attr('fileName')).toEqual('import_objects');
+      expect(viewModel.attr('fileName')).toEqual('import_objects');
     });
 
     it('calls import_request method from utils with data containing file id' +
@@ -197,12 +197,12 @@ describe('GGRC.Components.csvImportWidget', function () {
       var checkObject;
 
       beforeEach(function () {
-        fakeScope.element = 'element';
+        viewModel.element = 'element';
         checkObject = {
           check: 'check',
           data: 'data',
         };
-        fakeScope.prepareDataForCheck.and.returnValue(checkObject);
+        viewModel.prepareDataForCheck.and.returnValue(checkObject);
       });
 
       describe('in case of success', function () {
@@ -210,22 +210,22 @@ describe('GGRC.Components.csvImportWidget', function () {
           var mockData = {data: 'data'};
           importDfd.resolve(mockData);
           method({});
-          expect(fakeScope.prepareDataForCheck).toHaveBeenCalledWith(mockData);
+          expect(viewModel.prepareDataForCheck).toHaveBeenCalledWith(mockData);
           done();
         });
 
         it('calls beforeProcess method', function (done) {
           importDfd.resolve();
           method({});
-          expect(fakeScope.beforeProcess).toHaveBeenCalledWith(
-            checkObject.check, checkObject.data, fakeScope.element);
+          expect(viewModel.beforeProcess).toHaveBeenCalledWith(
+            checkObject.check, checkObject.data, viewModel.element);
           done();
         });
 
         it('sets false to isLoading attribute', function (done) {
           importDfd.resolve();
           method({});
-          expect(fakeScope.attr('isLoading')).toBe(false);
+          expect(viewModel.attr('isLoading')).toBe(false);
           done();
         });
       });
@@ -243,7 +243,7 @@ describe('GGRC.Components.csvImportWidget', function () {
         it('sets "select" value to state attribute', function (done) {
           importDfd.reject(failData);
           method({});
-          expect(fakeScope.attr('state')).toEqual('select');
+          expect(viewModel.attr('state')).toEqual('select');
           done();
         });
 
@@ -258,7 +258,7 @@ describe('GGRC.Components.csvImportWidget', function () {
         it('sets false to isLoading attribute', function (done) {
           importDfd.reject(failData);
           method({});
-          expect(fakeScope.attr('isLoading')).toBe(false);
+          expect(viewModel.attr('isLoading')).toBe(false);
           done();
         });
       });

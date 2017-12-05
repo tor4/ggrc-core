@@ -10,11 +10,11 @@ import './csv-template';
 import '../show-more/show-more';
 import template from './templates/csv-import.mustache';
 
-export default GGRC.Components('csvImportWidget', {
+export default can.Component.extend({
   tag: 'csv-import',
   template: template,
   requestData: null,
-  scope: {
+  viewModel: {
     importUrl: '/_service/import_csv',
     'import': null,
     fileId: '',
@@ -150,13 +150,13 @@ export default GGRC.Components('csvImportWidget', {
               'Processes will be ' + operation.past + '.',
             operation: operation.action,
           },
-          function () {
+          () => {
             this.processLoadedInfo(data);
-          }.bind(this),
-          function () {
+          },
+          () => {
             this.attr('state', 'import');
             this.resetFile(element);
-          }.bind(this)
+          }
         );
         return;
       }
@@ -194,36 +194,36 @@ export default GGRC.Components('csvImportWidget', {
       this.attr('fileName', file.name);
 
       GGRC.Utils.import_request({data: {id: file.id}}, true)
-        .then(this.prepareDataForCheck.bind(this))
-        .then(function (checkObject) {
+        .then(this.prepareDataForCheck)
+        .then((checkObject) => {
           this.beforeProcess(
             checkObject.check,
             checkObject.data,
             this.element
           );
-        }.bind(this))
-        .fail(function (data) {
+        })
+        .fail((data) => {
           this.attr('state', 'select');
           GGRC.Errors.notifier('error', data.responseJSON.message);
-        }.bind(this))
-        .always(function () {
+        })
+        .always(() => {
           this.attr('isLoading', false);
-        }.bind(this));
+        });
     },
   },
   events: {
     '.state-reset click': function (el, ev) {
       ev.preventDefault();
-      this.scope.resetFile(this.element);
+      this.viewModel.resetFile(this.element);
     },
     '.state-import click': function (el, ev) {
       ev.preventDefault();
-      this.scope.attr('state', 'importing');
+      this.viewModel.attr('state', 'importing');
 
       GGRC.Utils.import_request({
-        data: {id: this.scope.attr('fileId')},
+        data: {id: this.viewModel.attr('fileId')},
       }, false)
-      .done(function (data) {
+      .done((data) => {
         var result_count = data.reduce(function (prev, curr) {
               _.each(Object.keys(prev), function (key) {
                 prev[key] += curr[key] || 0;
@@ -231,16 +231,16 @@ export default GGRC.Components('csvImportWidget', {
               return prev;
             }, {created: 0, updated: 0, deleted: 0, ignored: 0});
 
-        this.scope.attr('state', 'success');
-        this.scope.attr('data', [result_count]);
-      }.bind(this))
-      .fail(function (data) {
-        this.scope.attr('state', 'select');
+        this.viewModel.attr('state', 'success');
+        this.viewModel.attr('data', [result_count]);
+      })
+      .fail((data) => {
+        this.viewModel.attr('state', 'select');
         GGRC.Errors.notifier('error', data.responseJSON.message);
-      }.bind(this))
-      .always(function () {
-        this.scope.attr('isLoading', false);
-      }.bind(this));
+      })
+      .always(() => {
+        this.viewModel.attr('isLoading', false);
+      });
     },
     '#import_btn.state-select click': function (el, ev) {
       var that = this;
@@ -296,7 +296,7 @@ export default GGRC.Components('csvImportWidget', {
           if (file && _.any(allowedTypes, function (type) {
             return type === file.mimeType;
           })) {
-            that.scope.requestImport(file);
+            that.viewModel.requestImport(file);
           } else {
             GGRC.Errors.notifier('error',
               'Something other than a csv-file was chosen. ' +
