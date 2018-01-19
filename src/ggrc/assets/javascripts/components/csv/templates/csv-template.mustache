@@ -3,30 +3,52 @@
   Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 
-<div class="download-template">
-  <h3>Create a CSV template</h3>
-  <p>
-    Don't have a CSV template ready? We'll <strong>create template</strong> for you right now.
-  </p>
-  <p>
-    Select which <strong>type of objects</strong> you want to import, and we'll
-    generate CSV template, with all fields and instructions.
-  </p>
-  <label>I'm importing/updating...</label>
-  <select id="importSelect" class="input-block-level" multiple>
-    {{#importable}}
-      <option value="{{model_singular}}" label="{{title_plural}}"></option>
-    {{/importable}}
-  </select>
-  <p>A CSV template will be generated for the following object types:</p>
-  <ul class="import-list">
-    {{#each selected}}
-      <li><a data-index="{{@index}}" href="#"><i class="fa fa-trash"></i></a> {{name}}</li>
-    {{/each}}
-  </ul>
-  <div class="center-block">
-    <a href="import_controls_template" class="btn btn-white btn-large import-button">
-      Download template
-    </a>
+<button class="btn btn-small btn-white"
+  ($click)="showDialog">
+  Download import template
+</button>
+
+<simple-modal
+  {state}="state"
+  {modal-title}="'Download Template'"
+  {extra-css-class}="'download-template'">
+  <div class="simple-modal__body">
+    <div class="simple-modal__section simple-modal__sub-header-section">
+        <p>
+            Don't have an import template ready? We'll create a template for you right now.
+        </p>
+        <p>
+          Select which type of objects you want to import, and we'll generate an import template, with all fields and instructions.
+        </p>
+        <p>I'm importing / updating...</p>
+    </div>
+    <div class="simple-modal__section">
+      <div class="simple-modal__section-title">
+          Choose Templates
+      </div>
+      <multiselect-dropdown
+        {options}="options"
+        {placeholder}="'Choose Templates'"
+        {selected}="selected">
+      </multiselect-dropdown>
+    </div>
   </div>
-</div>
+  <div class="simple-modal__footer">
+    <div class="simple-modal__toolbar">
+      <button class="btn btn-small btn-white simple-modal__toolbar-item"
+              ($click)="hide">
+          Cancel
+      </button>
+      <button class="btn btn-small btn-green simple-modal__toolbar-item"
+              ($click)="downloadCSV"
+              {{#if isLoading}}disabled{{/if}}>
+          Download CSV
+      </button>
+      <button class="btn btn-small btn-green simple-modal__toolbar-item"
+              ($click)="downloadSheet"
+              {{#if isLoading}}disabled{{/if}}>
+          Download Sheet
+      </button>
+    </div>
+  </div>
+</simple-modal>

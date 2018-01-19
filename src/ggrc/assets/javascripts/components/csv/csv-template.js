@@ -3,67 +3,87 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 */
 
+import '../dropdown/multiselect-dropdown';
+import {
+  confirm,
+} from '../../plugins/utils/modals';
 import template from './templates/csv-template.mustache';
 
-export default GGRC.Components('csvTemplate', {
+export default can.Component.extend({
   tag: 'csv-template',
-  template: template,
-  scope: {
-    url: '/_service/export_csv',
-    selected: [],
-    importable: GGRC.Bootstrap.importable
-  },
-  events: {
-    '#importSelect change': function (el, ev) {
-      var $items = el.find(':selected');
-      var selected = this.scope.attr('selected');
-
-      $items.each(function () {
-        var $item = $(this);
-        if (_.findWhere(selected, {value: $item.val()})) {
-          return;
-        }
-        return selected.push({
-          name: $item.attr('label'),
-          value: $item.val()
-        });
-      });
+  template,
+  viewModel: {
+    state: {
+      open: false,
     },
-    '.import-button click': function (el, ev) {
-      var objects;
-      ev.preventDefault();
+    isLoading: false,
+    options: [],
+    selected: [],
+    init() {
+      this.attr('options', GGRC.Bootstrap.importable.map((item) => {
+        return new can.Map({
+          value: item.title_plural,
+          object_name: item.model_singular,
+          checked: false,
+        });
+      }));
+    },
+    showDialog() {
+      this.attr('options').forEach((option) => option.attr('checked', false));
+      this.attr('state.open', true);
+    },
+    downloadSheet() {
+      this.exportTemplate('gdrive')
+        .then((data) => {
+          if (data) {
+            let link = 'https://docs.google.com/spreadsheets/d/' + data.id;
 
-      objects = _.map(this.scope.attr('selected'), function (el) {
+            confirm({
+              modal_title: 'Export Completed',
+              modal_description: `File is exported successfully.
+              You can view the file here:
+              <a href="${link}" target="_blank">${link}</a>`,
+              button_view:
+                `${GGRC.mustache_path}/modals/close_buttons.mustache`,
+            });
+          }
+        });
+    },
+    downloadCSV() {
+      this.exportTemplate('csv')
+        .then((data) => {
+          if (data) {
+            GGRC.Utils.download('import_template.csv', data);
+          }
+        });
+    },
+    exportTemplate(exportTo) {
+      let dfd = new can.Deferred();
+      let objects = _.map(this.attr('selected'), (el) => {
         return {
-          object_name: el.value,
-          fields: 'all'
+          object_name: el.object_name,
+          fields: 'all',
         };
       });
+
       if (!objects.length) {
-        return;
+        return dfd.resolve();
       }
 
+      this.attr('isLoading', true);
       GGRC.Utils.export_request({
         data: {
           objects: objects,
-          export_to: 'csv',
+          export_to: exportTo,
         },
-      }).then(function (data) {
-        GGRC.Utils.download('import_template.csv', data);
+      }).then((data) => {
+        this.attr('state.open', false);
+        dfd.resolve(data);
+      }).always(() => {
+        this.attr('isLoading', false);
       });
+
+      return dfd;
     },
-    '.import-list a click': function (el, ev) {
-      var index = el.data('index');
-      var item = this.scope.attr('selected').splice(index, 1)[0];
-
-      ev.preventDefault();
-
-      this.element.find('#importSelect option:selected').each(function () {
-        var $item = $(this);
-        if ($item.val() === item.value) {
-          $item.prop('selected', false);
-        }
-      });
-    }
-  }
+  },
 });

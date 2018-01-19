@@ -108,25 +108,33 @@ form.import {
 }
 
 .download-template {
-  background: $lightGray;
-  border: 1px solid $darkGray;
-  padding: 20px;
-  .import-list {
-    @extend %reset-list;
-    li {
-      margin-bottom: 4px;
+  .simple-modal {
+    &__header {
+      border-bottom: none;
+    }
+
+    &__header-text {
+      font-size: 24px;
+    }
+
+    &__body {
+      padding-top: 8px;
+      overflow: inherit;
+    }
+
+    &__sub-header-section {
+      font-size: 15px;
+      margin-bottom: 16px;
+    }
+
+    &__footer {
+      border-top: none;
+      padding: 16px;
     }
   }
-  .center-block {
-    text-align: center;
-    padding: 20px 0 10px;
-    small {
-      display: block;
-    }
-    i {
-      @include opacity(1);
-      margin-top: 4px;
-    }
+
+  .multiselect-dropdown .multiselect-dropdown__input {
+    background-color: #eee;
   }
 }
 

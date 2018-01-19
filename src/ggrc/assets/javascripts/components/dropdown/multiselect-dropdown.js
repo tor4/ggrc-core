@@ -59,11 +59,13 @@ import template from './multiselect_dropdown.mustache';
         options: {
           type: '*',
           set: function (value) {
-            var self = this;
-            this.attr('selected', []);
+            // clear selected list
+            let selected = this.attr('selected');
+            selected.splice(0, selected.length);
+
             if (value) {
-              value.forEach(function (item) {
-                self.updateSelected(item);
+              value.forEach((item) => {
+                this.updateSelected(item);
               });
 
               return value;

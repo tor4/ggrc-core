@@ -68,6 +68,8 @@
       float: none;
       display: block;
       border-radius: 0 0 2px 2px;
+      max-height: 210px;
+      overflow: auto;
     }
 
     &__body-wrapper {
