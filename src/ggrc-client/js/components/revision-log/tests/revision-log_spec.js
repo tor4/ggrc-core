@@ -3,17 +3,16 @@
   Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 */
 
+import Component from '../revision-log';
+import {getComponentVM} from '../../../../js_specs/spec_helpers';
+
 describe('GGRC.Components.revisionLog', function () {
   'use strict';
 
   let viewModel;
 
   beforeAll(function () {
-    viewModel = GGRC.Components.getViewModel('revisionLog');
-  });
-
-  afterAll(function () {
-    viewModel = GGRC.Components.getViewModel('revisionLog');
+    viewModel = getComponentVM(Component);
   });
 
   describe('defining default scope values', function () {
@@ -1046,7 +1045,7 @@ describe('GGRC.Components.revisionLog', function () {
     let viewModel;
 
     beforeEach(() => {
-      viewModel = GGRC.Components.getViewModel('revisionLog');
+      viewModel = getComponentVM(Component);
     });
 
     it('should return TRUE. empty arrays', () => {
@@ -1087,7 +1086,7 @@ describe('GGRC.Components.revisionLog', function () {
     let viewModel;
 
     beforeEach(() => {
-      viewModel = GGRC.Components.getViewModel('revisionLog');
+      viewModel = getComponentVM(Component);
     });
 
     it('should return array with users emails', () => {
@@ -1115,7 +1114,7 @@ describe('GGRC.Components.revisionLog', function () {
     let viewModel;
 
     beforeEach(() => {
-      viewModel = GGRC.Components.getViewModel('revisionLog');
+      viewModel = getComponentVM(Component);
     });
 
     it('should return empty list. ACL is undefined', () => {
