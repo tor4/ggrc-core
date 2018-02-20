@@ -442,24 +442,25 @@ import template from './info-pane.mustache';
 
         this.attr('onStateChangeDfd', can.Deferred());
 
-        if (isUndo) {
-          instance.attr('previousStatus', undefined);
-        } else {
-          instance.attr('previousStatus', instance.attr('status'));
-        }
+        return this.attr('deferredSave').push(() => {
+          if (isUndo) {
+            instance.attr('previousStatus', undefined);
+          } else {
+            instance.attr('previousStatus', instance.attr('status'));
+          }
 
-        instance.attr('status', isUndo ? previousStatus : newStatus);
-        if (instance.attr('status') === 'In Review' && !isUndo) {
-          $(document.body).trigger('ajax:flash',
-            {hint: 'The assessment is complete. ' +
-            'The verifier may revert it if further input is needed.'});
-        }
-
-        return instance.save().then(() => {
-          this.initializeFormFields();
-          this.attr('onStateChangeDfd').resolve();
-          stopFn();
+          instance.attr('status', isUndo ? previousStatus : newStatus);
+          if (instance.attr('status') === 'In Review' && !isUndo) {
+            $(document.body).trigger('ajax:flash',
+              {hint: 'The assessment is complete. ' +
+              'The verifier may revert it if further input is needed.'});
+          }
         })
+          .then(() => {
+            this.initializeFormFields();
+            this.attr('onStateChangeDfd').resolve();
+            stopFn();
+          })
           .fail(resetStatusOnConflict);
       },
       saveGlobalAttributes: function (event) {

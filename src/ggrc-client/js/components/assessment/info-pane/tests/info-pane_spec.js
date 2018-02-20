@@ -4,6 +4,7 @@
 */
 
 import tracker from '../../../../tracker';
+import DeferredTransaction from '../../../../plugins/utils/deferred-transaction-utils';
 
 describe('GGRC.Components.assessmentInfoPane', function () {
   let vm;
@@ -51,6 +52,23 @@ describe('GGRC.Components.assessmentInfoPane', function () {
       method = vm.onStateChange.bind(vm);
       spyOn(tracker, 'start').and.returnValue(() => {});
       spyOn(vm, 'initializeFormFields').and.returnValue(() => {});
+
+      vm.attr('deferredSave', new DeferredTransaction(
+        (resolve, reject) => {
+          vm.attr('instance').save().done(resolve).fail(reject);
+        }, 0, true));
+    });
+
+    it('sets status', (done) => {
+      vm.attr('instance.previousStatus', 'FooBar');
+      instanceSave.resolve();
+
+      method({
+        state: 'newStatus',
+      }).then(() => {
+        expect(vm.attr('instance.status')).toBe('newStatus');
+        done();
+      });
     });
 
     it('returns status back on undo action', (done) => {
@@ -59,7 +77,7 @@ describe('GGRC.Components.assessmentInfoPane', function () {
 
       method({
         undo: true,
-        status: 'newStatus',
+        state: 'newStatus',
       }).then(() => {
         expect(vm.attr('instance.status')).toBe('FooBar');
         done();
@@ -76,7 +94,7 @@ describe('GGRC.Components.assessmentInfoPane', function () {
       });
 
       method({
-        status: 'Bar',
+        state: 'Bar',
       }).fail(() => {
         expect(vm.attr('instance.status')).toBe('Foo');
         done();
