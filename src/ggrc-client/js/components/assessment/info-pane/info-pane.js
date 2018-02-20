@@ -94,10 +94,6 @@ import template from './info-pane.mustache';
               this.instance.attr('issue_tracker.issue_url');
           },
         },
-        isSaving: {
-          type: 'boolean',
-          value: false,
-        },
         isLoading: {
           type: 'boolean',
           value: false,
@@ -451,7 +447,6 @@ import template from './info-pane.mustache';
         } else {
           instance.attr('previousStatus', instance.attr('status'));
         }
-        instance.attr('isPending', true);
 
         instance.attr('status', isUndo ? previousStatus : newStatus);
         if (instance.attr('status') === 'In Review' && !isUndo) {
@@ -464,7 +459,7 @@ import template from './info-pane.mustache';
           this.initializeFormFields();
           this.attr('onStateChangeDfd').resolve();
           stopFn();
-        }).always(() => instance.attr('isPending', false))
+        })
           .fail(resetStatusOnConflict);
       },
       saveGlobalAttributes: function (event) {

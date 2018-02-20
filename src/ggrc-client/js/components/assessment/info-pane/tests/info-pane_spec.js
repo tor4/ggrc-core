@@ -62,33 +62,9 @@ describe('GGRC.Components.assessmentInfoPane', function () {
         status: 'newStatus',
       }).then(() => {
         expect(vm.attr('instance.status')).toBe('FooBar');
-        expect(vm.attr('isPending')).toBeFalsy();
         done();
       });
     });
-
-    it('resets isPending flag in case success the status changing', (done) => {
-      instanceSave.resolve();
-
-      method({
-        status: 'FooBar',
-      }).then(() => {
-        expect(vm.attr('isPending')).toBeFalsy();
-        done();
-      });
-    });
-
-    it('resets isPending flag in case unsuccessful the status changing',
-      (done) => {
-        instanceSave.reject();
-
-        method({
-          status: 'FooBar',
-        }).fail(() => {
-          expect(vm.attr('isPending')).toBeFalsy();
-          done();
-        });
-      });
 
     it('resets status after conflict', (done) => {
       vm.attr('instance.status', 'Baz');
