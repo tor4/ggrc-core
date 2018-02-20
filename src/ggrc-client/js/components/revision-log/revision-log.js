@@ -94,12 +94,12 @@ export default can.Component({
      *      mappings
      */
     _fetchRevisionsData: function () {
-      let findAll = function (attr) {
+      let findAll = (attr) => {
         let query = {__sort: 'updated_at'};
         query[attr + '_type'] = this.attr('instance.type');
         query[attr + '_id'] = this.attr('instance.id');
         return CMS.Models.Revision.findAll(query);
-      }.bind(this);
+      };
 
       return can.when(
         findAll('resource'), findAll('source'), findAll('destination')
@@ -670,13 +670,9 @@ export default can.Component({
     _computeRoleChanges: function (revisions) {
       let mappings = _.sortBy(revisions.mappings, 'updated_at');
       let instance = this.attr('instance');
-      let assigneeList = this.attr('instance.class.assignable_list');
       let perPersonMappings;
       let perPersonRoleHistory;
       let modifiers;
-      let currentAssignees;
-      let assigneeRoles;
-      let unmodifiedAssignees;
       let unassignedPeople;
 
       perPersonMappings = _(mappings)
@@ -727,35 +723,6 @@ export default can.Component({
             revisions.object,
             revisions.mappings),
           'modified_by.id')).map(String);
-
-      currentAssignees = _.groupBy(
-        _.flattenDeep(_.map(assigneeList, function (assignableType) {
-          return _.map(instance.get_binding(assignableType.mapping).list,
-            function (person) {
-              return {
-                id: person.instance.id,
-                type: assignableType.type,
-              };
-            });
-        })), 'id');
-
-      assigneeRoles = _.zipObject(
-        _.map(currentAssignees, function (rolePeople, pid) {
-          return [pid, _.map(rolePeople, 'type')];
-        }));
-
-      unmodifiedAssignees = _.difference(
-        _.keys(assigneeRoles), _.keys(perPersonRoleHistory));
-
-      _.forEach(unmodifiedAssignees, function (pid) {
-        let existingRoles = assigneeRoles[pid];
-        let role = GGRC.Utils.get_highest_assignee_role(
-          instance, existingRoles);
-        perPersonRoleHistory[pid] = [{
-          updated_at: instance.created_at,
-          role: role,
-        }];
-      });
 
       unassignedPeople = _.difference(
         modifiers, _.keys(perPersonRoleHistory));

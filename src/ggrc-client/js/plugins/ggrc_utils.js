@@ -521,10 +521,6 @@ import Permission from '../permission';
      *   none found.
      */
     get_highest_assignee_role: function (obj, roles) {
-      let roleOrder = _.map(
-        _.map(obj.class.assignable_list, 'type'),
-        _.capitalize);
-
       if (_.isString(roles)) {
         roles = roles.split(',');
       }
@@ -532,7 +528,7 @@ import Permission from '../permission';
       roles = _.map(roles, _.capitalize);
 
       roles.unshift('none');
-      return _.max(roles, Array.prototype.indexOf.bind(roleOrder));
+      return _.max(roles);
     },
 
     /**
