@@ -137,7 +137,7 @@ import {relatedAssessmentsTypes} from '../../../plugins/utils/models-utils';
         urls: {
           Value: can.List,
         },
-        evidences: {
+        files: {
           Value: can.List,
         },
         editMode: {
@@ -166,7 +166,7 @@ import {relatedAssessmentsTypes} from '../../../plugins/utils/models-utils';
               return false;
             }
 
-            return this.attr('isUpdatingEvidences') ||
+            return this.attr('isUpdatingFiles') ||
               this.attr('isUpdatingUrls') ||
               this.attr('isUpdatingComments') ||
               this.attr('isAssessmentSaving');
@@ -217,11 +217,11 @@ import {relatedAssessmentsTypes} from '../../../plugins/utils/models-utils';
       getSnapshotQuery: function () {
         return this.getQuery('Snapshot');
       },
-      getDocumentQuery: function (kind) {
+      getEvidenceQuery: function (kind) {
         let query = this.getQuery(
-          'Document',
+          'Evidence',
           {sortBy: 'created_at', sortDirection: 'desc'},
-          this.getDocumentAdditionFilter(kind));
+          this.getEvidenceAdditionFilter(kind));
         return query;
       },
       requestQuery: function (query, type) {
@@ -255,12 +255,12 @@ import {relatedAssessmentsTypes} from '../../../plugins/utils/models-utils';
         let query = this.getCommentQuery();
         return this.requestQuery(query, 'comments');
       },
-      loadEvidences: function () {
-        let query = this.getDocumentQuery(CMS.Models.Document.EVIDENCE);
-        return this.requestQuery(query, 'evidences');
+      loadFiles: function () {
+        let query = this.getEvidenceQuery('FILE');
+        return this.requestQuery(query, 'files');
       },
       loadUrls: function () {
-        let query = this.getDocumentQuery(CMS.Models.Document.URL);
+        let query = this.getEvidenceQuery('URL');
         return this.requestQuery(query, 'urls');
       },
       updateItems: function () {
@@ -299,7 +299,7 @@ import {relatedAssessmentsTypes} from '../../../plugins/utils/models-utils';
         return this.attr(type).unshift.apply(this.attr(type),
           can.makeArray(items));
       },
-      getDocumentAdditionFilter: function (kind) {
+      getEvidenceAdditionFilter: function (kind) {
         return kind ?
           {
             expression: {
@@ -381,8 +381,8 @@ import {relatedAssessmentsTypes} from '../../../plugins/utils/models-utils';
           .then((data) => {
             this.attr('mappedSnapshots').replace(data.Snapshot);
             this.attr('comments').replace(data.Comment);
-            this.attr('evidences').replace(data['Document:EVIDENCE']);
-            this.attr('urls').replace(data['Document:URL']);
+            this.attr('files').replace(data['Evidence:FILE']);
+            this.attr('urls').replace(data['Evidence:URL']);
 
             this.attr('isUpdatingRelatedItems', false);
             this.attr('instance').dispatch(RELATED_ITEMS_LOADED);
