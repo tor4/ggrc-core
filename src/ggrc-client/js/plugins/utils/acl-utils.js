@@ -95,8 +95,29 @@ function peopleWithRoleName(instance, roleName) {
   return peopleIds;
 }
 
+/**
+ * Checks whether person has Auditor role
+ *
+ * @param {CMS.Models.Cacheable} instance - an audit instance
+ * @param {CMS.Models.Cacheable} person - person instance
+ *
+ * @return {boolean} - returns true when user has Auditor role
+ */
+function isAuditor(instance, person) {
+  if (instance.type !== 'Audit') {
+    return false;
+  }
+
+  const auditor = getRole('Audit', 'Auditors');
+
+  return instance.attr('access_control_list').filter(
+    (acl) => acl.ac_role_id === auditor.id &&
+                 acl.person_id === person.id).length > 0;
+}
+
 export {
   peopleWithRoleName,
+  isAuditor,
   getRolesForType,
   getRole,
   getRoleById,

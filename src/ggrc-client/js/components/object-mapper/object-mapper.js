@@ -20,6 +20,9 @@ import {
 import {
   refreshCounts,
 } from '../../plugins/utils/current-page-utils';
+import {
+  isAuditor,
+} from '../../plugins/utils/acl-utils';
 import RefreshQueue from '../../models/refresh_queue';
 import {
   REFRESH_MAPPING,
@@ -271,6 +274,11 @@ import {
 
             isMapped = GGRC.Utils.is_mapped(instance, destination);
             isAllowed = GGRC.Utils.allowed_to_map(instance, destination);
+
+            // Auditor can map objects to Audit
+            if (!isAllowed && instance instanceof CMS.Models.Audit) {
+              isAllowed = isAuditor(instance, GGRC.current_user);
+            }
 
             if ((!isPersonMapping && isMapped) || !isAllowed) {
               return;

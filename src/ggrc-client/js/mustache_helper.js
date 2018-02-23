@@ -13,6 +13,7 @@ import {
   isAdmin,
 } from './plugins/utils/current-page-utils';
 import {
+  isAuditor,
   getRole,
 } from './plugins/utils/acl-utils';
 import RefreshQueue from './models/refresh_queue';
@@ -2420,11 +2421,8 @@ Mustache.registerHelper('is_auditor', function (options) {
     console.warn('is_auditor called on non audit page');
     return options.inverse(options.contexts);
   }
-  const isAuditor = audit.access_control_list.filter(
-    (acl) => acl.ac_role_id === auditor.id &&
-                 acl.person_id === GGRC.current_user.id).length;
 
-  if (isAuditor) {
+  if (isAuditor(audit, GGRC.current_user)) {
     return options.fn(options.contexts);
   }
   return options.inverse(options.contexts);
