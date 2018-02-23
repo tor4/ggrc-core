@@ -41,57 +41,12 @@
       {{/if}}
     </div>
 
-    <div class="tree-action" style="display: flex; justify-content: flex-end;">
-      {{#if addItem}}
-        {{{renderLive addItem}}}
-      {{/if}}
-      {{#if show3bbs}}
-        <three-dots-menu>
-          {{^if isSnapshots}}
-            {{#is_allowed 'update' model.shortName context=parent_instance.context}}
-              <li>
-                <a href="/import"
-                    target="_blank"
-                    class="section-import">
-                  <i class="fa fa-fw fa-cloud-upload"></i>
-                  Import {{model.title_plural}}
-                </a>
-              </li>
-            {{else}}
-              {{#is_auditor}}
-                <li>
-                  <a href="/import"
-                      target="_blank"
-                      class="section-import">
-                    <i class="fa fa-fw fa-cloud-upload"></i>
-                    Import {{model.model_plural}}
-                  </a>
-                </li>
-              {{/is_auditor}}
-            {{/is_allowed}}
-          {{/if}}
-          {{#if showedItems.length}}
-            <li>
-              <a href="/export?model_type={{model.model_singular}}&relevant_type={{parent_instance.type}}&relevant_id={{parent_instance.id}}{{#if isSnapshots}}&isSnapshots=true{{/if}}"
-                  target="_blank"
-                  class="section-import">
-                <i class="fa fa-fw fa-download"></i>
-                Export {{model.title_plural}}
-              </a>
-            </li>
-          {{/if}}
-          {{#if showGenerateAssessments}}
-            <assessment-generator-button audit="parent_instance"></assessment-generator-button>
-          {{/if}}
-          {{#if showBulkUpdate}}
-            <li>
-              <bulk-update-button {model}="model">
-              </bulk-update-button>
-            </li>
-          {{/if}}
-        </three-dots-menu>
-      {{/if}}
-    </div>
+    <tree-actions
+      {parent-instance}="parent_instance"
+      {model}="model"
+      {options}="options"
+      {items}="showedItems">
+    </tree-actions>
 
     <simple-modal {state}="advancedSearch" modal-title="'{{model.title_singular}} Advanced Search'" extra-css-class="advanced-search">
       <div class="advanced-search__content">

@@ -1,0 +1,56 @@
+{{!
+    Copyright (C) 2018 Google Inc.
+    Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
+}}
+
+<div class="tree-action" style="display: flex; justify-content: flex-end;">
+  {{#if addItem}}
+    {{{renderLive addItem}}}
+  {{/if}}
+  {{#if show3bbs}}
+    <three-dots-menu>
+      {{^if isSnapshots}}
+        {{#is_allowed 'update' model.shortName context=parentInstance.context}}
+          <li>
+            <a href="/import"
+                target="_blank"
+                class="section-import">
+              <i class="fa fa-fw fa-cloud-upload"></i>
+              Import {{model.title_plural}}
+            </a>
+          </li>
+        {{else}}
+          {{#is_auditor}}
+            <li>
+              <a href="/import"
+                  target="_blank"
+                  class="section-import">
+                <i class="fa fa-fw fa-cloud-upload"></i>
+                Import {{model.title_plural}}
+              </a>
+            </li>
+          {{/is_auditor}}
+        {{/is_allowed}}
+      {{/if}}
+      {{#if items.length}}
+        <li>
+          <a href="/export?model_type={{model.model_singular}}&relevant_type={{parentInstance.type}}&relevant_id={{parentInstance.id}}{{#if isSnapshots}}&isSnapshots=true{{/if}}"
+              target="_blank"
+              class="section-import">
+            <i class="fa fa-fw fa-download"></i>
+            Export {{model.title_plural}}
+          </a>
+        </li>
+      {{/if}}
+      {{#if showGenerateAssessments}}
+        <assessment-generator-button {audit}="parentInstance"></assessment-generator-button>
+      {{/if}}
+      {{#if showBulkUpdate}}
+        <li>
+          <bulk-update-button {model}="model">
+          </bulk-update-button>
+        </li>
+      {{/if}}
+    </three-dots-menu>
+  {{/if}}
+</div>
