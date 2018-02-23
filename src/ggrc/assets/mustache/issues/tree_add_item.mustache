@@ -3,9 +3,11 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 
-{{#is_allowed_to_map parent_instance model.shortName}}
 {{#if allow_mapping_or_creating}}
 {{^if parent_instance.archived}}
+{{#if_helpers '\
+  #is_allowed_to_map' parent_instance model.shortName '\
+  or #is_auditor'}} 
     <a
     class="section-add btn btn-mini action-button map-button"
     href="javascript://"
@@ -18,6 +20,6 @@
     data-original-title="Map {{firstnonempty title_singular model.title_singular 'Object'}} to this {{firstnonempty parent_instance.class.title_singular 'Object'}}">
       Map
   </a>
+{{/if_helpers}}
 {{/if}}
 {{/if}}
-{{/is_allowed_to_map}}
