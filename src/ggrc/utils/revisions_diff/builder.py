@@ -115,17 +115,21 @@ def generate_acl_diff(acrs, proposed, revisioned):
         ...
      }
   """
+  if not acrs or proposed is None:
+    return {}
   proposed_acl = collections.defaultdict(set)
   revision_acl = collections.defaultdict(set)
   acl_ids = set()
   for acl in proposed:
-    proposed_acl[acl["ac_role_id"]].add(acl["person"]["id"])
-    acl_ids.add(acl["ac_role_id"])
+    role_id = int(acl["ac_role_id"])
+    proposed_acl[role_id].add(acl["person"]["id"])
+    acl_ids.add(role_id)
   for acl in revisioned:
-    revision_acl[acl["ac_role_id"]].add(acl["person"]["id"])
-    acl_ids.add(acl["ac_role_id"])
+    role_id = int(acl["ac_role_id"])
+    revision_acl[role_id].add(acl["person"]["id"])
+    acl_ids.add(role_id)
   acl_dict = {}
-  for role_id in acl_ids:
+  for role_id in acl_ids & {a.id for a in acrs}:
     deleted_person_ids = revision_acl[role_id] - proposed_acl[role_id]
     added_person_ids = proposed_acl[role_id] - revision_acl[role_id]
     if added_person_ids or deleted_person_ids:
