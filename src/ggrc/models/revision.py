@@ -11,6 +11,7 @@ from ggrc.access_control import role
 from ggrc.models.types import LongJsonType
 from ggrc.utils.revisions_diff import builder as revisions_diff
 from ggrc.utils import referenced_objects
+from ggrc.utils.revisions_diff import meta_info
 
 
 class Revision(Base, db.Model):
@@ -53,6 +54,7 @@ class Revision(Base, db.Model):
       'content',
       'description',
       reflection.Attribute('diff_with_current', create=False, update=False),
+      reflection.Attribute('meta', create=False, update=False),
   )
 
   @classmethod
@@ -101,6 +103,23 @@ class Revision(Base, db.Model):
       instance = referenced_objects.get(self.resource_type, self.resource_id)
       if instance:
         return revisions_diff.prepare(instance, self.content)
+
+    return lazy_loader
+
+  @builder.callable_property
+  def meta(self):
+    """Callable lazy property for revision."""
+    referenced_objects.mark_to_cache(self.resource_type, self.resource_id)
+
+    def lazy_loader():
+      """Lazy load diff for revisions."""
+      referenced_objects.rewarm_cache()
+      instance = referenced_objects.get(self.resource_type, self.resource_id)
+      meta_dict = {}
+      if instance:
+        instance_meta_info = meta_info.MetaInfo(instance)
+        meta_dict["mandatory"] = instance_meta_info.mandatory
+      return meta_dict
 
     return lazy_loader
 
