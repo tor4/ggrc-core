@@ -18,7 +18,8 @@ class TestACLProposalsApi(base.BaseTestProposalApi):
     """Test simple add acl proposal."""
     with factories.single_commit():
       control = factories.ControlFactory(title="1")
-      role = factories.AccessControlRoleFactory(name="role")
+      role = factories.AccessControlRoleFactory(name="role",
+                                                object_type=control.type)
       person = factories.PersonFactory()
     control_id = control.id
     role_id = unicode(role.id)
@@ -50,7 +51,8 @@ class TestACLProposalsApi(base.BaseTestProposalApi):
     """Test simple delete acl proposal."""
     with factories.single_commit():
       control = factories.ControlFactory(title="1")
-      role = factories.AccessControlRoleFactory(name="role")
+      role = factories.AccessControlRoleFactory(name="role",
+                                                object_type=control.type)
       person = factories.PersonFactory()
       factories.AccessControlListFactory(
           person=person,
