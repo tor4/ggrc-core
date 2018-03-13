@@ -171,3 +171,108 @@ class TestRevisionHistory(TestCase):
     self.api.put(risk, {"description": "BLA bla bla"})
     risk = all_models.Risk.eager_query().get(risk_id)
     self.update_revisions(risk)
+
+  @ddt.data(True, False)
+  def test_get_mandatory_acrs(self, mandatory):
+    """ACR and mandatory meta info if mandatory flag is {0}."""
+    control_id = self.control.id
+    acr = factories.AccessControlRoleFactory(name="test_name",
+                                             object_type=self.control.type,
+                                             mandatory=mandatory)
+    acr_id = acr.id
+    resp = self.api.client.get(
+        "/api/revisions"
+        "?resource_type=Control&resource_id={}".format(control_id)
+    )
+    collection = resp.json["revisions_collection"]["revisions"]
+    self.assertTrue(collection)
+    self.assertIn("meta", collection[0])
+    self.assertIn("mandatory", collection[0]["meta"])
+    self.assertIn("access_control_roles", collection[0]["meta"]["mandatory"])
+    mandatory_acrs = collection[0]["meta"]["mandatory"]["access_control_roles"]
+    self.assertEqual(mandatory, acr_id in mandatory_acrs)
+
+  @ddt.data(True, False)
+  def test_get_mandatory_cads(self, mandatory):
+    """CAD and mandatory meta info if mandatory flag is {0}."""
+    control_id = self.control.id
+    cad = factories.CustomAttributeDefinitionFactory(
+        title="test_name",
+        definition_type="control",
+        mandatory=mandatory)
+    cad_id = cad.id
+    resp = self.api.client.get(
+        "/api/revisions"
+        "?resource_type=Control&resource_id={}".format(control_id)
+    )
+    collection = resp.json["revisions_collection"]["revisions"]
+    self.assertTrue(collection)
+    self.assertIn("meta", collection[0])
+    self.assertIn("mandatory", collection[0]["meta"])
+    mandatory_meta = collection[0]["meta"]["mandatory"]
+    self.assertIn("custom_attribute_definitions", mandatory_meta)
+    mandatory_cads = mandatory_meta["custom_attribute_definitions"]
+    self.assertEqual(mandatory, cad_id in mandatory_cads)
+
+  @ddt.data(
+      {"factory": factories.ControlFactory,
+       "fields": ['test_plan', 'status', 'notes',
+                  'description', 'title', 'slug', 'folder']},
+      {"factory": factories.RiskFactory,
+       "fields": ['test_plan', 'status', 'notes', 'title', 'slug']},
+  )
+  @ddt.unpack
+  def test_get_mandatory_fields(self, factory, fields):
+    """Fields mandatory meta info for {factory._meta.model}."""
+    instance = factory()
+    resp = self.api.client.get(
+        "/api/revisions"
+        "?resource_type={}&resource_id={}".format(instance.type, instance.id)
+    )
+    collection = resp.json["revisions_collection"]["revisions"]
+    self.assertTrue(collection)
+    self.assertIn("meta", collection[0])
+    self.assertIn("mandatory", collection[0]["meta"])
+    mandatory_meta = collection[0]["meta"]["mandatory"]
+    self.assertIn("fields", mandatory_meta)
+    self.assertEqual(fields, mandatory_meta["fields"])
+
+  @ddt.data(
+      {"factory": factories.ControlFactory, "fields": []},
+      {"factory": factories.RiskFactory, "fields": []},
+  )
+  @ddt.unpack
+  def test_mandatory_mapping_list(self, factory, fields):
+    """Mapping List mandatory meta info for {factory._meta.model}."""
+    instance = factory()
+    resp = self.api.client.get(
+        "/api/revisions"
+        "?resource_type={}&resource_id={}".format(instance.type, instance.id)
+    )
+    collection = resp.json["revisions_collection"]["revisions"]
+    self.assertTrue(collection)
+    self.assertIn("meta", collection[0])
+    self.assertIn("mandatory", collection[0]["meta"])
+    mandatory_meta = collection[0]["meta"]["mandatory"]
+    self.assertIn("mapping_list_fields", mandatory_meta)
+    self.assertEqual(fields, mandatory_meta["mapping_list_fields"])
+
+  @ddt.data(
+      {"factory": factories.ControlFactory, "fields": []},
+      {"factory": factories.RiskFactory, "fields": []},
+  )
+  @ddt.unpack
+  def test_mandatory_mappings(self, factory, fields):
+    """Mapping fields mandatory meta info for {factory._meta.model}."""
+    instance = factory()
+    resp = self.api.client.get(
+        "/api/revisions"
+        "?resource_type={}&resource_id={}".format(instance.type, instance.id)
+    )
+    collection = resp.json["revisions_collection"]["revisions"]
+    self.assertTrue(collection)
+    self.assertIn("meta", collection[0])
+    self.assertIn("mandatory", collection[0]["meta"])
+    mandatory_meta = collection[0]["meta"]["mandatory"]
+    self.assertIn("mapping_fields", mandatory_meta)
+    self.assertEqual(fields, mandatory_meta["mapping_fields"])
