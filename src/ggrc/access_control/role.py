@@ -186,3 +186,12 @@ def get_ac_roles_for(object_type):
     for role in query:
       flask.g.global_ac_roles[role.object_type][role.name] = role
   return flask.g.global_ac_roles[object_type]
+
+
+def get_ac_roles_related(object_type):
+  """Returns list of ACR json objects related to sent isntance."""
+  if getattr(flask.g, "get_ac_roles_related", None) is None:
+    flask.g.get_ac_roles_related = collections.defaultdict(set)
+    for role in AccessControlRole.query.all():
+      flask.g.get_ac_roles_related[role.object_type].add(role)
+  return flask.g.get_ac_roles_related[object_type]
