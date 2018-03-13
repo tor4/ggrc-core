@@ -7,10 +7,8 @@ instance state and proposed content."""
 import collections
 
 from flask import g
-import sqlalchemy as sa
 
-from ggrc.models import reflection
-from ggrc.models import mixins
+from ggrc.utils.revisions_diff import meta_info
 
 
 def get_latest_revision_content(instance):
@@ -95,7 +93,7 @@ def generate_person_list(person_ids):
   return [person_obj_by_id(i) for i in person_ids]
 
 
-def generate_acl_diff(proposed, revisioned):
+def generate_acl_diff(acrs, proposed, revisioned):
   """Generates acl diff between peoposed and revised.
 
   Returns dict of dict.
@@ -148,9 +146,11 @@ def get_validated_value(cad, value, object_id):
   return unicode(value), object_id
 
 
-def generate_cav_diff(instance, proposed, revisioned):
+def generate_cav_diff(cads, proposed, revisioned):
   """Build diff for custom attributes."""
-  if not isinstance(instance, mixins.customattributable.CustomAttributable):
+  if not cads:
+    return {}
+  if proposed is None:
     return {}
   diff = {}
   proposed_cavs = {
@@ -161,7 +161,7 @@ def generate_cav_diff(instance, proposed, revisioned):
       int(i["custom_attribute_id"]): (i["attribute_value"],
                                       i["attribute_object_id"])
       for i in revisioned}
-  for cad in instance.custom_attribute_definitions:
+  for cad in cads:
     if cad.id not in proposed_cavs:
       continue
     proposed_val = get_validated_value(cad, *proposed_cavs[cad.id])
@@ -183,10 +183,11 @@ def __mappting_key_function(object_dict):
   return object_dict["id"]
 
 
-def _generate_list_mappings(keys, diff_data, current_data):
+def generate_list_mappings(fields, diff_data, current_data):
   """Generates list mappings."""
   result = {}
-  for key in keys:
+  for field in fields:
+    key = field.name
     if key not in diff_data:
       continue
     current = current_data.get(key) or []
@@ -210,10 +211,11 @@ def _generate_list_mappings(keys, diff_data, current_data):
   return result
 
 
-def _generate_single_mappings(keys, diff_data, current_data):
+def generate_single_mappings(fields, diff_data, current_data):
   """Generates single mappings."""
   result = {}
-  for key in keys:
+  for field in fields:
+    key = field.name
     if key not in diff_data:
       continue
     current = current_data.get(key, None) or {"id": None, "type": None}
@@ -227,62 +229,48 @@ def _generate_single_mappings(keys, diff_data, current_data):
   return result
 
 
-def generate_mapping_dicts(instance, diff_data, current_data):
-  """Generate instance mappings diff."""
-
-  relations = sa.inspection.inspect(instance.__class__).relationships
-  relations_dict = collections.defaultdict(set)
-  for rel in relations:
-    relations_dict[rel.uselist].add(rel.key)
-  descriptors = sa.inspection.inspect(instance.__class__).all_orm_descriptors
-  for key, proxy in dict(descriptors).iteritems():
-    if proxy.extension_type is sa.ext.associationproxy.ASSOCIATION_PROXY:
-      relations_dict[True].add(key)
-  return {
-      "single_objects": _generate_single_mappings(relations_dict[False],
-                                                  diff_data,
-                                                  current_data),
-      "list_objects": _generate_list_mappings(relations_dict[True],
-                                              diff_data,
-                                              current_data),
-  }
+def generate_fields(fields, proposed_content, current_data):
+  """Returns the diff on fields for sent instance and proposaed data."""
+  diff = {}
+  for field in fields:
+    field_name = field.name
+    if field_name not in proposed_content:
+      continue
+    proposed_val = proposed_content[field_name]
+    current_val = current_data.get(field_name)
+    if proposed_val != current_val:
+      diff[field_name] = proposed_val
+  return diff
 
 
 def prepare(instance, content):
   """Prepare content diff for instance and sent content."""
-  api_attrs = reflection.AttributeInfo.gather_attr_dicts(instance.__class__,
-                                                         "_api_attrs")
-  updateable_fields = {k for k, v in api_attrs.iteritems() if v.update}
+  instance_meta_info = meta_info.MetaInfo(instance)
   current_data = get_latest_revision_content(instance)
-  diff_data = {f: content[f]
-               for f in updateable_fields
-               if (f in current_data and
-                   f in content and
-                   current_data[f] != content[f])}
-
-  if "access_control_list" in diff_data:
-    acl = generate_acl_diff(diff_data.pop("access_control_list"),
-                            current_data.get("access_control_list", []))
-  else:
-    acl = {}
-  if (
-          "custom_attribute_values" in diff_data or
-          "custom_attributes" in diff_data):
-    cav = generate_cav_diff(
-        instance,
-        diff_data.pop("custom_attribute_values", []),
-        current_data.get("custom_attribute_values", []),
-    )
-  else:
-    cav = {}
-
-  generated_mapptings = generate_mapping_dicts(instance,
-                                               diff_data,
-                                               current_data)
   return {
-      "fields": diff_data,
-      "access_control_list": acl,
-      "custom_attribute_values": cav,
-      "mapping_fields": generated_mapptings["single_objects"],
-      "mapping_list_fields": generated_mapptings["list_objects"],
+      "fields": generate_fields(
+          instance_meta_info.fields,
+          content,
+          current_data,
+      ),
+      "access_control_list": generate_acl_diff(
+          instance_meta_info.acrs,
+          content.get("access_control_list"),
+          current_data.get("access_control_list") or [],
+      ),
+      "custom_attribute_values": generate_cav_diff(
+          instance_meta_info.cads,
+          content.get("custom_attribute_values"),
+          current_data.get("custom_attribute_values") or [],
+      ),
+      "mapping_fields": generate_single_mappings(
+          instance_meta_info.mapping_fields,
+          content,
+          current_data,
+      ),
+      "mapping_list_fields": generate_list_mappings(
+          instance_meta_info.mapping_list_fields,
+          content,
+          current_data
+      ),
   }
