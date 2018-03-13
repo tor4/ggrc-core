@@ -185,8 +185,8 @@ class Relatable(object):
     return set(related)
 
   _api_attrs = reflection.ApiAttributes(
-      'related_sources',
-      'related_destinations'
+      reflection.Attribute('related_sources', create=False, update=False),
+      reflection.Attribute('related_destinations', create=False, update=False),
   )
 
   _include_links = []
