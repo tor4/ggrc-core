@@ -7,6 +7,10 @@ import {
   buildModifiedACL,
   buildModifiedListField,
 } from '../../plugins/utils/object-history-utils';
+import {
+  peopleWithRoleId,
+  getRoleById,
+} from '../../plugins/utils/acl-utils';
 import {caDefTypeName} from '../../plugins/utils/custom-attribute/custom-attribute-config';
 import template from './templates/restore-revision.mustache';
 const tag = 'restore-revision';
@@ -18,6 +22,7 @@ export default can.Component.extend({
     instance: {},
     restoredRevision: {},
     loading: false,
+    modalState: {open: false},
     restore(element) {
       const instance = this.attr('instance');
       const diff = this.attr('restoredRevision.diff_with_current');
@@ -38,7 +43,34 @@ export default can.Component.extend({
       // use legacy approach to save custom attribute
       this.applyCustomAttributes(instance, attrValues);
 
-      this.saveInstance(instance, element);
+      if (this.checkRequiredFields()) {
+        // this.saveInstance(instance, element);
+      } else {
+        this.closeDiff(element);
+      }
+    },
+    checkRequiredFields() {
+      // check
+      const instance = this.attr('instance');
+      let mandatoryFields = this.attr('restoredRevision.meta.mandatory');
+
+      let aclFields = this.checkMandatoryAcl(mandatoryFields.access_control_roles, instance);
+      let caFields = this.checkMandatoryCustomAttributes(mandatoryFields.custom_attribute_definitions, instance);
+      if (aclFields.length || caFields.length) {
+        this.attr('aclFields', aclFields.map((id) => getRoleById(id).name));
+        this.attr('caFields', caFields);
+        this.attr('modalState.open', true);
+        return false;
+      }
+
+      return true;
+    },
+    checkMandatoryAcl(mandatoryRoleIds, instance) {
+      return [50];
+      mandatoryRoleIds.filter((id) => !peopleWithRoleId(instance, id).length);
+    },
+    checkMandatoryCustomAttributes(caIds, instance) {
+      return caIds.filter((id) => !instance.customAttr(id).value);
     },
     saveInstance(instance, element) {
       instance.save().then(() => {
@@ -72,11 +104,11 @@ export default can.Component.extend({
         const valueForPerson = _.get(
           modifiedAttribute, 'attribute_object.id'
         ) || null;
-        const caDef = _.find(GGRC.custom_attr_defs, (gca) => 
+        const caDef = _.find(GGRC.custom_attr_defs, (gca) =>
           gca.id === Number(caId)
         );
         const isPerson = caDefTypeName.MapPerson === caDef.attribute_type;
-        const value = isPerson 
+        const value = isPerson
           ? valueForPerson
           : modifiedAttribute.attribute_value;
         instance.customAttr(caId, value);
@@ -85,6 +117,10 @@ export default can.Component.extend({
     closeDiff(element) {
       // TODO: fix
       $(element).closest('.modal').find('.modal-dismiss').trigger('click');
+    },
+    cancel() {
+      this.attr('instance').restore(true);
+      this.attr('modalState.open', false);
     },
   },
 });

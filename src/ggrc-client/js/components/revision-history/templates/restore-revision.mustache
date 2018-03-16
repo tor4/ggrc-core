@@ -12,3 +12,33 @@
     <spinner class="revision-history__spinner" toggle="loading"></spinner>
   </div>
 </div>
+
+<simple-modal {modal-title}="'Global custom attribute validation'"
+              {state}="modalState">
+  <div class="simple-modal__body">
+    <div class="simple-modal__section">
+      <p>
+        Please fill in the field(s) below to apply this version -
+        <person-list-item with-details="false" {person}="restoredRevision.modified_by">
+        </person-list-item>
+        <div>
+          {{localize_datetime restoredRevision.updated_at}}
+        </div>
+      </p>
+    </div>
+    <div class="simple-modal__section">
+      {{instance.class.model_singular}}
+      <custom-roles-modal {instance}="instance"></custom-roles-modal>
+    </div>
+    <div class="simple-modal__section">
+      <!-- ca -->
+    </div>
+  </div>
+  <div class="simple-modal__footer">
+    <div class="simple-modal__toolbar">
+      <button class="btn btn-small btn-green simple-modal__toolbar-item" ($click)="restore()">Apply</button>
+      <button class="btn btn-small btn-white simple-modal__toolbar-item" ($click)="cancel()">Cancel</button>
+    </div>
+  </div>
+
+</simple-modal>

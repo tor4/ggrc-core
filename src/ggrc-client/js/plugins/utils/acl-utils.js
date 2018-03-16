@@ -61,7 +61,6 @@ const getRoleById = (id) => {
  */
 function peopleWithRoleName(instance, roleName) {
   let modelRoles;
-  let peopleIds;
   let roleId;
 
   // get role ID by roleName
@@ -79,8 +78,19 @@ function peopleWithRoleName(instance, roleName) {
   }
 
   roleId = modelRoles[0].id;
+  return peopleWithRoleId(instance, roleId);
+}
 
-  peopleIds = instance.attr('access_control_list')
+/**
+ * Compute a list of people IDs that have `roleId` granted on `instance`.
+ *
+ * @param {CMS.Models.Cacheable} instance - a model instance
+ * @param {number} roleId - id of the custom role
+ *
+ * @return {Array} - list of people
+ */
+function peopleWithRoleId(instance, roleId) {
+  return instance.attr('access_control_list')
     .filter((item) => item.ac_role_id === roleId)
     .map((aclItem) => {
       return {
@@ -91,12 +101,11 @@ function peopleWithRoleName(instance, roleName) {
         email: aclItem.person_email,
       };
     });
-
-  return peopleIds;
 }
 
 export {
   peopleWithRoleName,
+  peopleWithRoleId,
   getRolesForType,
   getRole,
   getRoleById,
