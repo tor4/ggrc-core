@@ -68,11 +68,6 @@ import {relatedAssessmentsTypes} from '../../../plugins/utils/models-utils';
     tag: 'assessment-info-pane',
     template: template,
     viewModel: {
-      documentKinds: {
-        evidences: CMS.Models.Document.EVIDENCE,
-        urls: CMS.Models.Document.URL,
-        referenceUrls: CMS.Models.Document.REFERENCE_URL,
-      },
       define: {
         verifiers: {
           get: function () {
@@ -142,9 +137,6 @@ import {relatedAssessmentsTypes} from '../../../plugins/utils/models-utils';
         urls: {
           Value: can.List,
         },
-        referenceUrls: {
-          Value: can.List,
-        },
         evidences: {
           Value: can.List,
         },
@@ -177,7 +169,6 @@ import {relatedAssessmentsTypes} from '../../../plugins/utils/models-utils';
             return this.attr('isUpdatingEvidences') ||
               this.attr('isUpdatingUrls') ||
               this.attr('isUpdatingComments') ||
-              this.attr('isUpdatingReferenceUrls') ||
               this.attr('isAssessmentSaving');
           },
         },
@@ -265,19 +256,12 @@ import {relatedAssessmentsTypes} from '../../../plugins/utils/models-utils';
         return this.requestQuery(query, 'comments');
       },
       loadEvidences: function () {
-        let query = this.getDocumentQuery(
-          this.attr('documentKinds.evidences'));
+        let query = this.getDocumentQuery(CMS.Models.Document.EVIDENCE);
         return this.requestQuery(query, 'evidences');
       },
       loadUrls: function () {
-        let query = this.getDocumentQuery(
-          this.attr('documentKinds.urls'));
+        let query = this.getDocumentQuery(CMS.Models.Document.URL);
         return this.requestQuery(query, 'urls');
-      },
-      loadReferenceUrls: function () {
-        let query = this.getDocumentQuery(
-          this.attr('documentKinds.referenceUrls'));
-        return this.requestQuery(query, 'referenceUrls');
       },
       updateItems: function () {
         can.makeArray(arguments).forEach(function (type) {
@@ -399,7 +383,6 @@ import {relatedAssessmentsTypes} from '../../../plugins/utils/models-utils';
             this.attr('comments').replace(data.Comment);
             this.attr('evidences').replace(data['Document:EVIDENCE']);
             this.attr('urls').replace(data['Document:URL']);
-            this.attr('referenceUrls').replace(data['Document:REFERENCE_URL']);
 
             this.attr('isUpdatingRelatedItems', false);
             this.attr('instance').dispatch(RELATED_ITEMS_LOADED);
@@ -562,9 +545,6 @@ import {relatedAssessmentsTypes} from '../../../plugins/utils/models-utils';
         this.viewModel.initializeFormFields();
         this.viewModel.initGlobalAttributes();
         this.viewModel.updateRelatedItems();
-      },
-      '{viewModel.instance} resolvePendingBindings': function () {
-        this.viewModel.updateItems('referenceUrls');
       },
     },
     helpers: {
