@@ -84,8 +84,11 @@ class TestAuditRoleProgation(TestCase):
     objects['issue_comment'] = factories.CommentFactory()
 
     # Documents
-    objects['document'] = factories.DocumentFactory()
     objects['issue_document'] = factories.DocumentFactory()
+
+    # Evidence
+    objects['evidence'] = factories.EvidenceUrlFactory()
+
 
   def setup_mappings(self):
     """Sets up all the mappings needed by the tests"""
@@ -111,7 +114,7 @@ class TestAuditRoleProgation(TestCase):
     # Assessment mappings:
     for obj in [
         objects['comment'],
-        objects['document']
+        objects['evidence']
     ]:
       factories.RelationshipFactory(
           source=objects['assessment'],
@@ -178,7 +181,7 @@ class TestAuditRoleProgation(TestCase):
           objects['assessment'],
           objects['assessment_template'],
           objects['issue'],
-          objects['document'],
+          objects['evidence'],
           objects['comment'],
       ]:
         key = (obj.id, obj.type, acl.person)
@@ -204,7 +207,7 @@ class TestAuditRoleProgation(TestCase):
           objects['assessment'],
           objects['assessment_template'],
           objects['issue'],
-          objects['document'],
+          objects['evidence'],
           objects['comment'],
       ]:
         key = (obj.id, obj.type, acl.person)
