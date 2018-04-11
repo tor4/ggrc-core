@@ -89,7 +89,6 @@ class TestAuditRoleProgation(TestCase):
     # Evidence
     objects['evidence'] = factories.EvidenceUrlFactory()
 
-
   def setup_mappings(self):
     """Sets up all the mappings needed by the tests"""
     objects = self.objects
