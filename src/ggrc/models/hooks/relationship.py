@@ -8,10 +8,14 @@ import functools
 import logging
 import itertools
 
+from collections import defaultdict, namedtuple
 import sqlalchemy as sa
 
-from ggrc import db
+from ggrc import login, db
+from ggrc.access_control.role import get_custom_roles_for
+from ggrc.models.mixins.assignable import Assignable
 from ggrc.models.hooks import assessment
+from ggrc.models.relationship import Stub
 from ggrc.services import signals
 from ggrc.models import all_models
 from ggrc.models.comment import Commentable

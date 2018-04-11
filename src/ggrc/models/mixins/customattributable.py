@@ -512,8 +512,8 @@ class CustomAttributable(object):
     Any additional changes to evidences or URL after the first checking
     of the precondition will cause incorrect result of the function.
     """
-    from ggrc.models.object_document import Documentable
-    if isinstance(self, Documentable):
+    from ggrc.models.mixins.with_evidence import WithEvidence
+    if isinstance(self, WithEvidence):
 
       if self._requirement_cache is None:
         self._requirement_cache = {}
@@ -526,8 +526,8 @@ class CustomAttributable(object):
             required += 1
 
         fitting = {
-            "evidence": len(self.document_evidence),
-            "url": len(self.document_url),
+            "evidence": len(self.evidences_file),
+            "url": len(self.evidences_url),
         }
         self._requirement_cache[requirement] = fitting[requirement] >= required
 
