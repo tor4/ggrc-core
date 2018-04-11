@@ -290,7 +290,7 @@ class TestPreconditionsFailed(TestCase):
         value="evidence_required"
     )
     # only one evidence provided yet
-    evidence = factories.EvidenceTypeDocumentFactory(
+    evidence = factories.EvidenceFileFactory(
         title="Mandatory evidence",
     )
     factories.RelationshipFactory(
@@ -425,7 +425,7 @@ class TestPreconditionsPassed(TestCase):
         value="evidence_required"
     )
     # only one evidence provided yet
-    evidence = factories.EvidenceTypeDocumentFactory(
+    evidence = factories.EvidenceFileFactory(
         title="Mandatory evidence",
     )
     factories.RelationshipFactory(
@@ -434,7 +434,7 @@ class TestPreconditionsPassed(TestCase):
     )
 
     # the second evidence
-    evidence = factories.EvidenceTypeDocumentFactory(
+    evidence = factories.EvidenceFileFactory(
         title="Second mandatory evidence",
     )
     factories.RelationshipFactory(
