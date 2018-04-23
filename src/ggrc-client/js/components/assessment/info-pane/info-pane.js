@@ -336,9 +336,10 @@ import {relatedAssessmentsTypes} from '../../../plugins/utils/models-utils';
       },
       addRelatedItem: function (event, type) {
         let self = this;
+        let relatedItemType = event.item.attr('type');
         let related = {
           id: event.item.attr('id'),
-          type: event.item.attr('type'),
+          type: relatedItemType,
         };
 
         this.attr('deferredSave').push(function () {
@@ -361,7 +362,9 @@ import {relatedAssessmentsTypes} from '../../../plugins/utils/models-utils';
             // dispatching event on instance to pass to the auto-save-form
             self.attr('instance').dispatch(RELATED_ITEMS_LOADED);
 
-            self.refreshCounts(['Evidence']);
+            if (relatedItemType === 'Evidence') {
+              self.refreshCounts(['Evidence']);
+            }
           });
       },
       removeRelatedItem: function (item, type) {
