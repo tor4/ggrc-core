@@ -19,7 +19,7 @@
         <span>{{instance.kindTitle}}</span>
       </div>
     </div>
-    
+
     <div class="ggrc-form-item">
       <div class="ggrc-form-item__row">
         <label class="form-label required-label ggrc-form-item__label">
@@ -42,7 +42,7 @@
           Description
         </label>
         <div class="wysiwyg-area">
-          <textarea tabindex="2" id="evidence_description" class="span12 triple wysihtml5" name="description" placeholder="Enter Description">{{{instance.description}}}</textarea>
+          <textarea tabindex="2" id="evidence_description" class="triple wysihtml5" name="description" placeholder="Enter Description">{{{instance.description}}}</textarea>
         </div>
       </div>
     </div>
@@ -57,7 +57,7 @@
         <label class="ggrc-form-item__label">
           Code
         </label>
-        <input {{^if new_object_form}} disabled {{/if}} class="input-block-level" name="slug" placeholder="EVIDENCE-XXX" type="text" {$value}="slug">
+        <input disabled class="input-block-level" name="slug" placeholder="EVIDENCE-XXX" type="text" {$value}="slug">
       </div>
     </div>
   </form>
