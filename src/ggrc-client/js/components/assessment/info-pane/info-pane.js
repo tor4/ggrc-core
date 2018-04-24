@@ -184,6 +184,7 @@ import {relatedAssessmentsTypes} from '../../../plugins/utils/models-utils';
       modal: {
         open: false,
       },
+      pubsub,
       _verifierRoleId: undefined,
       isUpdatingRelatedItems: false,
       isAssessmentSaving: false,
@@ -563,6 +564,14 @@ import {relatedAssessmentsTypes} from '../../../plugins/utils/models-utils';
         this.viewModel.initializeFormFields();
         this.viewModel.initGlobalAttributes();
         this.viewModel.updateRelatedItems();
+      },
+      '{pubsub} objectDeleted'(pubsub, event) {
+        let instance = event.instance;
+        // handle removing evidence on Evidence tab
+        // evidence on Assessment tab should be updated
+        if (instance instanceof CMS.Models.Evidence) {
+          this.viewModel.updateItems('files', 'urls');
+        }
       },
     },
     helpers: {

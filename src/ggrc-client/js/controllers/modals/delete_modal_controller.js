@@ -4,6 +4,7 @@
 */
 
 import ModalsController from './modals_controller';
+import pubsub from '../../pub-sub';
 
 export default ModalsController({
   pluginName: 'ggrc_controllers_delete',
@@ -14,7 +15,7 @@ export default ModalsController({
   init: function () {
     this._super();
   },
-  '{$footer} a.btn[data-toggle=delete]:not(:disabled) click': function (el, ev) {
+  '{$footer} a.btn[data-toggle=delete]:not(:disabled) click'(el, ev) {
     let that = this;
     // Disable the cancel button.
     let cancelButton = this.element.find('a.btn[data-dismiss=modal]');
@@ -38,6 +39,11 @@ export default ModalsController({
         if (that.element) {
           that.element.trigger('modal:success', that.options.instance);
         }
+
+        pubsub.dispatch({
+          type: 'objectDeleted',
+          instance,
+        });
 
         return new $.Deferred(); // on success, just let the modal be destroyed or navigation happen.
         // Do not re-enable the form elements.
