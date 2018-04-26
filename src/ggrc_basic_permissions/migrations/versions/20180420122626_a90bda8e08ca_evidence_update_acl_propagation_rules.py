@@ -11,7 +11,7 @@ Create Date: 2018-04-20 12:26:26.371442
 
 from ggrc.migrations.utils import acr_propagation_constants as prev_rules
 from ggrc.migrations.utils import acr_propagation_constants_document_epic\
-  as doc_epic_rules
+    as doc_epic_rules
 from ggrc.migrations.utils import acr_propagation
 
 # revision identifiers, used by Alembic.
@@ -30,7 +30,7 @@ def upgrade():
   """Upgrade database schema and/or data, creating a new revision."""
   remove_old_rule_tree()
   acr_propagation.propagate_roles(
-    doc_epic_rules.GGRC_BASIC_PERMISSIONS_PROPAGATION)
+      doc_epic_rules.GGRC_BASIC_PERMISSIONS_PROPAGATION)
 
 
 def downgrade():

@@ -107,10 +107,10 @@ _CONTROL_PROPAGATION = {
 _AUDIT_FULL_ACCESS = {
     "Relationship R": {
         "Assessment RUD": {
-          "Relationship R": {
-            "Comment R": {},
-            "Evidence RU": {},
-          }
+            "Relationship R": {
+              "Comment R": {},
+              "Evidence RU": {},
+            }
         },
         "AssessmentTemplate RUD": {},
         "Evidence RU": {},
@@ -122,10 +122,10 @@ _AUDIT_FULL_ACCESS = {
 _PE_AUDIT_ACCESS = {
     "Relationship R": {
         "Assessment RU": {
-          "Relationship R": {
-            "Comment R": {},
-            "Evidence RU": {},
-          },
+            "Relationship R": {
+              "Comment R": {},
+              "Evidence RU": {},
+            },
         },
         "AssessmentTemplate RUD": {},
         "Issue RUD": COMMENT_DOCUMENT_RUD,
@@ -137,10 +137,10 @@ _PE_AUDIT_ACCESS = {
 _AUDITOR_ACCESS = {
     "Relationship R": {
         "Assessment RU": {
-          "Relationship R": {
-            "Comment R": {},
-            "Evidence RU": {},
-          },
+            "Relationship R": {
+              "Comment R": {},
+              "Evidence RU": {},
+            },
         },
         "AssessmentTemplate R": {},
         "Evidence RU": {},
@@ -152,10 +152,10 @@ _AUDITOR_ACCESS = {
 _AUDIT_READ_ACCESS = {
     "Relationship R": {
         "Assessment R": {
-          "Relationship R": {
-            "Comment R": {},
-            "Evidence R": {},
-          },
+            "Relationship R": {
+              "Comment R": {},
+              "Evidence R": {},
+            },
         },
         "AssessmentTemplate R": {},
         "Evidence R": {},

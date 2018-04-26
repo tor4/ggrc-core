@@ -393,13 +393,13 @@ def build_acr_mapping(connection):
   SELECT acr1.id as acr_doc_id, acr2.id as acr_evid_id FROM
     access_control_roles acr1
     JOIN access_control_roles acr2 ON acr1.name=acr2.name
-    WHERE acr1.object_type='Document' 
-      AND acr1.name='Admin' 
+    WHERE acr1.object_type='Document'
+      AND acr1.name='Admin'
       AND acr2.object_type='Evidence'
       AND acr2.name='Admin'
   """
   doc_admin_role_id, evid_admin_role_id = connection.execute(
-    text(sql)).fetchone()
+      text(sql)).fetchone()
 
   return doc_admin_role_id, evid_admin_role_id
 
