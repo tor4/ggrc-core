@@ -208,8 +208,8 @@ class TestAssessment(TestAssessmentBase):
         self.assert_propagated_role(role, user, audit)
         self.assert_propagated_role(role, user, snapshot)
 
-  def test_document_mapped_roles(self):
-    """Test creation of mapped document roles."""
+  def test_evidence_mapped_roles(self):
+    """Test creation of mapped evidence roles."""
     with factories.single_commit():
       person = factories.PersonFactory()
       person_email = person.email
@@ -223,14 +223,14 @@ class TestAssessment(TestAssessmentBase):
         )
       factories.RelationshipFactory(source=audit, destination=assessment)
 
-      evidence = factories.EvidenceFactory()
+      evidence = factories.EvidenceUrlFactory()
       factories.RelationshipFactory(source=assessment, destination=evidence)
       db.session.add(evidence)
 
     for role in ["Assignees",
                  "Creators",
                  "Verifiers"]:
-      self.assert_mapped_role(role, person_email, evidence)
+      self.assert_propagated_role(role, person_email, evidence)
 
   def test_deletion_mapped_roles(self):
     """Test deletion of mapped roles."""
