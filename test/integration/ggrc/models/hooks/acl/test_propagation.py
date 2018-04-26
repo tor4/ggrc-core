@@ -375,7 +375,8 @@ class TestPropagation(TestCase):
       control_snapshot - regulation_snapshot
       control_snapshot - objective_snapshot
       objective_snapshot - regulations_snapshot
-      document - regulation, objective, control, assessment
+      document - regulation, objective, control
+      evidence - assessment
     """
     with factories.single_commit():
       person = factories.PersonFactory()
@@ -421,8 +422,8 @@ class TestPropagation(TestCase):
         document = factories.DocumentFactory()
         factories.RelationshipFactory(source=obj, destination=document)
 
-      document = factories.DocumentFactory()
-      factories.RelationshipFactory(source=document, destination=assessment)
+      evidence = factories.EvidenceUrlFactory()
+      factories.RelationshipFactory(source=evidence, destination=assessment)
 
     acl_entry = factories.AccessControlListFactory(
         person=person,

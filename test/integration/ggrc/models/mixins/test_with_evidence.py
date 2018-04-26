@@ -12,6 +12,7 @@ from integration.ggrc.models import factories
 COPIED_TITLE = 'test_name'
 
 
+# pylint: disable=unused-argument
 def dummy_gdrive_response(*args, **kwargs):  # noqa
   return {'webViewLink': 'http://mega.doc',
           'name': COPIED_TITLE,

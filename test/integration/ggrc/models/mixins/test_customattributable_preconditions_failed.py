@@ -397,7 +397,7 @@ class TestPreconditionsPassed(TestCase):
         dropdown_parameters=("foo,evidence_required", "0,2"),
         value="evidence_required",
     )
-    evidence = factories.EvidenceTypeDocumentFactory(
+    evidence = factories.EvidenceFileFactory(
         title="Mandatory evidence",
     )
     factories.RelationshipFactory(
@@ -456,7 +456,7 @@ class TestPreconditionsPassed(TestCase):
         dropdown_parameters=("foo,url_required", "0,4"),
         value="url_required",
     )
-    url = factories.UrlTypeDocumentFactory(
+    url = factories.EvidenceUrlFactory(
         title="Mandatory url",
     )
     factories.RelationshipFactory(
@@ -484,7 +484,7 @@ class TestPreconditionsPassed(TestCase):
         value="url_required"
     )
     # only one URL provided yet
-    url = factories.UrlTypeDocumentFactory(
+    url = factories.EvidenceUrlFactory(
         title="Mandatory URL",
     )
     factories.RelationshipFactory(
@@ -493,7 +493,7 @@ class TestPreconditionsPassed(TestCase):
     )
 
     # the second URL
-    url = factories.UrlTypeDocumentFactory(
+    url = factories.EvidenceUrlFactory(
         title="Second mandatory URL",
     )
     factories.RelationshipFactory(

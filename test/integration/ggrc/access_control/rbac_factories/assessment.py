@@ -165,15 +165,15 @@ class AssessmentRBACFactory(base.BaseRBACFactory):
         }
     })
 
-  def map_document(self):
-    """Map new document to assessment."""
+  def map_evidence(self):
+    """Map new evidence to assessment."""
     assessment = all_models.Assessment.query.get(self.assessment_id)
     return self.api.put(assessment, {
         "actions": {
             "add_related": [{
                 "id": None,
-                "type": "Document",
-                "document_type": "EVIDENCE",
+                "type": "Evidence",
+                "kind": "URL",
                 "title": factories.random_str(),
                 "link": factories.random_str(),
             }]
