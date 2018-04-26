@@ -329,7 +329,7 @@ def create_relationship_revision(connection, rel_id, source_id, source_type,
   )
 
 
-def copy_acl(connection, acl, evidence_id, acl_mapping):
+def copy_acl(connection, acl, evidence_id, evid_admin_role_id):
   """Create copy of ACL object"""
   sql = """
       INSERT INTO access_control_list (
@@ -347,8 +347,7 @@ def copy_acl(connection, acl, evidence_id, acl_mapping):
   """
   connection.execute(text(sql),
                      person_id=acl.person_id,
-                     ac_role_id=acl_mapping.get(acl.ac_role_id,
-                                                acl.ac_role_id),
+                     ac_role_id=evid_admin_role_id,
                      evidence_id=evidence_id,
                      object_type='Evidence',
                      modified_by_id=acl.modified_by_id,
@@ -356,8 +355,9 @@ def copy_acl(connection, acl, evidence_id, acl_mapping):
                      parent_id=acl.parent_id)
 
 
-def copy_acls(connection, doc_id, evidence_id, acl_mapping):
-  """Copy acl from document to evidence"""
+def copy_acls(connection, doc_id, evidence_id, doc_admin_role_id,
+              evid_admin_role_id):
+  """Copy admin acl from document to evidence"""
   results = connection.execute(text("""
       SELECT
         acl.id,
@@ -371,10 +371,11 @@ def copy_acls(connection, doc_id, evidence_id, acl_mapping):
       FROM access_control_list acl
       WHERE acl.object_type = 'Document'
       AND acl.object_id = :doc_id
-  """), doc_id=doc_id).fetchall()
+      AND acl.ac_role_id = :admin_role_id
+  """), doc_id=doc_id, admin_role_id=doc_admin_role_id).fetchall()
 
   for item in results:
-    copy_acl(connection, item, evidence_id, acl_mapping)
+    copy_acl(connection, item, evidence_id, evid_admin_role_id)
 
 
 def get_document_admin_role_id(connection):
@@ -387,39 +388,20 @@ def get_document_admin_role_id(connection):
 
 
 def build_acr_mapping(connection):
-  """Build mapping for document role id to evidence role id"""
+  """Build mapping for document admin role id to evidence admin role id"""
   sql = """
   SELECT acr1.id as acr_doc_id, acr2.id as acr_evid_id FROM
     access_control_roles acr1
     JOIN access_control_roles acr2 ON acr1.name=acr2.name
-    WHERE acr1.object_type='Document' AND acr2.object_type='Evidence'
-  UNION ALL
-  SELECT acr1.id as acr_doc_id, acr2.id as acr_evid_id FROM
-    access_control_roles acr1
-    JOIN access_control_roles acr2
-      ON acr1.name='Auditors Document Mapped' AND
-      acr2.name='Auditors Evidence Mapped'
-  UNION ALL
-  SELECT acr1.id as acr_doc_id, acr2.id as acr_evid_id FROM
-    access_control_roles acr1
-    JOIN access_control_roles acr2
-      ON acr1.name='Verifiers Document Mapped' AND
-        acr2.name='Verifiers Evidence Mapped'
-  UNION ALL
-  SELECT acr1.id as acr_doc_id, acr2.id as acr_evid_id FROM
-    access_control_roles acr1
-    JOIN access_control_roles acr2
-      ON acr1.name='Creators Document Mapped'
-       AND acr2.name='Creators Evidence Mapped'
-  UNION ALL
-  SELECT acr1.id as acr_doc_id, acr2.id as acr_evid_id FROM
-   access_control_roles acr1
-    JOIN access_control_roles acr2
-      ON acr1.name='Assignees Document Mapped' AND
-       acr2.name='Assignees Evidence Mapped'
+    WHERE acr1.object_type='Document' 
+      AND acr1.name='Admin' 
+      AND acr2.object_type='Evidence'
+      AND acr2.name='Admin'
   """
-  result = connection.execute(text(sql)).fetchall()
-  return {k: v for k, v in result}
+  doc_admin_role_id, evid_admin_role_id = connection.execute(
+    text(sql)).fetchone()
+
+  return doc_admin_role_id, evid_admin_role_id
 
 
 def delete_document_relationship(connection, rel_id):
@@ -438,9 +420,10 @@ def delete_migrated_document(connection, document_id):
 
 def process_doc(connection, doc, migration_user_id, event_id):
   """Process transformation from document to evidence"""
-  acl_mapping = build_acr_mapping(connection)
+  doc_admin_role_id, evid_admin_role_id = build_acr_mapping(connection)
   evidence = create_evidence(connection, doc)
-  copy_acls(connection, doc.doc_id, evidence.id, acl_mapping)
+  copy_acls(connection, doc.doc_id, evidence.id, doc_admin_role_id,
+            evid_admin_role_id)
   create_evidence_revision(connection, evidence, migration_user_id, event_id)
   relationship_id = create_relationship(connection, doc.counterparty_id,
                                         doc.counterparty_type, evidence.id)

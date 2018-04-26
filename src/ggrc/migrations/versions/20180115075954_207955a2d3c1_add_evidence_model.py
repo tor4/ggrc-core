@@ -52,15 +52,8 @@ def create_evidence_table():
                   ['updated_at'], unique=False)
 
 
-def add_evidence_roles():
-  """Add Evidence roles
-
-  - Admin
-  - Auditors Evidence Mapped
-  - Verifiers Evidence Mapped
-  - Creators Evidence Mapped
-  - Assignees Evidence Mapped
-  """
+def add_evidence_admin_role():
+  """Add Evidence Admin roles"""
   add_evidence_admin = """
     INSERT INTO access_control_roles (
         name,
@@ -85,56 +78,11 @@ def add_evidence_roles():
   """
   op.execute(add_evidence_admin)
 
-  sql = """
-    INSERT INTO access_control_roles (
-        name,
-        object_type,
-        access_control_roles.read,
-        access_control_roles.update,
-        access_control_roles.delete,
-        my_work,
-        created_at,
-        updated_at,
-        non_editable,
-        internal
-    )
-    VALUES (
-        'Auditors Evidence Mapped',
-        'Evidence',
-        1, 1, 0, 0,
-        NOW(),
-        NOW(),
-        1, 1
-    ),(
-        'Verifiers Evidence Mapped',
-        'Assessment',
-        1, 1, 0, 1,
-        NOW(),
-        NOW(),
-        1, 1
-    ),(
-        'Creators Evidence Mapped',
-        'Assessment',
-        1, 1, 0, 1,
-        NOW(),
-        NOW(),
-        1, 1
-    ),(
-        'Assignees Evidence Mapped',
-        'Assessment',
-        1, 1, 0, 1,
-        NOW(),
-        NOW(),
-        1, 1
-    )
-  """
-  op.execute(sql)
-
 
 def upgrade():
   """Upgrade database schema and/or data, creating a new revision."""
   create_evidence_table()
-  add_evidence_roles()
+  add_evidence_admin_role()
 
 
 def downgrade():

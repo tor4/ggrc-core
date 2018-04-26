@@ -17,7 +17,7 @@ from alembic import op
 
 # revision identifiers, used by Alembic.
 revision = 'e4403da2933a'
-down_revision = '082306b17b07'
+down_revision = '3db5f2027c92'
 
 
 def get_audit_docs_ids(connection):
@@ -49,7 +49,7 @@ def get_audit_docs_ids(connection):
 
 
 def migrate_docs(connection):
-  """Migrate domuments.FILE to domuments.URL"""
+  """Migrate documents.FILE to documents.URL"""
   audit_doc_ids = get_audit_docs_ids(connection)
   assessment_doc_ids = get_assessment_docs_ids(connection)
   invalid_gdrive_url_doc_ids = get_invalid_gdrive_url_doc_ids(connection)
