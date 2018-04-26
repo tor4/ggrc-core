@@ -127,14 +127,13 @@ class Evidence(Roleable, Relatable, mixins.Titled,
     )
 
   @simple_property
-  def parent(self):
-    parent_candidates = self.related_objects(_types=Evidence._allowed_parents)
-    return parent_candidates.pop() if parent_candidates else None
-
-  @simple_property
   def archived(self):
     """Returns a boolean whether parent is archived or not."""
-    return self.parent.archived if self.parent else False
+    parent_candidates = self.related_objects(_types=Evidence._allowed_parents)
+    if parent_candidates:
+      parent = parent_candidates.pop()
+      return parent.archived
+    return False
 
   def log_json(self):
     tmp = super(Evidence, self).log_json()

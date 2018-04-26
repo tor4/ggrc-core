@@ -3,11 +3,10 @@
 
 """ Module for WithEvidence mixin."""
 from sqlalchemy import orm, case, and_, literal
+from sqlalchemy.ext.declarative import declared_attr
 
 from ggrc import db
 from ggrc.fulltext.attributes import MultipleSubpropertyFullTextAttr
-from sqlalchemy.ext.declarative import declared_attr
-
 from ggrc.models import reflection
 from ggrc.models.evidence import Evidence
 from ggrc.models.relationship import Relationship
