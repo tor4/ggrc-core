@@ -108,8 +108,8 @@ _AUDIT_FULL_ACCESS = {
     "Relationship R": {
         "Assessment RUD": {
             "Relationship R": {
-              "Comment R": {},
-              "Evidence RU": {},
+                "Comment R": {},
+                "Evidence RU": {},
             }
         },
         "AssessmentTemplate RUD": {},
@@ -123,8 +123,8 @@ _PE_AUDIT_ACCESS = {
     "Relationship R": {
         "Assessment RU": {
             "Relationship R": {
-              "Comment R": {},
-              "Evidence RU": {},
+                "Comment R": {},
+                "Evidence RU": {},
             },
         },
         "AssessmentTemplate RUD": {},
@@ -138,8 +138,8 @@ _AUDITOR_ACCESS = {
     "Relationship R": {
         "Assessment RU": {
             "Relationship R": {
-              "Comment R": {},
-              "Evidence RU": {},
+                "Comment R": {},
+                "Evidence RU": {},
             },
         },
         "AssessmentTemplate R": {},
@@ -153,8 +153,8 @@ _AUDIT_READ_ACCESS = {
     "Relationship R": {
         "Assessment R": {
             "Relationship R": {
-              "Comment R": {},
-              "Evidence R": {},
+                "Comment R": {},
+                "Evidence R": {},
             },
         },
         "AssessmentTemplate R": {},
