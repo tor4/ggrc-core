@@ -22,10 +22,10 @@ import {
 } from '../../plugins/utils/current-page-utils';
 import RefreshQueue from '../../models/refresh_queue';
 import {
+  BEFORE_MAPPING,
   REFRESH_MAPPING,
   REFRESH_SUB_TREE,
 } from '../../events/eventTypes';
-import tracker from '../../tracker';
 
 (function (can, $) {
   'use strict';
@@ -78,9 +78,6 @@ import tracker from '../../tracker';
     template: can.view(GGRC.mustache_path +
       '/components/object-mapper/object-mapper.mustache'),
     viewModel: function (attrs, parentViewModel) {
-      const refreshCounts = parentViewModel.attr('refresh_counts') !== undefined
-        ? parentViewModel.attr('refresh_counts')
-        : true;
       let config = {
         general: parentViewModel.attr('general'),
         special: parentViewModel.attr('special'),
@@ -98,7 +95,6 @@ import tracker from '../../tracker';
         object: resolvedConfig.object,
         type: getDefaultType(resolvedConfig.type, resolvedConfig.object),
         config: config,
-        refreshCounts,
         useSnapshots: resolvedConfig.useSnapshots,
         isLoadingOrSaving: function () {
           return this.attr('is_saving') ||
@@ -164,6 +160,9 @@ import tracker from '../../tracker';
         // reset new entries
         this.viewModel.attr('newEntries', []);
         this.element.trigger('hideModal');
+      },
+      '.create-control modal:dismiss'() {
+        this.closeModal();
       },
       '{window} modal:dismiss': function (el, ev, options) {
         let joinObjectId = this.viewModel.attr('join_object_id');
@@ -251,13 +250,15 @@ import tracker from '../../tracker';
         let data = {};
         let defer = [];
         let que = new RefreshQueue();
-        let stopFn = tracker.start(tracker.FOCUS_AREAS.MAPPINGS(instance.type),
-          tracker.USER_JOURNEY_KEYS.MAP_OBJECTS(type),
-          tracker.USER_ACTIONS.MAPPING_OBJECTS(objects.length));
 
-        que.enqueue(instance).trigger().done((inst) => {
+        instance.dispatch({
+          ...BEFORE_MAPPING,
+          destinationType: type,
+        });
+
+        que.enqueue(instance).trigger().done(function (inst) {
           data.context = instance.context || null;
-          objects.forEach((destination) => {
+          objects.forEach(function (destination) {
             let modelInstance;
             let isMapped;
             let isAllowed;
@@ -293,18 +294,17 @@ import tracker from '../../tracker';
             data[mapping.option_attr] = destination;
             modelInstance = new Model(data);
             defer.push(modelInstance.save());
-          });
+          }.bind(this));
 
           $.when.apply($, defer)
-            .fail((response, message) => {
-              stopFn(true);
+            .fail(function (response, message) {
               $('body').trigger('ajax:flash', {error: message});
             })
-            .always(() => {
+            .always(function () {
               this.viewModel.attr('is_saving', false);
               this.closeModal();
-            })
-            .done(() => {
+            }.bind(this))
+            .done(function () {
               if (instance && instance.dispatch) {
                 instance.dispatch('refreshInstance');
                 instance.dispatch({
@@ -312,17 +312,11 @@ import tracker from '../../tracker';
                   destinationType: type,
                 });
               }
-
-              stopFn();
-
-              if (this.viewModel.attr('refreshCounts')) {
-                // This Method should be modified to event
-                refreshCounts();
-              }
-
+              // This Method should be modified to event
+              refreshCounts();
               instance.dispatch(REFRESH_SUB_TREE);
             });
-        });
+        }.bind(this));
       },
     },
 
