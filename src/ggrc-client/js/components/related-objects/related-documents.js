@@ -8,6 +8,7 @@ import {
   batchRequests,
 } from '../../plugins/utils/query-api-utils';
 import {initCounts} from '../../plugins/utils/current-page-utils';
+import pubsub from '../../pub-sub';
 
 (function (can, $, _, GGRC) {
   'use strict';
@@ -27,6 +28,7 @@ import {initCounts} from '../../plugins/utils/current-page-utils';
       documents: [],
       isLoading: false,
       pendingItemsChanged: false,
+      pubsub,
       define: {
 
         // automatically refresh instance on related document create/remove
@@ -259,6 +261,12 @@ import {initCounts} from '../../plugins/utils/current-page-utils';
     events: {
       '{viewModel.instance} resolvePendingBindings': function () {
         this.viewModel.refreshRelatedDocuments();
+      },
+      '{pubsub} objectDeleted'(pubsub, event) {
+        let instance = event.instance;
+        if (instance instanceof CMS.Models.Evidence) {
+          this.viewModel.refreshRelatedDocuments();
+        }
       },
     },
   });
