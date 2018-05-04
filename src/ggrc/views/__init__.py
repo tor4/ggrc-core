@@ -17,7 +17,7 @@ from flask import jsonify
 from flask import render_template
 from flask import url_for
 from flask import request
-from werkzeug.exceptions import Forbidden
+from werkzeug import exceptions
 
 from ggrc import models
 from ggrc import settings
@@ -545,7 +545,7 @@ def admin_refresh_revisions():
   """Calls a webhook that refreshes revision content."""
   admins = getattr(settings, "BOOTSTRAP_ADMIN_USERS", [])
   if get_current_user().email not in admins:
-    raise Forbidden()
+    raise exceptions.Forbidden()
 
   task_queue = create_task("refresh_revisions", url_for(
       refresh_revisions.__name__), refresh_revisions)
@@ -575,7 +575,7 @@ def admin_propagate_acl():
   """Propagates all ACL entries"""
   admins = getattr(settings, "BOOTSTRAP_ADMIN_USERS", [])
   if get_current_user().email not in admins:
-    raise Forbidden()
+    raise exceptions.Forbidden()
 
   task_queue = create_task("propagate_acl", url_for(
       propagate_acl.__name__), propagate_acl)
@@ -591,7 +591,7 @@ def admin_create_missing_revisions():
   """Create revisions for new objects"""
   admins = getattr(settings, "BOOTSTRAP_ADMIN_USERS", [])
   if get_current_user().email not in admins:
-    raise Forbidden()
+    raise exceptions.Forbidden()
 
   task_queue = create_task("create_missing_revisions", url_for(
       create_missing_revisions.__name__), create_missing_revisions)
@@ -711,9 +711,10 @@ def user_permissions():
 
 @app.route("/api/document/is_document_with_gdrive_id_exists", methods=["POST"])
 @login_required
-def is_document_with_gdrive_id_exists():
+def is_document_exists():
+  """Check if document with gdrive_id exists"""
   if "gdrive_id" not in request.json:
-    return "gdrive_id is mandatory"
+    raise exceptions.BadRequest("gdrive_id is mandatory")
   gdrive_id = request.json["gdrive_id"]
   doc = all_models.Document.query.filter(
       all_models.Document.gdrive_id == gdrive_id).first()
@@ -721,22 +722,33 @@ def is_document_with_gdrive_id_exists():
               "gdrive_id": gdrive_id}
   if doc:
     response["status"] = "exists"
-    response["document"] = {"id": doc.id}
+    response["object"] = {
+        "type": "Document",
+        "id": doc.id,
+        "gdrive_id": gdrive_id
+    }
+    del response["gdrive_id"]
   return jsonify(response)
 
 
 @app.route("/api/document/make_admin", methods=["POST"])
 @login_required
 def make_document_admin():
+  """Add current user as document admin"""
   if "gdrive_id" not in request.json:
-    return "gdrive_id is mandatory"
+    raise exceptions.BadRequest("gdrive_id is mandatory")
   gdrive_id = request.json["gdrive_id"]
   doc = all_models.Document.query.filter(
-    all_models.Document.gdrive_id == gdrive_id).first()
+      all_models.Document.gdrive_id == gdrive_id).first()
   response = {"status": "not exists",
               "gdrive_id": gdrive_id}
   if doc:
-    doc.add_document_admin_role()
+    doc.add_admin_role()
     response["status"] = "success"
-    response["document"] = {"id": doc.id}
+    response["object"] = {
+        "type": "Document",
+        "id": doc.id,
+        "gdrive_id": gdrive_id
+    }
+    del response["gdrive_id"]
   return jsonify(response)
