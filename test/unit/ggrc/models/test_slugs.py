@@ -28,6 +28,7 @@ class TestSlugPrefix(unittest.TestCase):
       'DataAsset': 'DATAASSET',
       'Directive': 'DIRECTIVE',  # unused but has slug prefix
       'Evidence': 'EVIDENCE',
+      'Document': 'DOCUMENT',
       'Facility': 'FACILITY',
       'Issue': 'ISSUE',
       'Market': 'MARKET',
