@@ -31,8 +31,8 @@ class TestControlsImport(TestCase):
     response = self.import_file("controls_no_warnings.csv")
     self._check_csv_response(response, {})
 
-    evidence = models.Document.query.filter_by(title="Some title 3").all()
-    self.assertEqual(len(evidence), 1)
+    document = models.Document.query.filter_by(title="Some title 3").all()
+    self.assertEqual(len(document), 1)
     control = models.Control.query.filter_by(slug="control-3").first()
     self.assertEqual(control.documents_file[0].title, "Some title 3")
 
