@@ -170,6 +170,7 @@ def _recover_create_revisions(revisions_table, event, object_type,
 
 
 def set_resource_slugs():
+  """Set revision resource_slug content"""
   with benchmark("set revision resource_slug content"):
     revisions_table = all_models.Revision.__table__
     rows = db.session.execute(select([
@@ -236,7 +237,7 @@ def do_missing_revisions():
   db.session.commit()
   revisions_table = all_models.Revision.__table__
   count = _get_new_objects_count()
-  chunk_size = 1000
+  chunk_size = 100
   logger.info("Crating revision content...")
   for index, chunk in enumerate(_get_chunks(_get_new_objects(),
                                             chunk_size), 1):
@@ -246,7 +247,7 @@ def do_missing_revisions():
       model = getattr(all_models, obj_type, None)
       if not model:
         logger.warning("Failed to update revisions"
-                       " for invalid model: {}".format(obj_type))
+                       " for invalid model: %s", obj_type)
         continue
 
       if not hasattr(model, "log_json"):
