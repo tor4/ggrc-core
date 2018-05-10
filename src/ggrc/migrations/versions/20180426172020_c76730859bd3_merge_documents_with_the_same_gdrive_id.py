@@ -317,22 +317,32 @@ def process_document(connection, document_data):
 
 def add_indexes():
   """Add indexes to document table"""
-  op.create_unique_constraint(constraint_name="idx_gdrive_id",
-                              table_name=TABLE, columns=["gdrive_id"])
+  op.create_index(index_name="idx_gdrive_id",
+                  table_name=TABLE, columns=["gdrive_id"])
   op.create_unique_constraint(constraint_name="uq_control_document",
                               table_name=TABLE, columns=["slug"])
 
 
-def run_migration():
-  """Run main migration flow"""
-  connection = op.get_bind()
-  for gr in get_gdrive_id_to_migrate(connection):
-    data = get_documents_to_merge(connection, gr.gdrive_id)
-    if data:
-      process_document(connection, data)
-  migrate_url_to_reference_url(connection)
-  #TODO: fix
-  # add_indexes()
+def add_missing_slugs(connection):
+  """Generate missing slugs"""
+  migration_user_id = migrator.get_migration_user_id(connection)
+  doc_ids = connection.execute(
+    text("SELECT d.id FROM documents d WHERE d.slug=''")).fetchall()
+
+  doc_ids = [d.id for d in doc_ids]
+  utils.add_to_objects_without_revisions_bulk(connection, doc_ids,
+                                              "Document", action='modified')
+
+  op.execute('SET SESSION SQL_SAFE_UPDATES = 0')
+  sql = """
+        UPDATE documents SET
+          slug=CONCAT("DOCUMENT-",id),
+          modified_by_id=:modified_by_id,
+          updated_at=NOW()
+        WHERE slug=''
+    """
+  connection.execute(text(sql),
+                     modified_by_id=migration_user_id)
 
 
 def migrate_url_to_reference_url(connection):
@@ -364,17 +374,28 @@ def migrate_url_to_reference_url(connection):
   """))
 
 
+def run_migration():
+  """Run main migration flow"""
+  connection = op.get_bind()
+  for gr in get_gdrive_id_to_migrate(connection):
+    data = get_documents_to_merge(connection, gr.gdrive_id)
+    if data:
+      process_document(connection, data)
+  migrate_url_to_reference_url(connection)
+  add_missing_slugs(connection)
+  add_indexes()
+
+
 def upgrade():
-    """Upgrade database schema and/or data, creating a new revision."""
-    run_migration()
+  """Upgrade database schema and/or data, creating a new revision."""
+  run_migration()
 
 
 def downgrade():
-    """Downgrade database schema and/or data back to the previous revision."""
-    op.drop_constraint("idx_gdrive_id", TABLE, "unique")
-    op.drop_constraint("uq_control_document", TABLE, "unique")
-    op.execute("""
-      ALTER TABLE documents MODIFY
-        kind enum('URL','FILE','REFERENCE_URL') NOT NULL DEFAULT 'URL';
-  """)
-
+  """Downgrade database schema and/or data back to the previous revision."""
+  op.drop_constraint("idx_gdrive_id", TABLE, "unique")
+  op.drop_constraint("uq_control_document", TABLE, "unique")
+  op.execute("""
+    ALTER TABLE documents MODIFY
+      kind enum('URL','FILE','REFERENCE_URL') NOT NULL DEFAULT 'URL';
+""")
