@@ -4,7 +4,10 @@
  */
 
 import '../custom-roles/custom-roles-modal';
-import {getRolesForType} from '../../plugins/utils/acl-utils';
+import {
+  getRolesForType,
+  peopleWithRoleId,
+} from '../../plugins/utils/acl-utils';
 import template from './access-control-list-roles-helper.mustache';
 
 export default GGRC.Components('accessControlListRolesHelper', {
@@ -34,11 +37,9 @@ export default GGRC.Components('accessControlListRolesHelper', {
       }
 
       autoPopulatedRoles.forEach(function (role) {
-        let existingRole = _.find(
-          instance.attr('access_control_list'),
-          {ac_role_id: role.id});
+        let peopleWithRole = peopleWithRoleId(instance, role.id);
 
-        if (!existingRole) {
+        if (!peopleWithRole.length) {
           instance.attr('access_control_list').push({
             ac_role_id: role.id,
             person: {type: 'Person', id: GGRC.current_user.id},
