@@ -3,18 +3,20 @@
  Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
  */
 
-describe('GGRC.Components.unmapButton', function () {
+import Component from '../unmap-button';
+import {getComponentVM} from '../../../../js_specs/spec_helpers';
+
+describe('unmapButton', function () {
   'use strict';
   let events;
   let viewModel;
 
   beforeAll(function () {
-    let Component = GGRC.Components.get('unmapButton');
     events = Component.prototype.events;
   });
 
   beforeEach(function () {
-    viewModel = GGRC.Components.getViewModel('unmapButton');
+    viewModel = getComponentVM(Component);
   });
 
   describe('"click" event handler', function () {
