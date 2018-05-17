@@ -8,7 +8,10 @@ import {
   batchRequests,
 } from '../../plugins/utils/query-api-utils';
 import {initCounts} from '../../plugins/utils/current-page-utils';
-import {REFRESH_MAPPING} from '../../events/eventTypes';
+import {
+  REFRESH_MAPPING,
+  DESTINATION_UNMAPPED,
+} from '../../events/eventTypes';
 import pubsub from '../../pub-sub';
 
 (function (can, $, _, GGRC) {
@@ -264,6 +267,15 @@ import pubsub from '../../pub-sub';
       },
       [`{viewModel.instance} ${REFRESH_MAPPING.type}`]() {
         this.viewModel.refreshRelatedDocuments();
+      },
+      [`{viewModel.instance} ${DESTINATION_UNMAPPED.type}`](instance, event) {
+        let item = event.item;
+        let viewModel = this.viewModel;
+
+        if (item.attr('type') === viewModel.attr('modelType')
+          && item.attr('kind') === viewModel.attr('kind')) {
+          viewModel.loadDocuments();
+        }
       },
       '{pubsub} objectDeleted'(pubsub, event) {
         let instance = event.instance;

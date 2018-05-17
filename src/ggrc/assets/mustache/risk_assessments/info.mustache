@@ -31,7 +31,6 @@
                   <object-list {items}="documents" {empty-message}="noItemsText">
                     <editable-document-object-list-item {document}="{.}">
                       <unmap-button
-                        (unmapped)="loadDocuments()"
                         {destination}="instance"
                         {source}="document">
                         <action-toolbar-control>

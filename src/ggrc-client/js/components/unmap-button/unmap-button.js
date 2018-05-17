@@ -24,7 +24,21 @@ export default can.Component.extend({
         await item.destroy();
         this.dispatch('unmapped');
         this.attr('destination').dispatch('refreshInstance');
-        this.attr('destination').dispatch(DESTINATION_UNMAPPED);
+
+        // as for unmapping doesn't matter what is source and destination
+        // dispatch event on both
+        this.attr('destination')
+          .dispatch({
+            ...DESTINATION_UNMAPPED,
+            item: this.attr('source'),
+          });
+
+        this.attr('source')
+          .dispatch({
+            ...DESTINATION_UNMAPPED,
+            item: this.attr('destination'),
+          });
+
         this.dispatch('afterUnmap');
       } catch (e) {
         console.warn('Unmap failed', e);
