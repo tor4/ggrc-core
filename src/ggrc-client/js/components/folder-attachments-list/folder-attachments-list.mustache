@@ -26,7 +26,6 @@
             <editable-document-object-list-item {document}="{.}">
             {{#unless readonly}}
                 <unmap-button
-                    (unmapped)="loadDocuments()"
                     {destination}="instance"
                     {source}="document"
                     {^is-unmapping} = "../../../../isUnmapping">
