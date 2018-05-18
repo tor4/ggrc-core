@@ -3,9 +3,9 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 
-{{#each visibleItems}}
+{{#visibleItems}}
     <content></content>
-{{/each}}
+{{/visibleItems}}
 {{#if isOverLimit}}
     <div class="flex-box flex-row limit-button-container">
         <button class="btn btn-link" ($click)="toggleShowAll(%event)">{{showAllButtonText}}</button>

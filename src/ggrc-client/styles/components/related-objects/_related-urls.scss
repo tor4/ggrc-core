@@ -19,6 +19,14 @@
     margin-right: 5px;
   }
 
+  &__list {
+    .list-more {
+      .limit-button-container {
+        margin-bottom: 10px;
+      }
+    }
+  }
+
   document-object-list-item {
     min-width: 0;
   }
