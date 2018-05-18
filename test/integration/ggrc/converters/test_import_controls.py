@@ -31,10 +31,12 @@ class TestControlsImport(TestCase):
     response = self.import_file("controls_no_warnings.csv")
     self._check_csv_response(response, {})
 
-    document = all_models.Document.query.filter_by(title="Some title 3").all()
+    document = all_models.Document.query.filter_by(
+        link="https://img_123.jpg").all()
     self.assertEqual(len(document), 1)
     control = all_models.Control.query.filter_by(slug="control-3").first()
-    self.assertEqual(control.documents_file[0].title, "Some title 3")
+    self.assertEqual(control.documents_reference_url[0].link,
+                    "https://img_123.jpg")
 
   def test_add_admin_to_document(self):
     """Test evidence should have current user as admin"""
@@ -44,7 +46,6 @@ class TestControlsImport(TestCase):
       ("code", control.slug),
       ("Reference Url", "supercool.com"),
     ]))
-    import ipdb;ipdb.set_trace()
     documents = all_models.Document.query.filter(
       all_models.Document.kind == all_models.Document.REFERENCE_URL).all()
     self.assertEquals(len(documents), 1)
@@ -122,3 +123,65 @@ class TestControlsImport(TestCase):
     fail_response = {u'message': u'Import failed due to server error.',
                      u'code': 400}
     self.assertNotEqual(response, fail_response)
+
+
+  def test_import_control_with_document_file(self):
+    """Test import document file should add warning"""
+    control = factories.ControlFactory()
+    response = self.import_data(collections.OrderedDict([
+        ("object_type", "Control"),
+        ("code", control.slug),
+        ("Document File", "supercool.com"),
+    ]))
+    docs = all_models.Document.query.filter(
+      all_models.Document.kind == all_models.Document.FILE).all()
+    self.assertEquals(len(docs), 0)
+    expected_warning = (u"Line 3: 'Document File' can't be changed via import."
+                        u" Please go on {} page and make changes"
+                        u" manually. "
+                        u"The column will be skipped".format(control.type))
+
+    self.assertEquals([expected_warning], response[0]['row_warnings'])
+
+  def test_import_assessment_with_doc_file_existing(self):
+    """If file already mapped to document not show warning to user"""
+    doc_url = "test_gdrive_url"
+
+    with factories.single_commit():
+      control = factories.ControlFactory()
+      control_slug = control.slug
+      doc = factories.DocumentFileFactory(link=doc_url)
+      factories.RelationshipFactory(source=control,
+                                    destination=doc)
+    response = self.import_data(collections.OrderedDict([
+        ("object_type", "Control"),
+        ("Code*", control_slug),
+        ("Document File", doc_url),
+    ]))
+    self.assertEquals([], response[0]['row_warnings'])
+
+
+  def test_import_assessment_with_doc_file_multiple(self):
+    """Show warning if at least one of Document Files not mapped"""
+    doc_url = "test_gdrive_url"
+
+    with factories.single_commit():
+      control = factories.ControlFactory()
+      control_slug = control.slug
+      doc1 = factories.DocumentFileFactory(link=doc_url)
+      factories.RelationshipFactory(source=control,
+                                    destination=doc1)
+      doc2 = factories.DocumentFileFactory(link="test_gdrive_url_2")
+      factories.RelationshipFactory(source=control,
+                                    destination=doc2)
+
+    response = self.import_data(collections.OrderedDict([
+        ("object_type", "Control"),
+        ("Code*", control_slug),
+        ("Document File", doc_url + "\n another_gdrive_url"),
+    ]))
+    expected_warning = (u"Line 3: 'Document File' can't be changed via import."
+                        u" Please go on {} page and make changes"
+                        u" manually. The column will be "
+                        u"skipped".format(control.type))
+    self.assertEquals([expected_warning], response[0]['row_warnings'])
