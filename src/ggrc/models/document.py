@@ -3,14 +3,15 @@
 
 """Module containing Document model."""
 
-from sqlalchemy import orm, exists
+from sqlalchemy import orm
 
 from ggrc import db
+from ggrc import login
 from ggrc.access_control.roleable import Roleable
 from ggrc.builder import simple_property
 from ggrc.fulltext.mixin import Indexed
-from ggrc.login import get_current_user_id
-from ggrc.models import exceptions, comment
+from ggrc.models import comment
+from ggrc.models import exceptions
 from ggrc.models import reflection
 from ggrc.models import mixins
 from ggrc.models.deferred import deferred
@@ -201,7 +202,8 @@ class Document(Roleable, Relatable, mixins.Titled,
         self.add_gdrive_file_folder(parent_folder_id)
       self._build_relationship(parent)
       self._parent_obj = None
-    elif self.kind == Document.FILE and self.source_gdrive_id and not self.link:
+    elif (self.kind == Document.FILE and
+          self.source_gdrive_id and not self.link):
       self.gdrive_id = self.source_gdrive_id
       from ggrc.gdrive.file_actions import get_gdrive_file_link
       self.link = get_gdrive_file_link(self.source_gdrive_id)
@@ -220,46 +222,22 @@ class Document(Roleable, Relatable, mixins.Titled,
   def is_with_parent_obj(self):
     return bool(hasattr(self, '_parent_obj') and self._parent_obj)
 
-  def is_user_has_admin_role(self, user_id, doc_admin_role_id):
-    """Check if user has Document Admin role"""
-    from ggrc.models import AccessControlList
-    (result,), = db.session.query(exists().where(
-        AccessControlList.person_id == user_id).where(
-        AccessControlList.ac_role_id == doc_admin_role_id).where(
-        AccessControlList.object_type == self.type).where(
-        AccessControlList.object_id == self.id)
-    )
-    return result
-
-  def insert_document_admin_role(self, user_id, doc_admin_role_id):
-    """Add Document Admin role to given user"""
-    from ggrc.access_control.list import AccessControlList
-    inserter = AccessControlList.__table__.insert()
-    db.session.execute(
-      inserter.values([{
-        "person_id": user_id,
-        "ac_role_id": doc_admin_role_id,
-        "object_type": self.type,
-        "object_id": self.id,
-      }])
-    )
-    self.log_revision(user_id, "POST", "modified")
-    db.session.commit()
-
-  def add_document_admin_role(self):
-    """Check if user has Document Admin role and add that role if not"""
-    from ggrc.models import AccessControlRole
-    user_id = get_current_user_id()
-    doc_admin_role_id = db.session.query(AccessControlRole.id).filter_by(
-        name="Admin", object_type=self.type).one().id
-    if not self.is_user_has_admin_role(user_id, doc_admin_role_id):
-      self.insert_document_admin_role(user_id, doc_admin_role_id)
+  def add_admin_role(self, with_commit=True):
+    """Add current user to Document Admins"""
+    from ggrc.models import all_models
+    admin_role = db.session.query(all_models.AccessControlRole).filter_by(
+        name="Admin", object_type=self.type).one()
+    self.extend_access_control_list([{
+        "ac_role": admin_role,
+        "person": login.get_current_user()
+    }])
+    if with_commit:
+      db.session.commit()
 
   def handle_relationship_created(self, target):
     """Add document to parent folder if specified"""
-    if (target.type in self.ALLOWED_PARENTS
-            and self.kind == Document.FILE
-            and self.source_gdrive_id):
+    if (target.type in self.ALLOWED_PARENTS and self.kind == Document.FILE and
+            self.source_gdrive_id):
       parent_folder_id = self._get_folder(target)
       self.add_gdrive_file_folder(parent_folder_id)
 

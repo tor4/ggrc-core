@@ -39,6 +39,7 @@ class DocumentLinkHandler(handlers.ColumnHandler):
         context=self.row_converter.obj.context,
         kind=self.KIND,
     )
+    document.add_admin_role(with_commit=False)
     return document
 
   def parse_item(self):

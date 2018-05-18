@@ -6,8 +6,8 @@
 """Test request import and updates."""
 
 import collections
-
-from ggrc import models
+from ggrc import db
+from ggrc.models import all_models
 
 from integration.ggrc import TestCase
 from integration.ggrc.models import factories
@@ -31,10 +31,30 @@ class TestControlsImport(TestCase):
     response = self.import_file("controls_no_warnings.csv")
     self._check_csv_response(response, {})
 
-    document = models.Document.query.filter_by(title="Some title 3").all()
+    document = all_models.Document.query.filter_by(title="Some title 3").all()
     self.assertEqual(len(document), 1)
-    control = models.Control.query.filter_by(slug="control-3").first()
+    control = all_models.Control.query.filter_by(slug="control-3").first()
     self.assertEqual(control.documents_file[0].title, "Some title 3")
+
+  def test_add_admin_to_document(self):
+    """Test evidence should have current user as admin"""
+    control = factories.ControlFactory()
+    self.import_data(collections.OrderedDict([
+      ("object_type", "Control"),
+      ("code", control.slug),
+      ("Reference Url", "supercool.com"),
+    ]))
+    import ipdb;ipdb.set_trace()
+    documents = all_models.Document.query.filter(
+      all_models.Document.kind == all_models.Document.REFERENCE_URL).all()
+    self.assertEquals(len(documents), 1)
+    admin_role = db.session.query(all_models.AccessControlRole).filter_by(
+      name="Admin", object_type="Document").one()
+    current_user = db.session.query(all_models.Person).filter_by(
+      email="user@example.com").one()
+    acr = documents[0].access_control_list[0]
+    self.assertEquals(acr.ac_role_id, admin_role.id)
+    self.assertEquals(acr.person_id, current_user.id)
 
   def test_import_control_end_date(self):
     """End date on control should be non editable."""
@@ -45,7 +65,7 @@ class TestControlsImport(TestCase):
         ("code", control.slug),
         ("Last Deprecated Date", "06/06/2017"),
     ]))
-    control = models.Control.query.get(control.id)
+    control = all_models.Control.query.get(control.id)
     self.assertEqual(1, len(resp))
     self.assertEqual(1, resp[0]["updated"])
     self.assertIsNone(control.end_date)
@@ -57,9 +77,9 @@ class TestControlsImport(TestCase):
     resp = self.import_data(collections.OrderedDict([
         ("object_type", "Control"),
         ("code", control.slug),
-        ("state", models.Control.DEPRECATED),
+        ("state", all_models.Control.DEPRECATED),
     ]))
-    control = models.Control.query.get(control.id)
+    control = all_models.Control.query.get(control.id)
     self.assertEqual(1, len(resp))
     self.assertEqual(1, resp[0]["updated"])
     self.assertEqual(control.status, control.DEPRECATED)
