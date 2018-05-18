@@ -265,8 +265,10 @@ import pubsub from '../../pub-sub';
       '{viewModel.instance} resolvePendingBindings': function () {
         this.viewModel.refreshRelatedDocuments();
       },
-      [`{viewModel.instance} ${REFRESH_MAPPING.type}`]() {
-        this.viewModel.refreshRelatedDocuments();
+      [`{viewModel.instance} ${REFRESH_MAPPING.type}`](instance, event) {
+        if (this.viewModel.attr('modelType') === event.destinationType) {
+          this.viewModel.refreshRelatedDocuments();
+        }
       },
       [`{viewModel.instance} ${DESTINATION_UNMAPPED.type}`](instance, event) {
         let item = event.item;
