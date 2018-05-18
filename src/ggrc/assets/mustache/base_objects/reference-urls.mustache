@@ -12,6 +12,7 @@
           {(urls)}="documents"
           {is-disabled}="isLoading"
           {is-not-editable}="isSnapshot"
+          {is-snapshot}="isSnapshot"
           (createUrl)="createRelatedDocument(%event.payload)"
           (removeUrl)="removeRelatedDocument(%event.payload)">
           <div class="related-urls__heading">

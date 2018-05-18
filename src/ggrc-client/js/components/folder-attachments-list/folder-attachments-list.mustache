@@ -22,7 +22,7 @@
             </div>
         {{/if_null}}
 
-        <object-list {items}="documents" {empty-message}="noItemsText">
+        <object-list {items}="documents" {empty-message}="noItemsText" {show-more}="showMore">
             <editable-document-object-list-item {document}="{.}">
             {{#unless readonly}}
                 <unmap-button

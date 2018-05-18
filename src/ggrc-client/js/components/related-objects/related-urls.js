@@ -38,8 +38,15 @@ export default can.Component.extend({
           return canAddUrl ? '' : 'None';
         },
       },
+      showMore: {
+        type: 'boolean',
+        get() {
+          return !this.attr('isSnapshot');
+        },
+      },
     },
     instance: null,
+    isSnaphot: false,
     element: null,
     urls: [],
     value: '',

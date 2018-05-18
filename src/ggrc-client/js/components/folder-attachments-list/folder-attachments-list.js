@@ -29,6 +29,12 @@ export default can.Component.extend({
             || this.attr('isMapping');
         },
       },
+      showMore: {
+        type: 'boolean',
+        get() {
+          return !this.attr('isSnapshot');
+        },
+      },
     },
     readonly: false,
     title: null,

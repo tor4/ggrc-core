@@ -37,10 +37,10 @@ import template from './show-more.mustache';
         },
         isOverLimit: {
           get: function () {
-            let items = this.attr('items');
+            let itemsCount = this.attr('items.length');
             let limit = this.attr('limit');
 
-            return items && items.length > limit;
+            return itemsCount > limit;
           },
         },
         visibleItems: {
@@ -57,12 +57,12 @@ import template from './show-more.mustache';
         },
         showAllButtonText: {
           get: function () {
-            let items = this.attr('items');
+            let itemsCount = this.attr('items.length');
             let limit = this.attr('limit');
             let shouldShowAllItems = this.attr('shouldShowAllItems');
 
             return !shouldShowAllItems ?
-              'Show more (' + (items.length - limit) + ')' :
+              'Show more (' + (itemsCount - limit) + ')' :
               'Show less';
           },
         },
