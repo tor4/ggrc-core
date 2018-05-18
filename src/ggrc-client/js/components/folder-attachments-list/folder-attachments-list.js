@@ -10,6 +10,7 @@ import {
   BEFORE_DOCUMENT_CREATE,
   DOCUMENT_CREATE_FAILED,
 } from '../../events/eventTypes';
+import Permission from '../../permission';
 import template from './folder-attachments-list.mustache';
 
 /**
@@ -29,6 +30,19 @@ export default can.Component.extend({
             || this.attr('isMapping');
         },
       },
+      readonly: {
+        type: 'boolean',
+        get() {
+          let instance = this.attr('instance');
+
+          if (!instance) {
+            return true;
+          }
+
+          let isSnapshot = this.attr('isSnapshot');
+          return isSnapshot || !Permission.is_allowed_for('update', instance);
+        },
+      },
       showMore: {
         type: 'boolean',
         get() {
@@ -40,6 +54,7 @@ export default can.Component.extend({
     title: null,
     tooltip: null,
     instance: null,
+    isSnapshot: false,
     folderError: null,
     isAttaching: false,
     isUnmapping: false,

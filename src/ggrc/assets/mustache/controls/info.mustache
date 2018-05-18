@@ -20,20 +20,13 @@
               {{>'/static/mustache/base_objects/reference-urls.mustache'}}
 
               <div class="row-fluid wrap-row">
-                  {{#if_helpers '\
-                    #if' isSnapshot '\
-                    or ^is_allowed' "update" instance context="for"}}
-                      <folder-attachments-list {title}="'Attachment'"
-                                            {readonly}="true"
-                                            {(is-revision-folder-loaded)}="instance.isRevisionFolderLoaded"
-                                            {instance}="instance">
-                      </folder-attachments-list>
-                  {{else}}
-                    <folder-attachments-list {title}="'Attachment'"
-                                          {instance}="instance"
-                                          {tooltip}="'A new copy of the file will be stored at the destination Control folder if exists or main gDrive folder of user.''">
-                    </folder-attachments-list>
-                  {{/if_helpers}}
+                <folder-attachments-list {title}="'Attachment'"
+                                      {(is-revision-folder-loaded)}="instance.isRevisionFolderLoaded"
+                                      {instance}="instance"
+                                      {is-snapshot}="isSnapshot"
+                                      {deny-no-folder}="true"
+                                      {tooltip}="'A new copy of the file will be stored at the destination Control folder if exists or main gDrive folder of user.''">
+                </folder-attachments-list>
               </div>
 
               <div class="custom-attr-wrap info-pane__section">
