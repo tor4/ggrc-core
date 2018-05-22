@@ -36,23 +36,23 @@ class TestControlsImport(TestCase):
     self.assertEqual(len(document), 1)
     control = all_models.Control.query.filter_by(slug="control-3").first()
     self.assertEqual(control.documents_reference_url[0].link,
-                    "https://img_123.jpg")
+                     "https://img_123.jpg")
 
   def test_add_admin_to_document(self):
     """Test evidence should have current user as admin"""
     control = factories.ControlFactory()
     self.import_data(collections.OrderedDict([
-      ("object_type", "Control"),
-      ("code", control.slug),
-      ("Reference Url", "supercool.com"),
+        ("object_type", "Control"),
+        ("code", control.slug),
+        ("Reference Url", "supercool.com"),
     ]))
     documents = all_models.Document.query.filter(
-      all_models.Document.kind == all_models.Document.REFERENCE_URL).all()
+        all_models.Document.kind == all_models.Document.REFERENCE_URL).all()
     self.assertEquals(len(documents), 1)
     admin_role = db.session.query(all_models.AccessControlRole).filter_by(
-      name="Admin", object_type="Document").one()
+        name="Admin", object_type="Document").one()
     current_user = db.session.query(all_models.Person).filter_by(
-      email="user@example.com").one()
+        email="user@example.com").one()
     acr = documents[0].access_control_list[0]
     self.assertEquals(acr.ac_role_id, admin_role.id)
     self.assertEquals(acr.person_id, current_user.id)
@@ -124,7 +124,6 @@ class TestControlsImport(TestCase):
                      u'code': 400}
     self.assertNotEqual(response, fail_response)
 
-
   def test_import_control_with_document_file(self):
     """Test import document file should add warning"""
     control = factories.ControlFactory()
@@ -134,7 +133,7 @@ class TestControlsImport(TestCase):
         ("Document File", "supercool.com"),
     ]))
     docs = all_models.Document.query.filter(
-      all_models.Document.kind == all_models.Document.FILE).all()
+        all_models.Document.kind == all_models.Document.FILE).all()
     self.assertEquals(len(docs), 0)
     expected_warning = (u"Line 3: 'Document File' can't be changed via import."
                         u" Please go on {} page and make changes"
@@ -160,7 +159,6 @@ class TestControlsImport(TestCase):
     ]))
     self.assertEquals([], response[0]['row_warnings'])
 
-
   def test_import_assessment_with_doc_file_multiple(self):
     """Show warning if at least one of Document Files not mapped"""
     doc_url = "test_gdrive_url"
@@ -185,3 +183,26 @@ class TestControlsImport(TestCase):
                         u" manually. The column will be "
                         u"skipped".format(control.type))
     self.assertEquals([expected_warning], response[0]['row_warnings'])
+
+  def test_update_reference_url(self):
+    """Reference Url updated properly via import"""
+    doc_url = "test_gdrive_url"
+    with factories.single_commit():
+      control1 = factories.ControlFactory()
+      control1_slug = control1.slug
+      control2 = factories.ControlFactory()
+
+      doc = factories.DocumentReferenceUrlFactory(link=doc_url)
+      factories.RelationshipFactory(source=control1, destination=doc)
+      factories.RelationshipFactory(source=control2, destination=doc)
+
+    self.import_data(collections.OrderedDict([
+        ("object_type", "Control"),
+        ("Code*", control1_slug),
+        ("Reference Url", "new_gdrive_url"),
+    ]))
+
+    control1 = all_models.Control.query.filter_by(slug=control1_slug).one()
+    self.assertEquals(1, len(control1.documents_reference_url))
+    self.assertEquals("new_gdrive_url",
+                      control1.documents_reference_url[0].link)
