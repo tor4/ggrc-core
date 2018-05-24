@@ -50,7 +50,7 @@ class DocumentReferenceUrlHandler(handlers.ColumnHandler):
         context=self.row_converter.obj.context,
         kind=self.KIND,
     )
-    document.add_admin_role(with_commit=False)
+    document.add_admin_role()
     return document
 
   def parse_item(self):

@@ -12,8 +12,8 @@ import logging
 import sqlalchemy
 from sqlalchemy import true
 from flask import flash
+from flask import Response
 from flask import g
-from flask import jsonify
 from flask import render_template
 from flask import url_for
 from flask import request
@@ -48,6 +48,7 @@ from ggrc.views import converters
 from ggrc.views import cron
 from ggrc.views import filters
 from ggrc.views import notifications
+from ggrc.views.utils import DocumentEndpoint
 from ggrc.views.registry import object_view
 from ggrc import utils
 from ggrc.utils import benchmark, helpers
@@ -712,43 +713,27 @@ def user_permissions():
 @app.route("/api/document/is_document_with_gdrive_id_exists", methods=["POST"])
 @login_required
 def is_document_exists():
-  """Check if document with gdrive_id exists"""
-  if "gdrive_id" not in request.json:
-    raise exceptions.BadRequest("gdrive_id is mandatory")
-  gdrive_id = request.json["gdrive_id"]
-  doc = all_models.Document.query.filter(
-      all_models.Document.gdrive_id == gdrive_id).first()
-  response = {"status": "not exists",
-              "gdrive_id": gdrive_id}
-  if doc:
-    response["status"] = "exists"
-    response["object"] = {
-        "type": "Document",
-        "id": doc.id,
-        "gdrive_id": gdrive_id
-    }
-    del response["gdrive_id"]
-  return jsonify(response)
+  """Check if documents with gdrive_ids are exists"""
+  DocumentEndpoint.validate_doc_request(request.json)
+  ids = request.json["gdrive_ids"]
+  result_set = db.session.query(all_models.Document.id,
+                                all_models.Document.gdrive_id).filter(
+      all_models.Document.gdrive_id.in_(ids))
+  response = DocumentEndpoint.build_doc_exists_response(request.json,
+                                                        result_set)
+  return Response(json.dumps(response),  mimetype='application/json')
 
 
 @app.route("/api/document/make_admin", methods=["POST"])
 @login_required
 def make_document_admin():
   """Add current user as document admin"""
-  if "gdrive_id" not in request.json:
-    raise exceptions.BadRequest("gdrive_id is mandatory")
-  gdrive_id = request.json["gdrive_id"]
-  doc = all_models.Document.query.filter(
-      all_models.Document.gdrive_id == gdrive_id).first()
-  response = {"status": "not exists",
-              "gdrive_id": gdrive_id}
-  if doc:
+  DocumentEndpoint.validate_doc_request(request.json)
+  ids = request.json["gdrive_ids"]
+  docs = all_models.Document.query.filter(
+      all_models.Document.gdrive_id.in_(ids))
+  for doc in docs:
     doc.add_admin_role()
-    response["status"] = "success"
-    response["object"] = {
-        "type": "Document",
-        "id": doc.id,
-        "gdrive_id": gdrive_id
-    }
-    del response["gdrive_id"]
-  return jsonify(response)
+  db.session.commit()
+  response = DocumentEndpoint.build_make_admin_response(request.json, docs)
+  return Response(json.dumps(response),  mimetype='application/json')

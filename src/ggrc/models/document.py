@@ -222,7 +222,7 @@ class Document(Roleable, Relatable, mixins.Titled,
   def is_with_parent_obj(self):
     return bool(hasattr(self, '_parent_obj') and self._parent_obj)
 
-  def add_admin_role(self, with_commit=True):
+  def add_admin_role(self):
     """Add current user to Document Admins"""
     from ggrc.models import all_models
     admin_role = db.session.query(all_models.AccessControlRole).filter_by(
@@ -231,8 +231,6 @@ class Document(Roleable, Relatable, mixins.Titled,
         "ac_role": admin_role,
         "person": login.get_current_user()
     }])
-    if with_commit:
-      db.session.commit()
 
   def handle_relationship_created(self, target):
     """Add document to parent folder if specified"""

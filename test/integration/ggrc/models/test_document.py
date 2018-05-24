@@ -284,8 +284,6 @@ class TestDocument(TestCase):
     rel_evidences = control.related_objects(_types=[document.type])
     self.assertEqual(document, rel_evidences.pop())
 
-  @mock.patch("ggrc.gdrive.file_actions.get_gdrive_file_link",
-              dummy_gdrive_response_link)
   def test_document_make_admin_endpoint(self):
     """Test /api/document/make_admin endpoint
 
@@ -299,16 +297,48 @@ class TestDocument(TestCase):
     doc = factories.DocumentFileFactory(gdrive_id="123")
     doc_id = doc.id
     self.api.set_user(editor)
-
+    request_data = json.dumps(dict(gdrive_ids=["123", "456"]))
     response = self.api.client.post("/api/document/make_admin",
-                                    data=json.dumps(dict(gdrive_id="123")),
+                                    data=request_data,
                                     content_type="application/json")
-    self.assertEqual(response.json["status"], "success")
+
+    updated = [obj for obj in response.json if obj["updated"]]
+    not_updated = [obj for obj in response.json if not obj["updated"]]
+
+    self.assertEquals(len(updated), 1)
+    self.assertEquals(updated[0]["object"]["id"], doc_id)
+    self.assertEquals(len(not_updated), 1)
+
     doc = all_models.Document.query.filter_by(id=doc_id).one()
     self.assertEquals(len(doc.access_control_list), 1)
     control_user = all_models.Person.query.get(editor.id)
     self.assertIn(control_user.id,
                   [acr.person_id for acr in doc.access_control_list])
+
+  def test_is_document_with_gdrive_id_exists_endpoint(self):
+    """Test /api/document/is_document_with_gdrive_id_exists endpoint"""
+    with factories.single_commit():
+      doc1 = factories.DocumentFileFactory(gdrive_id="123")
+      doc1_id = doc1.id
+      factories.DocumentFileFactory(gdrive_id="456")
+
+    endpoint_uri = "/api/document/is_document_with_gdrive_id_exists"
+    request_data1 = json.dumps(dict(gdrive_ids=["123", "456"]))
+    response1 = self.api.client.post(endpoint_uri, data=request_data1,
+                                     content_type="application/json")
+
+    self.assertEquals(len(response1.json), 2)
+    self.assertTrue(all([r["exists"] for r in response1.json]))
+
+    request_data2 = json.dumps(dict(gdrive_ids=["123", "999"]))
+    response2 = self.api.client.post(endpoint_uri, data=request_data2,
+                                     content_type="application/json")
+    self.assertEquals(len(response2.json), 2)
+    existing = [obj for obj in response2.json if obj["exists"]]
+    not_existing = [obj for obj in response2.json if not obj["exists"]]
+    self.assertEquals(len(existing), 1)
+    self.assertEquals(len(not_existing), 1)
+    self.assertEquals(existing[0]["object"]["id"], doc1_id)
 
   def test_add_to_parent_folder(self):
     """If parent has folder => add document to that folder"""
