@@ -19,71 +19,113 @@ import template from './create-document-button.mustache';
 
 const viewModel = can.Map.extend({
   parentInstance: null,
-  mapDocument(file) {
-    return this.checkDocumentExists(file)
-      .then((documentStatus) => {
-        if (documentStatus.status === 'exists') {
-          return this.useExistingDocument(documentStatus.object);
-        } else {
-          return this.createDocument(file);
-        }
+  mapDocuments(files) {
+    return this.checkDocumentsExist(files)
+      .then((statuses) => {
+        let newFiles = [];
+        let existingDocuments = [];
+        statuses.forEach((status) => {
+          if (status.exists) {
+            existingDocuments.push(status.object);
+          } else {
+            let file = files.find((file) => file.id === status.gdrive_id);
+            newFiles.push(file);
+          }
+        });
+
+        return can.when(
+          this.useExistingDocuments(existingDocuments),
+          this.createDocuments(newFiles)
+        ).then((existingDocs, newDocs) => {
+          return [...can.makeArray(existingDocs), ...can.makeArray(newDocs)];
+        });
       })
-      .then((document) => this.refreshPermissionsAndMap(document));
+      .then((documents) => this.refreshPermissionsAndMap(documents));
   },
-  checkDocumentExists(file) {
-    return $.post('/api/document/is_document_with_gdrive_id_exists', {
-      gdrive_id: file.id,
+  checkDocumentsExist(files) {
+    return $.post('/api/document/documents_exist', {
+      gdrive_ids: files.map((file) => file.id),
     });
   },
   /*
    * Adds current user to admins for existing document
    */
-  makeAdmin(document) {
+  makeAdmin(documents) {
     return $.post('/api/document/make_admin', {
-      gdrive_id: document.gdrive_id,
+      gdrive_ids: documents.map((document) => document.gdrive_id),
     });
   },
-  useExistingDocument(document) {
-    return this.showConfirm()
-      .then(() => this.makeAdmin(document))
+  useExistingDocuments(documents) {
+    let dfd = can.Deferred();
+
+    if (!documents.length) {
+      return dfd.resolve([]);
+    }
+
+    this.showConfirm(documents)
+      .then(
+        () => this.makeAdmin(documents),
+        () => dfd.resolve([]))
       .then(() => {
-        return new CMS.Models.Document(document);
+        let docs = documents.map((doc) => new CMS.Models.Document(doc));
+        dfd.resolve(docs);
       });
+
+    return dfd;
   },
-  createDocument(file) {
+  createDocuments(files) {
+    if (!files.length) {
+      return can.Deferred().resolve([]);
+    }
+
     this.attr('parentInstance').dispatch(BEFORE_DOCUMENT_CREATE);
 
-    let instance = new CMS.Models.Document({
-      title: file.title,
-      source_gdrive_id: file.id,
-      created_at: Date.now(),
-      context: {id: null},
+    let dfdDocs = files.map((file) => {
+      let instance = new CMS.Models.Document({
+        title: file.title,
+        source_gdrive_id: file.id,
+        created_at: Date.now(),
+        context: {id: null},
+      });
+
+      return instance.save();
     });
 
-    return instance.save()
-      .then((doc) => {
-        return doc;
-      }, () => {
+    return can.when(...dfdDocs)
+      .fail(() => {
         this.attr('parentInstance').dispatch(DOCUMENT_CREATE_FAILED);
       });
   },
-  refreshPermissionsAndMap(document) {
+  refreshPermissionsAndMap(documents) {
+    if (!documents.length) {
+      // handler in object-mapper will close mapper permanently
+      // if it still exists and removes html from the dom
+      if (this.attr('element')) {
+        this.attr('element').trigger('modal:dismiss');
+      }
+
+      return can.Deferred().resolve();
+    }
+
     return Permission.refresh()
       .then(function () {
         this.attr('parentInstance')
           .dispatch({
             ...MAP_OBJECTS,
-            objects: [document],
+            objects: documents,
           });
       }.bind(this));
   },
-  showConfirm() {
+  showConfirm(documents) {
     let confirmation = can.Deferred();
     let parentInstance = this.attr('parentInstance');
+    let docsCount = documents.length;
     confirm({
       modal_title: 'Warning',
-      modal_description: `This gDrive file is already mapped to GGRC. </br></br>
-        Please proceed to map existing doc to
+      modal_description: `${docsCount}
+        ${docsCount > 1 ? 'files are' : 'file is'}
+        already mapped to GGRC. </br></br>
+        Please proceed to map existing docs to
         "${parentInstance.type} ${parentInstance.title}"`,
       button_view:
         `${GGRC.mustache_path}/modals/confirm_cancel_buttons.mustache`,
@@ -99,24 +141,16 @@ export default can.Component.extend({
   template,
   viewModel,
   events: {
+    inserted() {
+      this.viewModel.attr('element', this.element);
+    },
     '.pick-file click'() {
       uploadFiles()
         .then((files) => {
-          let file = files[0];
-          this.attach(file);
+          this.viewModel.mapDocuments(files);
         }, () => {
           // event handler in object-mapper will open mapper again
           $(window).trigger('modal:dismiss');
-        });
-    },
-    attach(file) {
-      this.viewModel.mapDocument(file)
-        .fail(() => {
-          // handler in object-mapper will close mapper permanently
-          // if it still exists and removes html from the dom
-          if (this.element) {
-            this.element.trigger('modal:dismiss');
-          }
         });
     },
   },

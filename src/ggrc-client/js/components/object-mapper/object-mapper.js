@@ -151,7 +151,7 @@ import {backendGdriveClient} from '../../plugins/ggrc-gapi-client';
 
     events: {
       [`{parentInstance} ${MAP_OBJECTS.type}`](instance, event) {
-        this.map(event.objects[0]);
+        this.mapObjects(event.objects);
       },
       '.create-control modal:success': function (el, ev, model) {
         this.map(model);

@@ -19,77 +19,122 @@ describe('CreateDocumentButton component', () => {
   });
 
   describe('viewModel', () => {
-    describe('mapDocument() method', () => {
-      let checkDocumentExistsDfd;
+    describe('mapDocuments() method', () => {
+      let checkDocumentsExistDfd;
 
       beforeEach(() => {
-        checkDocumentExistsDfd = can.Deferred();
-        spyOn(viewModel, 'checkDocumentExists').and
-          .returnValue(checkDocumentExistsDfd);
+        checkDocumentsExistDfd = can.Deferred();
+        spyOn(viewModel, 'checkDocumentsExist').and
+          .returnValue(checkDocumentsExistDfd);
       });
 
-      it('should check wheteher document already exists', () => {
+      it('should check wheteher documents already exist', () => {
         let file = {};
-        viewModel.mapDocument(file);
+        spyOn(viewModel, 'createDocuments')
+          .and.returnValue(can.Deferred().resolve([]));
+        spyOn(viewModel, 'useExistingDocuments')
+          .and.returnValue(can.Deferred().resolve([]));
 
-        expect(viewModel.checkDocumentExists).toHaveBeenCalledWith(file);
+        viewModel.mapDocuments(file);
+
+        expect(viewModel.checkDocumentsExist).toHaveBeenCalledWith(file);
       });
 
-      it('should create a new document if it is not exist', (done) => {
-        let file = {};
-        spyOn(viewModel, 'createDocument');
+      it('should create a new documents if they are not exist', (done) => {
+        let file = {id: 1};
+        spyOn(viewModel, 'createDocuments')
+          .and.returnValue(can.Deferred().resolve([]));
+        spyOn(viewModel, 'useExistingDocuments')
+          .and.returnValue(can.Deferred().resolve([]));
 
-        viewModel.mapDocument(file);
+        viewModel.mapDocuments([file]);
 
-        checkDocumentExistsDfd.resolve({
-          status: 'not exists',
-        }).then(() => {
-          expect(viewModel.createDocument).toHaveBeenCalledWith(file);
+        checkDocumentsExistDfd.resolve([{
+          exists: false,
+          gdrive_id: 1,
+        }]).then(() => {
+          expect(viewModel.createDocuments).toHaveBeenCalledWith([file]);
           done();
         });
       });
 
-      it('should attach existing document if it already exists', (done) => {
-        let file = {};
+      it('should attach existing documents if they are already exists',
+        (done) => {
+          let file = {};
+          let existingDocument = {};
+          spyOn(viewModel, 'createDocuments')
+            .and.returnValue(can.Deferred().resolve([]));
+          spyOn(viewModel, 'useExistingDocuments')
+            .and.returnValue(can.Deferred().resolve([]));
+
+          viewModel.mapDocuments([file]);
+
+          checkDocumentsExistDfd.resolve([{
+            exists: true,
+            object: existingDocument,
+          }]).then(() => {
+            expect(viewModel.useExistingDocuments)
+              .toHaveBeenCalledWith([existingDocument]);
+            done();
+          });
+        });
+
+      it('should create new and attach existing documents', (done) => {
+        let file1 = {id: 1};
+        let file2 = {id: 2};
+        let files = [file1, file2];
+
         let existingDocument = {};
-        spyOn(viewModel, 'useExistingDocument');
 
-        viewModel.mapDocument(file);
+        spyOn(viewModel, 'createDocuments')
+          .and.returnValue(can.Deferred().resolve([]));
+        spyOn(viewModel, 'useExistingDocuments')
+          .and.returnValue(can.Deferred().resolve([]));
 
-        checkDocumentExistsDfd.resolve({
-          status: 'exists',
+        viewModel.mapDocuments(files);
+
+        checkDocumentsExistDfd.resolve([{
+          gdrive_id: 1,
+          exists: true,
           object: existingDocument,
-        }).then(() => {
-          expect(viewModel.useExistingDocument)
-            .toHaveBeenCalledWith(existingDocument);
+        }, {
+          gdrive_id: 2,
+          exists: false,
+        }]).then(() => {
+          expect(viewModel.useExistingDocuments)
+            .toHaveBeenCalledWith([existingDocument]);
+          expect(viewModel.createDocuments)
+            .toHaveBeenCalledWith([file2]);
           done();
         });
       });
 
-      it('should refresh permissions and map document', (done) => {
-        let document = {};
+      it('should refresh permissions and map documents', (done) => {
+        let document1 = {};
+        let document2 = {};
         spyOn(viewModel, 'refreshPermissionsAndMap');
-        spyOn(viewModel, 'createDocument').and.returnValue(document);
+        spyOn(viewModel, 'createDocuments')
+          .and.returnValue(can.Deferred().resolve([document1]));
+        spyOn(viewModel, 'useExistingDocuments')
+          .and.returnValue(can.Deferred().resolve([document2]));
 
-        viewModel.mapDocument({});
+        viewModel.mapDocuments([]);
 
-        checkDocumentExistsDfd.resolve({
-          status: 'not exists',
-        }).then(() => {
+        checkDocumentsExistDfd.resolve([]).then(() => {
           expect(viewModel.refreshPermissionsAndMap)
-            .toHaveBeenCalledWith(document);
+            .toHaveBeenCalledWith([document1, document2]);
           done();
         });
       });
     });
 
-    describe('createDocument() method', () => {
+    describe('createDocuments() method', () => {
       it('should dispatch beforeDocumentCreate event before saving document',
         () => {
           let parentInstance = viewModel.attr('parentInstance');
           spyOn(parentInstance, 'dispatch');
 
-          viewModel.createDocument({});
+          viewModel.createDocuments([{}]);
 
           expect(parentInstance.dispatch)
             .toHaveBeenCalledWith(BEFORE_DOCUMENT_CREATE);
@@ -100,7 +145,7 @@ describe('CreateDocumentButton component', () => {
         let newDocument = {};
         spyOn(CMS.Models.Document.prototype, 'save').and.returnValue(saveDfd);
 
-        viewModel.createDocument({});
+        viewModel.createDocuments([{}]);
 
         saveDfd.resolve(newDocument)
           .then((document) => {
@@ -111,24 +156,23 @@ describe('CreateDocumentButton component', () => {
 
       it('should dispatch documentCreateFailed event if document is not saved',
         (done) => {
-          let saveDfd = can.Deferred();
           let parentInstance = viewModel.attr('parentInstance');
           spyOn(parentInstance, 'dispatch');
 
-          spyOn(CMS.Models.Document.prototype, 'save').and.returnValue(saveDfd);
+          spyOn(CMS.Models.Document.prototype, 'save')
+            .and.returnValue(can.Deferred().reject());
 
-          viewModel.createDocument({});
+          let result = viewModel.createDocuments([{}]);
 
-          saveDfd.reject()
-            .fail(() => {
-              expect(parentInstance.dispatch.calls.mostRecent().args)
-                .toEqual([DOCUMENT_CREATE_FAILED]);
-              done();
-            });
+          result.fail(() => {
+            expect(parentInstance.dispatch.calls.mostRecent().args)
+              .toEqual([DOCUMENT_CREATE_FAILED]);
+            done();
+          });
         });
     });
 
-    describe('useExistingDocument() method', () => {
+    describe('useExistingDocuments() method', () => {
       let showConfirmDfd;
 
       beforeEach(() => {
@@ -137,7 +181,7 @@ describe('CreateDocumentButton component', () => {
       });
 
       it('should show confirm modal', () => {
-        viewModel.useExistingDocument();
+        viewModel.useExistingDocuments([{}]);
 
         expect(viewModel.showConfirm).toHaveBeenCalled();
       });
@@ -146,13 +190,26 @@ describe('CreateDocumentButton component', () => {
         let document = {};
         spyOn(viewModel, 'makeAdmin');
 
-        viewModel.useExistingDocument(document);
+        viewModel.useExistingDocuments([document]);
 
         showConfirmDfd.resolve()
           .then(() => {
-            expect(viewModel.makeAdmin).toHaveBeenCalledWith(document);
+            expect(viewModel.makeAdmin).toHaveBeenCalledWith([document]);
             done();
           });
+      });
+    });
+
+    describe('refreshPermissionsAndMap() method', () => {
+      it('should close object-mapper if there are nothing to map', () => {
+        let element = {
+          trigger: jasmine.createSpy(),
+        };
+        viewModel.attr('element', element);
+
+        viewModel.refreshPermissionsAndMap([]);
+
+        expect(element.trigger).toHaveBeenCalledWith('modal:dismiss');
       });
     });
   });
@@ -167,10 +224,9 @@ describe('CreateDocumentButton component', () => {
     describe('.pick-file click handler', () => {
       let handler;
       let uploadFilesDfd;
-      let context;
 
       beforeEach(() => {
-        context = {
+        let context = {
           viewModel,
           attach: jasmine.createSpy(),
         };
@@ -178,6 +234,7 @@ describe('CreateDocumentButton component', () => {
 
         uploadFilesDfd = can.Deferred();
         spyOn(pickerUtils, 'uploadFiles').and.returnValue(uploadFilesDfd);
+        spyOn(viewModel, 'mapDocuments');
       });
 
       it('should call uploadFiles method', () => {
@@ -186,7 +243,7 @@ describe('CreateDocumentButton component', () => {
         expect(pickerUtils.uploadFiles).toHaveBeenCalled();
       });
 
-      it('should call attach method if file is picked', (done) => {
+      it('should call mapDocuments method if file is picked', (done) => {
         let file = {};
         let files = [file];
 
@@ -194,7 +251,7 @@ describe('CreateDocumentButton component', () => {
 
         uploadFilesDfd.resolve(files)
           .then(() => {
-            expect(context.attach).toHaveBeenCalledWith(file);
+            expect(viewModel.mapDocuments).toHaveBeenCalledWith([file]);
             done();
           });
       });
@@ -211,46 +268,6 @@ describe('CreateDocumentButton component', () => {
             done();
           });
       });
-    });
-
-    describe('attach() method', () => {
-      let handler;
-      let mapDocumentDfd;
-      let element;
-
-      beforeEach(() => {
-        element = {
-          trigger: jasmine.createSpy(),
-        };
-
-        handler = events.attach.bind({
-          viewModel,
-          element,
-        });
-
-        mapDocumentDfd = can.Deferred();
-        spyOn(viewModel, 'mapDocument').and
-          .returnValue(mapDocumentDfd);
-      });
-
-      it('should call mapDocument', () => {
-        let file = {};
-        handler(file);
-        expect(viewModel.mapDocument).toHaveBeenCalledWith(file);
-      });
-
-      it(`should trigger modal:dismiss event
-        when document mapping is failed`,
-        (done) => {
-          handler({});
-
-          mapDocumentDfd.reject()
-            .fail(() => {
-              expect(element.trigger)
-                .toHaveBeenCalledWith('modal:dismiss');
-              done();
-            });
-        });
     });
   });
 });
