@@ -157,8 +157,7 @@ import pubsub from '../../pub-sub';
 
         return this.saveDocument(document)
           .then(this.createRelationship.bind(this))
-          .then(function (result) {
-            self.fetchAndUpdate(self.instance);
+          .then(function () {
             self.refreshRelatedDocuments();
           })
           .fail(function (err) {
@@ -195,7 +194,6 @@ import pubsub from '../../pub-sub';
 
         return this.removeRelationship(relationship)
           .then(function () {
-            self.fetchAndUpdate(self.instance);
             self.refreshRelatedDocuments();
           })
           .fail(function (err) {
@@ -228,11 +226,6 @@ import pubsub from '../../pub-sub';
             document
           );
           self.attr('isLoading', false);
-        });
-      },
-      fetchAndUpdate: function (instance) {
-        instance.refresh().then(function (refreshed) {
-          refreshed.save();
         });
       },
       refreshRelatedDocuments: function () {
