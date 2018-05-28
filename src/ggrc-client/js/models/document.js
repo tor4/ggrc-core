@@ -46,6 +46,8 @@ can.Model.Cacheable('CMS.Models.Document', {
     kind: 'FILE',
     access_control_list: getAccessControlList(),
     status: 'Active',
+    send_by_default: true,
+    recipients: 'Admin',
   },
   tree_view_options: {
     display_attr_names: ['title', 'status', 'updated_at', 'document_type'],
