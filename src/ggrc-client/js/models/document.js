@@ -36,7 +36,7 @@ can.Model.Cacheable('CMS.Models.Document', {
   ],
   kinds: [
     {title: 'File', value: 'FILE'},
-    {title: 'Refernce URL', value: 'REFERENCE_URL'},
+    {title: 'Reference URL', value: 'REFERENCE_URL'},
   ],
   attributes: {
     context: 'CMS.Models.Context.stub',
