@@ -167,12 +167,6 @@ import pubsub from '../../pub-sub';
             self.attr('isLoading', false);
           });
       },
-      removeRelationship: function (relationship) {
-        return relationship.refresh()
-          .then(function (refreshedRelationship) {
-            return refreshedRelationship.destroy();
-          });
-      },
       removeRelatedDocument: async function (document) {
         let self = this;
         let documents;
@@ -192,7 +186,7 @@ import pubsub from '../../pub-sub';
         this.attr('isLoading', true);
         this.attr('documents', documents);
 
-        return this.removeRelationship(relationship)
+        return relationship.destroy()
           .then(function () {
             self.refreshRelatedDocuments();
           })
