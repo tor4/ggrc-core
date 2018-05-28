@@ -51,6 +51,7 @@ can.Model.Cacheable('CMS.Models.Document', {
     display_attr_names: ['title', 'status', 'updated_at', 'document_type'],
     attr_list: [
       {attr_title: 'Title', attr_name: 'title'},
+      {attr_title: 'Code', attr_name: 'slug'},
       {attr_title: 'State', attr_name: 'status'},
       {attr_title: 'Type', attr_name: 'kind'},
       {attr_title: 'Last Updated By', attr_name: 'modified_by'},
