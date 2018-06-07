@@ -557,7 +557,7 @@ function makeRelevantExpression(requestedType,
     };
 
     expression.operation = operation ? operation :
-      _getTreeViewOperation(requestedType);
+      _getTreeViewOperation(requestedType, relevantToType);
   }
   return expression;
 }
@@ -700,15 +700,18 @@ function _createInstance(source, modelName) {
   return instance;
 }
 
-function _getTreeViewOperation(objectName) {
+function _getTreeViewOperation(objectName, relevantToType) {
   let isDashboard = isMyWork();
-  let operation;
-  if (isDashboard) {
-    operation = 'owned';
-  } else if (!isDashboard && objectName === 'Person') {
-    operation = 'related_people';
+
+  if (!isDashboard && objectName === 'Person') {
+    return 'related_people';
   }
-  return operation;
+  if (isDashboard) {
+    return 'owned';
+  }
+  if (objectName === 'Evidence' && relevantToType === 'Audit') {
+    return 'related_evidence';
+  }
 }
 
 export {
