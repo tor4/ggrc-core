@@ -49,6 +49,15 @@ export default can.Component.extend({
           return !this.attr('isSnapshot');
         },
       },
+      tooltip: {
+        get() {
+          let instance = this.attr('instance');
+          if (instance) {
+            return 'No copy will be created. Original files will be added to ' +
+              'the destination ' + instance.class.title_singular + ' folder.';
+          }
+        },
+      },
     },
     readonly: false,
     title: null,

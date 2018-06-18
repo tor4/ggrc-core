@@ -19,6 +19,14 @@
               {{>'/static/mustache/base_objects/contacts.mustache'}}
               {{>'/static/mustache/base_objects/reference-urls.mustache'}}
 
+              <div class="row-fluid wrap-row">
+                <folder-attachments-list {title}="'Attachment'"
+                                      {(is-revision-folder-loaded)}="instance.isRevisionFolderLoaded"
+                                      {instance}="instance"
+                                      {is-snapshot}="isSnapshot">
+                </folder-attachments-list>
+              </div>
+
               <div class="custom-attr-wrap info-pane__section">
                 <div class="row-fluid">
                   <div class="span12">
