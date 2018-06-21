@@ -43,6 +43,9 @@
   {{#case 'end_date'}}
     {{localize_date instance.end_date}}
   {{/case}}
+  {{#case 'due_date'}}
+    {{localize_date instance.due_date}}
+  {{/case}}
   {{#case 'title'}}
     <span>
     {{{firstnonempty instance.title instance.description_inline instance.name instance.email ''}}}
