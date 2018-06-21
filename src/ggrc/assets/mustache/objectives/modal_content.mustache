@@ -84,7 +84,9 @@
         </label>
         <input {{^if new_object_form}} disabled {{/if}} data-id="code_txtbx" tabindex="8" class="input-block-level" name="slug" placeholder="OBJECTIVE-XXX" type="text" value="{{slug}}">
       </div>
-      <effective-dates instance="instance"/>
+      <div class="span4 hidable">
+        <effective-dates instance="instance"/>
+      </div>
     </div>
   </div>
 

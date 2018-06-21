@@ -103,7 +103,9 @@
         <input data-id="code_txtbx" {{^if new_object_form}} disabled {{/if}} tabindex="7" id="section-code" class="input-block-level" name="slug" placeholder="RISK-XXX" type="text" value="{{slug}}">
       </div>
     {{/if}}
-    <effective-dates instance="instance"/>
+    <div class="span4 hidable">
+      <effective-dates instance="instance"/>
+    </div>
   </div>
 
   <div class="row-fluid">

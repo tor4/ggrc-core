@@ -84,6 +84,18 @@
                       {{/if}}
                     </div>
                   </div><!-- row-fluid end -->
+                  <div class="row-fluid wrap-row">
+                    <div class="span4">
+                      <h6>Due Date</h6>
+                      {{#if due_date}}
+                        <p>
+                          {{localize_date due_date}}
+                        </p>
+                      {{else}}
+                        <span class="empty-message">None</span>
+                      {{/if}}
+                    </div>
+                  </div>
                   {{#if instance.can_use_issue_tracker}}
                     <info-issue-tracker-fields
                       {instance}="instance"

@@ -83,7 +83,9 @@
       </label>
       <input {{^if new_object_form}} disabled {{/if}} tabindex="5" class="input-block-level" name="slug" placeholder="Threat-XXX" type="text" value="{{slug}}">
     </div>
-    <effective-dates instance="instance"/>
+    <div class="span4 hidable">
+      <effective-dates instance="instance"/>
+    </div>
   </div>
   <div class="row-fluid">
     <div class="span4 hidable">
