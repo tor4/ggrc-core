@@ -103,6 +103,7 @@ class AttributeInfo(object):
       "start_date",
       "end_date",
       "last_deprecated_date",
+      "due_date",
       "archived",
       "report_start_date",
       "report_end_date",
