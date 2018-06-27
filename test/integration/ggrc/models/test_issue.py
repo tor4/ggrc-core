@@ -2,6 +2,8 @@
 # Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 
 """Tests for Issue model."""
+import datetime
+
 from ggrc import db
 from ggrc.models import all_models
 from integration.ggrc import generator
@@ -51,6 +53,45 @@ class TestIssue(TestCase):
 
     statuses = {i["status"] for i in response.json[0]["Issue"]["values"]}
     self.assertEqual(statuses, {"Fixed", "Fixed and Verified"})
+
+
+class TestIssueDueDate(TestCase):
+  """Test suite to test Due Date of Issue"""
+
+  def setUp(self):
+    self.clear_data()
+    super(TestIssueDueDate, self).setUp()
+    self.api = Api()
+
+  def test_issue_due_date_post(self):
+    """Test POST requests to Issue.due_date"""
+    response = self.api.post(all_models.Issue, data={
+        "issue": {
+            "title": "TestDueDate",
+            "context": None,
+            "due_date": "06/14/2018",
+        }
+    })
+    self.assertEqual(201, response.status_code)
+    due_date = all_models.Issue.query.first().due_date.strftime("%m/%d/%Y")
+    self.assertEqual(due_date, "06/14/2018")
+
+  def test_issue_due_date_get(self):
+    """Test GET HTTP requests to Issue.due_date"""
+    issue = factories.IssueFactory(due_date=datetime.date(2018, 6, 14))
+    response = self.api.get(all_models.Issue, issue.id)
+    issue_json = response.json
+    self.assert200(response)
+    self.assertEqual(issue_json["issue"]["due_date"], "2018-06-14")
+
+  def test_issue_due_date_put(self):
+    """Test PUT HTTP requests to Issue.due_date"""
+    issue = factories.IssueFactory(due_date=datetime.date(2018, 6, 14))
+    data = issue.log_json()
+    data["due_date"] = "2018-06-15"
+    response = self.api.put(issue, data)
+    self.assert200(response)
+    self.assertEqual(response.json["issue"]["due_date"], "2018-06-15")
 
 
 class TestIssueAuditMapping(TestCase):
