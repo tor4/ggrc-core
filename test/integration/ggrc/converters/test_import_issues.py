@@ -44,6 +44,21 @@ class TestImportIssues(TestCase):
               issue.slug, audit.slug)
       )
 
+  def test_issue_due_date_import(self):
+    """Test issue due date import."""
+    test_due_date = "15/06/2018"
+    response = self.import_data(OrderedDict([
+        ("object_type", "Issue"),
+        ("Code*", ""),
+        ("Title*", "Test issue due_date"),
+        ("Admin*", "user@example.com"),
+        ("Due Date", test_due_date),
+    ]))
+    self._check_csv_response(response, {})
+    issue = models.all_models.Issue.query.first()
+    due_date = issue.due_date.strftime("%d/%m/%Y")
+    self.assertEqual(due_date, test_due_date)
+
   def test_audit_change(self):
     """Test audit changing"""
     with factories.single_commit():
