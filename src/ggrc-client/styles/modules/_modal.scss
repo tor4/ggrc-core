@@ -691,6 +691,14 @@
      }
    }
 
+   folder-attachments-list {
+     margin-bottom: 20px;
+
+     .folder-attachments-list {
+       margin-bottom: 0;
+     }
+   }
+
    global-custom-attributes {
     &.ggrc-form .ggrc-form-item {
       width: 100%;

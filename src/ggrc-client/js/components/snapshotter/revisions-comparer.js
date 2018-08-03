@@ -57,10 +57,6 @@ export default can.Component.extend({
               let revisions = that.prepareInstances(data);
               let fragLeft = can.view(view, revisions[0]);
               let fragRight = can.view(view, revisions[1]);
-              let attachmentsDfds =
-                that.isContainsAttachments(that.instance) ?
-                  that.getAttachmentsDfds(revisions) :
-                  [];
 
               if (displayDescriptions) {
                 const leftRevisionData = that.getRevisionData(
@@ -85,13 +81,6 @@ export default can.Component.extend({
 
                   that.highlightDifference(target);
                   that.highlightCustomAttributes(target, revisions);
-                })
-                .then(() => {
-                  if (attachmentsDfds.length) {
-                    $.when(...attachmentsDfds).then(() => {
-                      that.highlightDifference(target);
-                    });
-                  }
                 });
             });
         },
@@ -126,42 +115,6 @@ export default can.Component.extend({
         return refreshQueue.trigger();
       }
       return can.Deferred().resolve();
-    },
-    buildAttachmentsDfd: function (instance, bindingName) {
-      let dfd = new can.Deferred();
-      instance.bind(bindingName, function (target, isLoaded) {
-        if (isLoaded) {
-          dfd.resolve();
-        } else {
-          dfd.reject();
-        }
-
-        instance.unbind(bindingName);
-      });
-
-      return dfd;
-    },
-    getAttachmentsDfds: function (revisions) {
-      let dfds = [];
-      let that = this;
-
-      if (!revisions) {
-        return [];
-      }
-
-      revisions.forEach(function (revision) {
-        let instance = revision.attr('instance');
-
-        if (instance.folder) {
-          dfds.push(
-            that.buildAttachmentsDfd(instance, 'isRevisionFolderLoaded'));
-        }
-      });
-
-      return dfds;
-    },
-    isContainsAttachments: function (instance) {
-      return instance.type === 'Control';
     },
     getRevisions: function (currentRevisionID, newRevisionID) {
       let notCached = [];
@@ -207,7 +160,6 @@ export default can.Component.extend({
 
         content.attr('isRevision', true);
         content.attr('type', value.resource_type);
-        content.attr('isRevisionFolderLoaded', false);
 
         if (content.access_control_list) {
           content.access_control_list.forEach(function (item) {
@@ -292,8 +244,7 @@ export default can.Component.extend({
       const attributesSelector = `.row-fluid h6 + *,
         .pane-header__title-details .state-value,
         .pane-header__title-details h3,
-        related-documents,
-        folder-attachments-list`;
+        related-documents`;
       let infoPanes = $target.find('.info .tier-content');
       let valuesOld = infoPanes.eq(0).find(attributesSelector);
       let valuesNew = infoPanes.eq(1).find(attributesSelector);

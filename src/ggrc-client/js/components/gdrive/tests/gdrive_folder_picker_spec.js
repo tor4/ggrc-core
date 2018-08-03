@@ -21,6 +21,32 @@ describe('gdrive-folder-picker component', function () {
     viewModel = getComponentVM(Component);
   });
 
+  describe('viewModel', () => {
+    describe('setRevisionFolder() method', () => {
+      it('sets current folder if selected', () => {
+        viewModel.attr('instance', {
+          folder: folderId,
+        });
+
+        spyOn(viewModel, 'setCurrent');
+
+        viewModel.setRevisionFolder();
+        expect(viewModel.setCurrent).toHaveBeenCalled();
+      });
+
+      it('doesnt set current folder if not selected', () => {
+        viewModel.attr('instance', {
+          folder: null,
+        });
+
+        spyOn(viewModel, 'setCurrent');
+
+        viewModel.setRevisionFolder();
+        expect(viewModel.setCurrent).not.toHaveBeenCalled();
+      });
+    });
+  });
+
   describe('events', function () {
     describe('"inserted" handler', function () {
       let method;
@@ -34,41 +60,15 @@ describe('gdrive-folder-picker component', function () {
         method = events.inserted.bind(that);
       });
 
-      it('does nothing when folder is not attached', function () {
-        viewModel.attr('instance', {
-          folder: null,
-        });
-        viewModel.attr('readonly', true);
-
-        spyOn(viewModel, 'setRevisionFolder');
-        spyOn(viewModel, 'setCurrent');
-
-        method();
-        expect(viewModel.setRevisionFolder).not.toHaveBeenCalled();
-        expect(viewModel.setCurrent).not.toHaveBeenCalled();
-      });
-
-      it('calls setRevisionFolder() for snapshot with attached folder',
-        function () {
-          viewModel.attr('instance', {
-            folder: folderId,
-          });
-          viewModel.attr('readonly', true);
-          spyOn(viewModel, 'setRevisionFolder');
-
-          method();
-          expect(viewModel.setRevisionFolder).toHaveBeenCalled();
-        });
-
-      it('calls setCurrent() when folder is attached', function () {
+      it('calls setRevisionFolder()', function () {
         viewModel.attr('instance', {
           folder: folderId,
         });
-        viewModel.attr('readonly', false);
-        spyOn(viewModel, 'setCurrent');
+        viewModel.attr('readonly', true);
+        spyOn(viewModel, 'setRevisionFolder');
 
         method();
-        expect(viewModel.setCurrent).toHaveBeenCalledWith(folderId);
+        expect(viewModel.setRevisionFolder).toHaveBeenCalled();
       });
     });
 

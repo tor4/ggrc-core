@@ -84,50 +84,6 @@ describe('revisions-comparer companent', function () {
     });
   });
 
-  describe('getAttachmentsDfds() method', function () {
-    let method;
-    let revisions;
-
-    beforeEach(function () {
-      let prepareInstancesMethod = viewModel.prepareInstances
-        .bind(viewModel);
-      let fakeData = [
-        {
-          id: 1,
-          content: new can.Map({id: 1}),
-          resource_type: 'Control',
-        }, {
-          id: 2,
-          content: new can.Map({id: 1}),
-          resource_type: 'Control',
-        },
-      ];
-
-      method = viewModel.getAttachmentsDfds.bind(viewModel);
-      revisions = new can.List(prepareInstancesMethod(fakeData));
-    });
-
-    it('getAttachmentsDfds() should return 1 dfd', function () {
-      let dfds;
-      revisions[0].attr('instance').folder = 'EWheNKvwjhrcwWer';
-      dfds = method(revisions);
-      expect(dfds.length).toEqual(1);
-    });
-
-    it('getAttachmentsDfds() should return 2 dfds', function () {
-      let dfds;
-      revisions[0].attr('instance').folder = 'EWheNKvwjhrcwWer';
-      revisions[1].attr('instance').folder = 'vewbetWhercwWer';
-      dfds = method(revisions);
-      expect(dfds.length).toEqual(2);
-    });
-
-    it('getAttachmentsDfds() should return empty array', function () {
-      let dfds = method();
-      expect(dfds.length).toEqual(0);
-    });
-  });
-
   describe('getRevisions() method', function () {
     let method;
 

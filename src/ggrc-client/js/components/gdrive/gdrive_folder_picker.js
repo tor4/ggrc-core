@@ -20,13 +20,6 @@ export default can.Component.extend({
         type: 'boolean',
         value: false,
       },
-      hasRevisionFolder: {
-        type: 'boolean',
-        get: function () {
-          return this.attr('readonly') &&
-            this.instance.folder;
-        },
-      },
       hideLabel: {
         type: 'boolean',
         value: false,
@@ -45,7 +38,6 @@ export default can.Component.extend({
     tabindex: '@',
     placeholder: '@',
     instance: null,
-    isRevisionFolderLoaded: false,
     /**
      * Helper method for unlinking folder currently linked to the
      * given instance.
@@ -93,21 +85,9 @@ export default can.Component.extend({
       this.attr('current_folder', null);
     },
     setRevisionFolder: function () {
-      let folderId;
-
-      if (!this.attr('hasRevisionFolder')) {
-        this.attr('isRevisionFolderLoaded', true);
-        return;
-      }
-
-      folderId = this.instance.attr('folder');
+      let folderId = this.instance.attr('folder');
       if (folderId) {
-        this.attr('isRevisionFolderLoaded', false);
-
-        this.setCurrent(folderId)
-          .then(function () {
-            this.attr('isRevisionFolderLoaded', true);
-          }.bind(this));
+        this.setCurrent(folderId);
       }
     },
   },
@@ -115,32 +95,21 @@ export default can.Component.extend({
   events: {
     inserted: function () {
       let viewModel = this.viewModel;
-      let folderId;
 
-      if (viewModel.attr('hasRevisionFolder')) {
-        viewModel.setRevisionFolder();
-      } else {
+      if (!viewModel.attr('readonly')) {
         this.element.removeAttr('tabindex');
-
-        folderId = viewModel.instance.attr('folder');
-        if (folderId) {
-          viewModel.setCurrent(folderId);
-        }
       }
+
+      viewModel.setRevisionFolder();
     },
 
     '{viewModel.instance} change': function (inst, ev, attr) {
-      let folderId;
-
       // Error recovery from previous refresh_instances error when we couldn't set up the binding.
       if (!this.viewModel.folder_error) {
         return;
       }
 
-      folderId = this.viewModel.instance.attr('folder');
-      if (folderId) {
-        this.viewModel.setCurrent(folderId);
-      }
+      this.viewModel.setRevisionFolder();
     },
 
     /**

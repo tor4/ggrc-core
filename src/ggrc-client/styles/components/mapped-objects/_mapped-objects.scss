@@ -221,11 +221,11 @@
   display: flex;
   line-height: 26px;
   max-width: 440px;
+  margin-bottom: 5px;
 
   .mapped-folder__folder-info {
     display: flex;
     max-width: 100%;
-    margin-bottom: 5px;
 
     .mapped-folder__link {
       font-style: italic;
