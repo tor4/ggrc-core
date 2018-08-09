@@ -157,7 +157,6 @@ class TestCommentNotification(TestCase):
 
   @ddt.data(
       factories.AccessGroupFactory,
-      factories.ClauseFactory,
       factories.ControlFactory,
       factories.DataAssetFactory,
       factories.FacilityFactory,

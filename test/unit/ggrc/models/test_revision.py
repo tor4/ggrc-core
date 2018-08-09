@@ -179,7 +179,11 @@ class TestCheckPopulatedContent(unittest.TestCase):
                        expected)
 
   @ddt.data([{"status": "Active"}, {"status": "Active"}, "AccessGroup"],
-            [{"status": "Deprecated"}, {"status": "Deprecated"}, "Clause"],
+            [
+                {"status": "Deprecated"},
+                {"status": "Deprecated"},
+                "Requirement"
+            ],
             [{"status": "Draft"}, {"status": "Draft"}, "Control"],
             [{"status": "Effective"}, {"status": "Active"}, "DataAsset"],
             [{"status": "Final"}, {"status": "Active"}, "Directive"],

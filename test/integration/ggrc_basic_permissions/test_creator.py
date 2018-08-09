@@ -252,7 +252,7 @@ class TestCreator(TestCase):
         "/search?"
         "q=&types=Program%2CWorkflow_All%2C"
         "Audit%2CAssessment%2CIssue%2CRegulation%2C"
-        "Policy%2CStandard%2CContract%2CClause%2CRequirement%2CControl%2C"
+        "Policy%2CStandard%2CContract%2CRequirement%2CControl%2C"
         "Objective%2CPerson%2COrgGroup%2CVendor%2CAccessGroup%2CSystem%2C"
         "Process%2CDataAsset%2CProduct%2CProject%2CFacility%2C"
         "Market%2CRisk%2CThreat&counts_only=true&"

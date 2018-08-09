@@ -14,7 +14,6 @@ from integration.ggrc.models import factories
 
 COMMENTABLE_MODELS = [
     "AccessGroup",
-    "Clause",
     "Control",
     "DataAsset",
     "Facility",
