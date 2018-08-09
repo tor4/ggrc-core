@@ -51,11 +51,11 @@ class TestCreator(TestCase):
     audit_id = factories.AuditFactory().id
     all_errors = []
     base_models = {
-        "Control", "DataAsset", "Contract",
+        "Control", "DataAsset", "Contract", "Requirement",
         "Policy", "Regulation", "Standard", "Document", "Facility",
         "Market", "Objective", "OrgGroup", "Vendor", "Product",
-        "Clause", "System", "Process", "Project", "AccessGroup",
-        "Metric", "ProductGroup", "TechnologyEnvironment"
+        "System", "Process", "Project", "AccessGroup",
+        "Metric", "ProductGroup", "TechnologyEnvironment",
     }
     for model_singular in base_models:
       try:
