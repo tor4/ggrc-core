@@ -172,7 +172,6 @@ permissions = {
             "condition": "relationship",
         },
         "Requirement",
-        "Clause",
         "SystemOrProcess",
         "System",
         "Process",

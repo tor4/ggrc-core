@@ -314,7 +314,6 @@ class Revision(base.ContextRBAC, Base, db.Model):
     pop_models = {
         # ggrc
         "AccessGroup",
-        "Clause",
         "Control",
         "DataAsset",
         "Directive",
