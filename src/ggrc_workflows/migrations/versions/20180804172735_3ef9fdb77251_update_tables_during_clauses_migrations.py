@@ -28,14 +28,14 @@ CHANGE_TASK_GROUP_OBJECT = """
 """
 
 DROP_ID_MAPPING_TABLE = "DROP TABLE `clause_id_mapping`"
-
+DROP_CLAUSES_TABLE = "DROP TABLE `clauses`"
 
 def upgrade():
   """Upgrade database schema and/or data, creating a new revision."""
 
   op.execute(CHANGE_TASK_GROUP_OBJECT)
   op.execute(DROP_ID_MAPPING_TABLE)
-
+  op.execute(DROP_CLAUSES_TABLE)
 
 def downgrade():
   """Downgrade database schema and/or data back to the previous revision."""
