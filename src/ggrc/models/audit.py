@@ -235,12 +235,12 @@ def build_audit_stub(obj):
   audit_id = obj.audit_id
   if audit_id is None:
     return None
-  issue_obj = issuetracker_issue.IssuetrackerIssue.get_issue(
-      'Audit', audit_id)
+  # issue_obj = issuetracker_issue.IssuetrackerIssue.get_issue(
+  #     'Audit', audit_id)
   return {
       'type': 'Audit',
       'id': audit_id,
       'context_id': obj.context_id,
       'href': '/api/audits/%d' % audit_id,
-      'issue_tracker': issue_obj.to_dict() if issue_obj is not None else {},
+      # 'issue_tracker': issue_obj.to_dict() if issue_obj is not None else {},
   }

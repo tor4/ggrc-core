@@ -8,6 +8,7 @@ from sqlalchemy import orm
 
 from ggrc import db
 from ggrc import models
+from ggrc.models import issuetracker_issue
 from ggrc.utils import benchmark
 from ggrc.rbac import permissions
 from ggrc.services import common
@@ -55,11 +56,14 @@ class AssessmentResource(common.ExtendedResource):
         models.Audit.title,
         models.Audit.description,
     ).filter_by(id=assessment.audit_id).first()
+    issue_obj = issuetracker_issue.IssuetrackerIssue.get_issue(
+      'Audit', assessment.audit_id)
     return {
         "id": assessment.audit_id,
         "type": "Audit",
         "title": audit.title,
         "description": audit.description,
+        'issue_tracker': issue_obj.to_dict() if issue_obj is not None else {},
     }
 
   @staticmethod
