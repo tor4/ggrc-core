@@ -114,6 +114,16 @@ const RELATED_ITEMS_LOADED = {
 };
 
 /**
+ * Notifies that related audit is loaded
+ * @event RELATED_AUDIT_LOADED
+ * @type {object}
+ * @property {string} type - Event name.
+ */
+const RELATED_AUDIT_LOADED = {
+  type: 'RELATED_AUDIT_LOADED',
+};
+
+/**
  * Notifies that new comment created and sends its instance
  * @event COMMENT_CREATED
  * @type {object}
@@ -209,6 +219,7 @@ export {
   REFRESH_PROPOSAL_DIFF,
   REFRESH_COMMENTS,
   RELATED_ITEMS_LOADED,
+  RELATED_AUDIT_LOADED,
   COMMENT_CREATED,
   BEFORE_MAPPING,
   REFRESH_MAPPING,

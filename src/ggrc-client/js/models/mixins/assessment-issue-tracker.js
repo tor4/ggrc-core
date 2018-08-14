@@ -10,33 +10,30 @@ import {
   batchRequests,
 } from '../../plugins/utils/query-api-utils';
 import {getPageInstance} from '../../plugins/utils/current-page-utils';
+import {RELATED_AUDIT_LOADED} from '../../events/eventTypes';
 
 export default Mixin('assessmentIssueTracker',
   issueTrackerUtils.issueTrackerStaticFields,
   {
     'after:init': function () {
-      this.initIssueTracker().then(() => {
-        this.trackAuditUpdates();
-      });
+      this.trackAuditUpdates();
+
+      if (this.isNew()) {
+        this.initIssueTracker();
+      }
     },
     'before:refresh'() {
       issueTrackerUtils.cleanUpWarnings(this);
     },
-    'after:refresh'() {
-      this.initIssueTracker();
+    'before:destroy'() {
+      this.unbind(RELATED_AUDIT_LOADED.type);
     },
     after_save() {
       issueTrackerUtils.checkWarnings(this);
     },
     trackAuditUpdates() {
-      let audit = this.attr('audit') && this.attr('audit').reify();
-      if (!audit) {
-        return;
-      }
-
-      audit.reify().bind('updated', (event) => {
-        this.attr('audit', event.target);
-        this.initIssueTrackerForAssessment();
+      this.bind(RELATED_AUDIT_LOADED.type, () => {
+        this.initIssueTracker();
       });
     },
     initIssueTracker() {
@@ -48,45 +45,20 @@ export default Mixin('assessmentIssueTracker',
         this.attr('issue_tracker', new can.Map({}));
       }
 
-      let dfd = can.Deferred();
-
-      this.ensureParentAudit().then((audit) => {
-        if (audit) {
-          this.attr('audit', audit);
-          this.initIssueTrackerForAssessment();
-          dfd.resolve();
-        } else {
-          dfd.reject();
-        }
-      });
-      return dfd;
+      let audit = this.getParentAudit();
+      if (audit) {
+        this.initIssueTrackerForAssessment();
+      }
     },
-    ensureParentAudit() {
-      const pageInstance = getPageInstance();
-      const dfd = new can.Deferred();
-      if (this.audit) {
-        return dfd.resolve(this.audit);
-      }
-
+    getParentAudit() {
       if (this.isNew()) {
+        let pageInstance = getPageInstance();
         if (pageInstance && pageInstance.type === 'Audit') {
-          dfd.resolve(pageInstance);
+          return pageInstance;
         }
-      } else {
-        // audit is not page instane if AssessmentTemplate is edited
-        // from Global Search results
-        const param = buildParam('Audit', {}, {
-          type: this.type,
-          id: this.id,
-        }, ['id', 'title', 'type', 'context', 'issue_tracker']);
-
-        batchRequests(param).then((response) => {
-          this.audit = _.get(response, 'Audit.values[0]');
-          dfd.resolve(this.audit);
-        });
       }
 
-      return dfd;
+      return this.attr('audit');
     },
     /**
      * Initializes Issue Tracker for Assessment and Assessment Template
@@ -114,7 +86,7 @@ export default Mixin('assessmentIssueTracker',
       );
     },
     issueCreated() {
-      return this.attr('can_use_issue_tracker')
+      return GGRC.ISSUE_TRACKER_ENABLED
         && issueTrackerUtils.isIssueCreated(this);
     },
     issueTrackerEnabled() {

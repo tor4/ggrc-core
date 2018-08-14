@@ -6,7 +6,12 @@
 import Mixin from './mixin';
 
 export default Mixin('inScopeObjectsPreload', {}, {
-  'after:info_pane_preload': function () {
+  'after:info_pane_preload'() {
+    if (this.updateScopeObject) {
+      this.updateScopeObject();
+    }
+  },
+  'after:form_preload'() {
     if (this.updateScopeObject) {
       this.updateScopeObject();
     }

@@ -19,6 +19,7 @@ import '../mixins/access-control-list';
 import '../mixins/refetch-hash';
 import '../mixins/assessment-issue-tracker';
 import '../mixins/related-assessments-loader';
+import {RELATED_AUDIT_LOADED} from '../../events/eventTypes';
 
 export default Cacheable('CMS.Models.Assessment', {
   root_object: 'assessment',
@@ -400,13 +401,16 @@ export default Cacheable('CMS.Models.Assessment', {
 
     return $.get(`/api/assessments/${this.attr('id')}/related_objects`)
       .then((response) => {
-        let auditTitle = response.Audit.title;
+        let audit = response.Audit;
 
         stopFn();
 
         if (this.attr('audit')) {
-          this.attr('audit.title', auditTitle);
+          this.attr('audit.title', audit.title);
+          this.attr('audit.issue_tracker', audit.issue_tracker);
         }
+
+        this.dispatch(RELATED_AUDIT_LOADED.type, audit);
 
         return response;
       }, stopFn.bind(null, true));

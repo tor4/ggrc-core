@@ -8,6 +8,7 @@ import {
   buildParam,
   batchRequests,
 } from '../../plugins/utils/query-api-utils';
+import {RELATED_AUDIT_LOADED} from '../../events/eventTypes';
 
 export default Mixin('inScopeObjects', {}, {
   updateScopeObject: function () {
@@ -24,10 +25,12 @@ export default Mixin('inScopeObjects', {}, {
         id: this.attr('id'),
       }, queryFields);
     return batchRequests(query)
-      .done(function (valueArr) {
+      .done((valueArr) => {
         let audit = valueArr[objType][queryType][0];
 
         this.attr('audit', audit);
-      }.bind(this));
+
+        this.dispatch(RELATED_AUDIT_LOADED.type, audit);
+      });
   },
 });
