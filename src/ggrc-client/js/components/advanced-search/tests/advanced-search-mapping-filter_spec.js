@@ -76,8 +76,7 @@ describe('advanced-search-mapping-criteria component', () => {
     Metric: common,
     Objective: common,
     OrgGroup: common,
-    Person: _.difference(modules.core, ['Person'])
-      .concat(['Assessment', 'UserRole']),
+    Person: _.difference(modules.core, ['Person']).concat(['Assessment']),
     Policy: common,
     Process: common,
     Product: common,
