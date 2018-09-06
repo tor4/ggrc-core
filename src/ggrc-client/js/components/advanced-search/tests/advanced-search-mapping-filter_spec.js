@@ -61,8 +61,7 @@ describe('advanced-search-mapping-criteria component', () => {
     Assessment: modules.core.concat(modules.audit),
     AssessmentTemplate: _.difference(modules.core.concat(modules.audit),
       ['Evidence', 'Person']),
-    Audit: _.difference(modules.core, ['Person'])
-      .concat(modules.audit, ['Context']),
+    Audit: _.difference(modules.core, ['Person']).concat(modules.audit),
     Contract: common,
     Control: common,
     CycleTaskGroupObjectTask: _.difference(modules.core, ['Person', 'Document'])
@@ -81,7 +80,7 @@ describe('advanced-search-mapping-criteria component', () => {
     Process: common,
     Product: common,
     ProductGroup: common,
-    Program: common.concat(['Context']),
+    Program: common,
     Project: common,
     Regulation: common,
     Requirement: common,
@@ -93,7 +92,7 @@ describe('advanced-search-mapping-criteria component', () => {
     TechnologyEnvironment: common,
     Threat: common,
     Vendor: common,
-    Workflow: ['Context', 'TaskGroup'],
+    Workflow: ['TaskGroup'],
   };
 
   beforeEach(() => {
