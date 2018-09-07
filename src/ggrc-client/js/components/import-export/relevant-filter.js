@@ -4,7 +4,6 @@
 */
 
 import template from './templates/relevant-filter.mustache';
-import Mappings from '../../models/mappers/mappings';
 import * as businessModels from '../../models/business-models';
 
 export default can.Component.extend({
@@ -18,7 +17,6 @@ export default can.Component.extend({
       },
     },
     relevant_menu_item: '@',
-    show_all: '@',
     operators: [{title: 'AND', value: 'AND'}, {title: 'OR', value: 'OR'}],
     addFilter: function () {
       let menu = this.menu();
@@ -42,24 +40,15 @@ export default can.Component.extend({
       });
     },
     menu: function () {
-      let type = this.attr('type');
-      let mappings;
-      let models;
-      if (/true/i.test(this.attr('show_all'))) {
-        // find all widget types and manually add Cycle since it's missing
-        // convert names to CMS models and prune invalid (undefined)
-        models = can.Map.keys(GGRC.tree_view.base_widgets_by_type);
-        models = _.difference(_.uniq(models),
-          ['CycleTaskEntry', 'CycleTaskGroupObject']);
-        models = _.map(models, function (mapping) {
-          return businessModels[mapping];
-        });
-        return _.sortBy(_.compact(models), 'model_singular');
-      }
-      mappings = Mappings.get_canonical_mappings_for(type);
-      return _.sortBy(_.compact(_.map(_.keys(mappings), function (mapping) {
+      // find all widget types and manually add Cycle since it's missing
+      // convert names to CMS models and prune invalid (undefined)
+      let models = can.Map.keys(GGRC.tree_view.base_widgets_by_type);
+      models = _.difference(_.uniq(models),
+        ['CycleTaskEntry', 'CycleTaskGroupObject']);
+      models = _.map(models, function (mapping) {
         return businessModels[mapping];
-      })), 'model_singular');
+      });
+      return _.sortBy(_.compact(models), 'model_singular');
     },
     optionHidden: function (option) {
       let type = option.model_singular;
