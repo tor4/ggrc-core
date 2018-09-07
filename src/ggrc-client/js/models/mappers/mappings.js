@@ -207,15 +207,15 @@ export default can.Construct.extend({
     return all canonical mappings (suitable for joining) from all modules for an object type.
     object - a string representing the object type's shortName
 
-    return: a keyed object of all mappings (instances of GGRC.ListLoaders.BaseListLoader) by option type
+    return: a keyed object of all mappings (instances of CMS.Models)
   */
   get_canonical_mappings_for: function (object) {
     let mappings = {};
     can.each(this.modules, function (mod, name) {
       if (mod._canonical_mappings && mod._canonical_mappings[object]) {
         can.each(mod._canonical_mappings[object],
-          function (mappingName, option) {
-            mappings[option] = CMS.Models[object].get_mapper(mappingName);
+          function (mappingName, model) {
+            mappings[model] = CMS.Models[model];
           });
       }
     });
