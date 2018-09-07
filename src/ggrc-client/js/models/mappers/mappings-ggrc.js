@@ -21,18 +21,20 @@ import AccessControlRole from '../custom-roles/access-control-role';
 (function (GGRC, can) {
   new Mappings('ggrc_core', {
     base: {},
-
+    relatedMappings: {
+      _related: ['Person', 'Workflow'],
+    },
     // Governance
     Control: {
       _mixins: [
-        'related_object', 'assignable',
+        'related_object', 'assignable', 'relatedMappings',
       ],
       orphaned_objects: Multi([
         'related_objects', 'controls', 'programs', 'objectives',
       ]),
     },
     Objective: {
-      _mixins: ['related_object'],
+      _mixins: ['related_object', 'relatedMappings'],
       orphaned_objects: Multi([
         'related_objects', 'contracts', 'controls',
         'objectives', 'policies', 'programs', 'regulations',
@@ -40,10 +42,11 @@ import AccessControlRole from '../custom-roles/access-control-role';
       ]),
     },
     Requirement: {
-      _mixins: ['related_object'],
+      _mixins: ['related_object', 'relatedMappings'],
     },
     Document: {
-      _mixins: ['business_object'],
+      _mixins: ['related_object'],
+      _related: ['Person'],
     },
     assignable: {
       info_related_objects: CustomFilter('related_objects',
@@ -106,11 +109,10 @@ import AccessControlRole from '../custom-roles/access-control-role';
     // Program
     Program: {
       _mixins: [
-        'related_object',
+        'related_object', 'relatedMappings',
       ],
       _canonical: {
         audits: 'Audit',
-        context: 'Context',
       },
       related_issues: TypeFilter('related_objects', 'Issue'),
       audits: Direct('Audit', 'program', 'audits'),
@@ -142,7 +144,7 @@ import AccessControlRole from '../custom-roles/access-control-role';
     },
     directive_object: {
       _mixins: [
-        'related_object',
+        'related_object', 'relatedMappings',
       ],
       orphaned_objects: Multi([
         'controls', 'objectives', 'related_objects',
@@ -166,7 +168,7 @@ import AccessControlRole from '../custom-roles/access-control-role';
     // Business objects
     business_object: {
       _mixins: [
-        'related_object',
+        'related_object', 'relatedMappings',
       ],
       orphaned_objects: Multi([
         'related_objects', 'controls', 'objectives', 'requirements',
@@ -230,7 +232,6 @@ import AccessControlRole from '../custom-roles/access-control-role';
     Audit: {
       _canonical: {
         _program: 'Program',
-        context: 'Context',
         evidence: 'Evidence',
       },
       _mixins: [
@@ -259,6 +260,7 @@ import AccessControlRole from '../custom-roles/access-control-role';
       _canonical: {
         evidence: 'Evidence',
       },
+      _related: ['Person'],
       _mixins: [
         'related_object', 'assignable',
       ],
@@ -277,7 +279,7 @@ import AccessControlRole from '../custom-roles/access-control-role';
     AssessmentTemplate: {},
     Issue: {
       _mixins: [
-        'related_object', 'assignable',
+        'related_object', 'assignable', 'relatedMappings',
       ],
       audits: TypeFilter('related_objects', 'Audit'),
     },
