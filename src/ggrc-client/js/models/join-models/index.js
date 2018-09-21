@@ -4,5 +4,6 @@
 */
 
 import './join';
+import './object-person';
 import './task-group-object';
 import './user-role';
