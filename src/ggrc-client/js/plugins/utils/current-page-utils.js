@@ -157,5 +157,6 @@ export {
   isAdmin,
   isObjectContextPage,
   navigate,
+  notifier as pageNotifier,
   delayLeavingPageUntil,
 };

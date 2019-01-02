@@ -6,6 +6,7 @@
 import {
   getPageType,
   getPageInstance,
+  pageNotifier,
 } from '../plugins/utils/current-page-utils';
 import {getCounts} from '../plugins/utils/widgets-utils';
 import {isDashboardEnabled} from '../plugins/utils/dashboards-utils';
@@ -276,6 +277,13 @@ export default can.Control({
       this.options.attr('notPriorityTabs', widgets.slice(priorityTabsNum));
     } else {
       this.options.attr('priorityTabs', widgets);
+    }
+  },
+  'a click'(el, ev) {
+    if (!pageNotifier.isEmpty
+      && !confirm('You have unsaved changes that will be lost, if you decide ' +
+      'to continue. Are you sure you want to leave this page?')) {
+      ev.preventDefault();
     }
   },
   '.closed click': function (el, ev) {

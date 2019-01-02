@@ -11,6 +11,10 @@ export default class PersistentNotifier {
     Object.assign(this, options);
   }
 
+  get isEmpty() {
+    return this.dfds.length === 0;
+  }
+
   whileQueueHasElements() {}
 
   whenQueueEmpties() {}
