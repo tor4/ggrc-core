@@ -108,5 +108,17 @@ export default Cacheable('CMS.Models.Issue', {
         }
       }
     );
+
+    this.validate(
+      'issue_tracker_issue_id',
+      function () {
+        if (this.attr('issue_tracker.enabled') &&
+          ['Fixed', 'Fixed and Verified', 'Deprecated']
+            .includes(this.attr('status')) &&
+            !this.attr('issue_tracker.issue_id')) {
+          return 'cannot be blank';
+        }
+      }
+    );
   },
 }, {});
