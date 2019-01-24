@@ -19,11 +19,11 @@ describe('relevant-filter component', () => {
       const expectedModelNames = ['AccessGroup', 'Assessment',
         'AssessmentTemplate', 'Audit', 'Contract', 'Control', 'Cycle',
         'CycleTaskGroup', 'CycleTaskGroupObjectTask', 'DataAsset',
-        'Document', 'Evidence', 'Facility', 'Issue', 'Market', 'Metric',
-        'Objective', 'OrgGroup', 'Person', 'Policy', 'Process', 'Product',
-        'ProductGroup', 'Program', 'Project', 'Regulation', 'Requirement',
-        'Risk', 'Standard', 'System', 'TaskGroup', 'TechnologyEnvironment',
-        'Threat', 'Vendor', 'Workflow'];
+        'Document', 'Evidence', 'Facility', 'Issue', 'KeyReport', 'Market',
+        'Metric', 'Objective', 'OrgGroup', 'Person', 'Policy', 'Process',
+        'Product', 'ProductGroup', 'Program', 'Project', 'Regulation',
+        'Requirement', 'Risk', 'Standard', 'System', 'TaskGroup',
+        'TechnologyEnvironment', 'Threat', 'Vendor', 'Workflow'];
 
       const models = viewModel.menu();
 

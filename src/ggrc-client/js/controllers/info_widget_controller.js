@@ -91,6 +91,7 @@ export default can.Control.extend({
         'DataAsset',
         'Facility',
         'Issue',
+        'KeyReport',
         'Market',
         'Metric',
         'Objective',

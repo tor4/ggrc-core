@@ -26,6 +26,7 @@ describe('Mappings', function () {
         'Evidence',
         'Facility',
         'Issue',
+        'KeyReport',
         'Market',
         'Metric',
         'Objective',
@@ -49,7 +50,7 @@ describe('Mappings', function () {
       notMappable: ['Assessment', 'AssessmentTemplate', 'Evidence', 'Person'],
       scope: [
         'Metric', 'TechnologyEnvironment', 'AccessGroup', 'DataAsset',
-        'Facility', 'Market', 'OrgGroup', 'Vendor', 'Process',
+        'Facility', 'KeyReport', 'Market', 'OrgGroup', 'Vendor', 'Process',
         'Product', 'ProductGroup', 'Project', 'System',
       ],
     },
@@ -115,6 +116,7 @@ describe('Mappings', function () {
     Facility: _.difference(filtered, ['Standard', 'Regulation']),
     Issue: _.difference(filtered, [
       'Audit', 'Person', 'Workflow', 'Assessment']),
+    KeyReport: _.difference(filtered, ['Standard', 'Regulation']),
     Market: _.difference(filtered, ['Standard', 'Regulation']),
     Metric: _.difference(filtered, ['Standard', 'Regulation']),
     Objective: filtered,

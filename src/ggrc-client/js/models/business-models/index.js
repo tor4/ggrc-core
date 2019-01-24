@@ -19,6 +19,7 @@ export {default as Document} from './document';
 export {default as Evidence} from './evidence';
 export {default as Facility} from './facility';
 export {default as Issue} from './issue';
+export {default as KeyReport} from './key-report';
 export {default as Market} from './market';
 export {default as Metric} from './metric';
 export {default as Objective} from './objective';

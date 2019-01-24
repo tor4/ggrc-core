@@ -255,6 +255,11 @@
   &.color { color: $green; }
 }
 
+.#{$fa-css-prefix}-key_report {
+  &:before { content: $fa-var-key; }
+  &.color { color: $green; }
+}
+
 // Turn icons to black
 %black-icons {
   [class^="fa #{$fa-css-prefix}-"] {

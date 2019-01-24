@@ -10,7 +10,7 @@ import * as businessModels from '../../js/models/business-models';
 
 describe('Model states test', function () {
   let basicStateObjects = ['AccessGroup', 'Contract',
-    'Control', 'DataAsset', 'Facility', 'Market',
+    'Control', 'DataAsset', 'Facility', 'KeyReport', 'Market',
     'Objective', 'OrgGroup', 'Policy', 'Process', 'Product', 'Program',
     'Project', 'Regulation', 'Risk', 'Requirement', 'Standard', 'System',
     'Threat', 'Vendor'];
@@ -45,8 +45,8 @@ describe('Model "status" attr test', function () {
     'Objective', 'Policy', 'Program', 'Regulation', 'Risk', 'RiskAssessment',
     'Requirement', 'Standard', 'Threat', 'Workflow'];
   const objectsWithLaunchStatus = ['AccessGroup', 'DataAsset', 'Facility',
-    'Market', 'Metric', 'OrgGroup', 'Process', 'Product', 'ProductGroup',
-    'Project', 'System', 'TechnologyEnvironment', 'Vendor'];
+    'KeyReport', 'Market', 'Metric', 'OrgGroup', 'Process', 'Product',
+    'ProductGroup', 'Project', 'System', 'TechnologyEnvironment', 'Vendor'];
 
   objectsWithState.forEach(function (object) {
     it(`checks if ${object} has State in attr_list`, () => {
@@ -80,9 +80,9 @@ describe('Model review state test', function () {
     'Policy', 'Program', 'Regulation', 'Risk', 'Requirement', 'Standard',
     'Threat'];
   const objectsWithoutReview = ['AccessGroup', 'Assessment',
-    'AssessmentTemplate', 'Audit', 'DataAsset', 'Facility', 'Issue', 'Market',
-    'Metric', 'OrgGroup', 'Process', 'Product', 'ProductGroup', 'Project',
-    'System', 'TechnologyEnvironment', 'Vendor'];
+    'AssessmentTemplate', 'Audit', 'DataAsset', 'Facility', 'Issue',
+    'KeyReport', 'Market', 'Metric', 'OrgGroup', 'Process', 'Product',
+    'ProductGroup', 'Project', 'System', 'TechnologyEnvironment', 'Vendor'];
 
   reviewObjects.forEach(function (object) {
     it('checks if ' + object + ' has review status in attr_list', () => {

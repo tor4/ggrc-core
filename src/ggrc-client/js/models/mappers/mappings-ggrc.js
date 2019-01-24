@@ -126,6 +126,12 @@ new Mappings({
     indirectMappings: ['Assessment', 'Person', 'Regulation', 'Standard',
       'TaskGroup', 'Workflow'],
   },
+  KeyReport: {
+    map: _.difference(businessObjects,
+      ['Assessment', 'Standard', 'Regulation']),
+    indirectMappings: ['Assessment', 'Person', 'Regulation', 'Standard',
+      'TaskGroup', 'Workflow'],
+  },
   Market: {
     map: _.difference(businessObjects,
       ['Assessment', 'Standard', 'Regulation']),
@@ -272,8 +278,8 @@ new Mappings({
     map: [
       'AccessGroup', 'Assessment', 'AssessmentTemplate', 'Audit',
       'Contract', 'Control', 'CycleTaskGroupObjectTask', 'DataAsset',
-      'Document', 'Evidence', 'Facility', 'Issue', 'Market', 'Metric',
-      'Objective', 'OrgGroup', 'Person', 'Process', 'Product',
+      'Document', 'Evidence', 'Facility', 'Issue', 'KeyReport', 'Market',
+      'Metric', 'Objective', 'OrgGroup', 'Person', 'Process', 'Product',
       'ProductGroup', 'Project', 'Policy', 'Program', 'Regulation',
       'Requirement', 'Risk', 'Standard', 'System', 'TaskGroup',
       'TaskGroupTask', 'TechnologyEnvironment', 'Threat',

@@ -103,6 +103,7 @@
                 {{{renderLive "/static/templates/dashboard/lhn_search.stache" type="ProductGroup" title_plural="Product Groups" li_class="business"}}}
                 {{{renderLive "/static/templates/dashboard/lhn_search.stache" type="Project" title_plural="Projects" li_class="business"}}}
                 {{{renderLive "/static/templates/dashboard/lhn_search.stache" type="Facility" title_plural="Facilities" li_class="business"}}}
+                {{{renderLive '/static/templates/dashboard/lhn_search.stache' type="KeyReport" title_plural="Key Reports" li_class="business"}}}
                 {{{renderLive "/static/templates/dashboard/lhn_search.stache" type="Market" title_plural="Markets" li_class="business"}}}
                 {{{renderLive "/static/templates/dashboard/lhn_search.stache" type="Metric" title_plural="Metrics" li_class="business"}}}
                 {{{renderLive "/static/templates/dashboard/lhn_search.stache" type="TechnologyEnvironment" title_plural="Technology Environments" li_class="business"}}}

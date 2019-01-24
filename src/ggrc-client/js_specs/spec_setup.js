@@ -34,6 +34,7 @@ GGRC.config = {
     'DataAsset',
     'AccessGroup',
     'System',
+    'KeyReport',
     'Contract',
     'Standard',
     'Objective',
@@ -82,6 +83,9 @@ GGRC.Bootstrap = {
   }, {
     title_plural: 'Issues',
     model_singular: 'Issue',
+  }, {
+    title_plural: 'Key Reports',
+    title_singular: 'KeyReport',
   }, {
     title_plural: 'Markets',
     model_singular: 'Market',
@@ -167,6 +171,9 @@ GGRC.Bootstrap = {
   }, {
     title_plural: 'Issues',
     model_singular: 'Issue',
+  }, {
+    title_plural: 'Key Reports',
+    model_singular: 'KeyReport',
   }, {
     title_plural: 'Markets',
     model_singular: 'Market',

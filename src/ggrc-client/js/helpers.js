@@ -465,7 +465,7 @@ Mustache.registerHelper('is_allowed_to_map',
 
 Mustache.registerHelper('is_allowed_to_map_task', (sourceType, options) => {
   const mappableTypes = ['Program', 'Regulation', 'Policy', 'Standard',
-    'Contract', 'Requirement', 'Control', 'Objective',
+    'Contract', 'Requirement', 'Control', 'Objective', 'KeyReport',
     'OrgGroup', 'Vendor', 'AccessGroup', 'System', 'Process', 'DataAsset',
     'Product', 'ProductGroup', 'Project', 'Facility', 'Market', 'Metric',
     'TechnologyEnvironment'];
