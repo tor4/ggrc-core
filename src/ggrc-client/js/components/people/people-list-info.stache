@@ -24,7 +24,7 @@
             <li class="border">
               <user-roles-selector-button {person-id}="id">
                 <a href="javascript://" ($click)="openModal(%event)">
-                  <i class="fa fa-key"></i>
+                  <i class="fa fa-address-card"></i>
                   Edit Authorizations
                 </a>
               </user-roles-selector-button>
