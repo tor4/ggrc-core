@@ -3,16 +3,11 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 
-{{!div class="modal-footer"}}
   <div class="row-fluid">
-    <div class="span9">
-      &nbsp;
-    </div>
-    <div class="span3">
+    <div class="span12">
       <div class="confirm-buttons">
         <a class="btn btn-small btn-green" data-toggle="confirm" href="javascript://">{{firstnonempty modal_confirm 'Confirm'}}</a>
-        <a class="btn btn-small btn-white" data-dismiss="modal" href="javascript://">Cancel</a>
+        <a class="btn btn-small btn-white" data-dismiss="modal" href="javascript://">{{firstnonempty modal_cancel 'Cancel'}}</a>
       </div>
     </div>
   </div>
-{{!/div}}

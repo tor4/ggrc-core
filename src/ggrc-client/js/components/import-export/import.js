@@ -38,6 +38,7 @@ import {
 } from '../../plugins/utils/errors-utils';
 import {connectionLostNotifier} from './connection-lost-notifier';
 import * as businessModels from '../../models/business-models';
+import {confirm} from '../../plugins/utils/modals';
 
 const messages = {
   INCORRECT_FORMAT: `The file is not in a recognized format.
@@ -237,6 +238,31 @@ export default can.Component.extend({
         });
     },
     stopImport(jobId) {
+      let state = this.attr('state');
+      if (state === jobStatuses.IN_PROGRESS) {
+        confirm({
+          modal_title: 'Warning',
+          modal_description: `The import is still in progress and part of your 
+            data was already saved. Please click 'Stop Import' in order to stop 
+            this process.`,
+          button_view:
+            `${GGRC.mustache_path}/modals/confirm_cancel_buttons.mustache`,
+          modal_confirm: 'Proceed Import',
+          modal_cancel: 'Stop Import',
+        },
+        null,
+        () => {
+          let state = this.attr('state');
+          // check if status hasn't changed
+          if (state === jobStatuses.IN_PROGRESS) {
+            this.stop(jobId);
+          }
+        });
+      } else {
+        this.stop(jobId);
+      }
+    },
+    stop(jobId) {
       clearTimeout(this.attr('trackId'));
       const deleteJob = () => {
         this.resetFile();

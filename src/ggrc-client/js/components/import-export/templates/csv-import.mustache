@@ -117,6 +117,11 @@
 
         {{#case 'In Progress'}}
           <div class="">Import in Progress: <spinner {toggle}="true"></spinner></div>
+          <button type="button"
+                  class="btn btn-small btn-white margin-top-20"
+                  ($click)="stopImport(jobId)">
+            Cancel
+          </button>
         {{/case}}
       {{/switch}}
 
