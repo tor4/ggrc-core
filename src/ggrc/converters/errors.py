@@ -203,3 +203,6 @@ NO_VALID_USERS_ERROR = (u"Line {line}: Required field '{column_name}' "
 NO_VERIFIER_WARNING = (u"Line {line}: Assessment without verifier cannot "
                        u"be moved to {status} state. "
                        u"The value will be ignored.")
+
+EXTERNAL_MODEL_IMPORT_RESTRICTION = (u"Line {line}: Trying to import external "
+                                     u"model entry.")
