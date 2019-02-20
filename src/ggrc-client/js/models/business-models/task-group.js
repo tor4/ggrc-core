@@ -40,9 +40,6 @@ export default Cacheable.extend({
     if (this._super) {
       this._super(...arguments);
     }
-    this.validateNonBlank('title');
-    this.validateNonBlank('contact');
-    this.validateNonBlank('workflow');
 
     this.bind('updated', function (ev, instance) {
       if (instance instanceof that) {
@@ -55,4 +52,23 @@ export default Cacheable.extend({
       }
     });
   },
-}, {});
+}, {
+  define: {
+    title: {
+      value: '',
+      validate: {
+        required: true,
+      },
+    },
+    contact: {
+      validate: {
+        required: true,
+      },
+    },
+    workflow: {
+      validate: {
+        required: true,
+      },
+    },
+  },
+});
