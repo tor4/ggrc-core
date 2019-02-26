@@ -10,13 +10,14 @@ import '../../components/advanced-search/advanced-search-wrapper';
 import '../../components/unified-mapper/mapper-results';
 import '../../components/collapsible-panel/collapsible-panel';
 import '../../components/mapping-controls/mapping-type-selector';
+import '../questionnaire-mapping-link/questionnaire-mapping-link';
+import './create-and-map';
 
 import template from './object-mapper.stache';
 
 import tracker from '../../tracker';
 import ObjectOperationsBaseVM from '../view-models/object-operations-base-vm';
 import {
-  isAuditScopeModel,
   isSnapshotModel,
   isSnapshotParent,
 } from '../../plugins/utils/snapshot-utils';
@@ -120,34 +121,25 @@ export default can.Component.extend({
        * @property {boolean}
        */
       deferred: false,
-      allowedToCreate: function () {
-        // Don't allow to create new instances for "Audit Scope" Objects that
-        // are snapshots
-        let isAuditScopeSrc = isAuditScopeModel(this.attr('object'));
-
-        return !isAuditScopeSrc ||
-          (isAuditScopeSrc && !isSnapshotModel(this.attr('type')));
-      },
+      isMappableExternally: false,
+      searchModel: null,
       showAsSnapshots: function () {
         if (this.attr('freezedConfigTillSubmit.useSnapshots')) {
           return true;
         }
         return false;
       },
-      showWarning: function () {
-        let isAuditScopeSrc = isAuditScopeModel(this.attr('object'));
+      isSnapshotMapping: function () {
         let isSnapshotParentSrc = isSnapshotParent(this.attr('object'));
         let isSnapshotParentDst = isSnapshotParent(this.attr('type'));
         let isSnapshotModelSrc = isSnapshotModel(this.attr('object'));
         let isSnapshotModelDst = isSnapshotModel(this.attr('type'));
 
         let result =
-          // Dont show message if source is auditScope model, for example Assessment.
-          !isAuditScopeSrc &&
           // Show message if source is snapshotParent and destination is snapshotable.
-          ((isSnapshotParentSrc && isSnapshotModelDst) ||
+          (isSnapshotParentSrc && isSnapshotModelDst) ||
           // Show message if destination is snapshotParent and source is snapshotable.
-          (isSnapshotParentDst && isSnapshotModelSrc));
+          (isSnapshotParentDst && isSnapshotModelSrc);
 
         return result;
       },
@@ -156,42 +148,43 @@ export default can.Component.extend({
       },
       onSubmit: function () {
         this.updateFreezedConfigToLatest();
-        // calls base version
-        this._super(...arguments);
+        this.attr('searchModel', this.attr('model'));
+
+        let source = this.attr('object');
+        let destination = this.attr('type');
+        if (Mappings.shouldBeMappedExternally(source, destination)) {
+          this.attr('isMappableExternally', true);
+          return;
+        } else {
+          this.attr('isMappableExternally', false);
+          // calls base version
+          this._super(...arguments);
+        }
       },
     });
   },
 
   events: {
     [`{parentInstance} ${MAP_OBJECTS.type}`](instance, event) {
-      this.mapObjects(event.objects);
+      // this event is called when objects just created and should be mapped
+      // so object-mapper modal should be closed and removed from DOM
+      this.closeModal();
+
+      if (event.objects.length) {
+        this.map(event.objects);
+      }
     },
-    '.create-control modal:success': function (el, ev, model) {
-      this.map(model);
-    },
-    '.create-control modal:added': function (el, ev, model) {
-      this.viewModel.attr('newEntries').push(model);
-    },
-    '.create-control click': function () {
-      // reset new entries
-      this.viewModel.attr('newEntries', []);
+    // hide object-mapper modal when create new object button clicked
+    'create-and-map click'() {
       this.element.trigger('hideModal');
     },
-    '.create-control modal:dismiss'() {
+    // close mapper as mapping will be handled externally
+    'create-and-map mapExternally'() {
       this.closeModal();
     },
-    '{window} modal:dismiss': function (el, ev, options) {
-      let joinObjectId = this.viewModel.attr('join_object_id');
-
-      // mapper sets uniqueId for modal-ajax.
-      // we can check using unique id which modal-ajax is closing
-      if (options && options.uniqueId &&
-        joinObjectId === options.uniqueId &&
-        this.viewModel.attr('newEntries').length > 0) {
-        this.mapObjects(this.viewModel.attr('newEntries'));
-      } else {
-        this.element.trigger('showModal');
-      }
+    // reopen object-mapper if creating was canceled
+    'create-and-map canceled'() {
+      this.element.trigger('showModal');
     },
     inserted: function () {
       let self = this;
@@ -210,21 +203,19 @@ export default can.Component.extend({
         this.viewModel.attr('deferred_list', deferredToList);
       }
 
-      self.viewModel.attr('submitCbs').fire();
+      self.viewModel.onSubmit();
     },
-    map(model) {
+    map(objects) {
       const viewModel = this.viewModel;
-      const newEntries = viewModel.attr('newEntries');
 
       viewModel.updateFreezedConfigToLatest();
-      newEntries.push(model);
 
       if (this.viewModel.attr('deferred')) {
         // postpone map operation unless target object is saved
-        this.deferredSave(newEntries);
+        this.deferredSave(objects);
       } else {
         // map objects immediately
-        this.mapObjects(newEntries);
+        this.mapObjects(objects);
       }
     },
     closeModal: function () {

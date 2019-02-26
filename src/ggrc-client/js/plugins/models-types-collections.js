@@ -3,8 +3,6 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 */
 
-import {getRoleableModels} from './utils/models-utils';
-
 /**
  * Business objects collection without Workflow objects and specific Audit
  * objects (AssessmentTemplate and Evidence)
@@ -33,12 +31,13 @@ export const scopingObjects = [
 ];
 
 /**
+ * GGRCQ Directives
+ */
+export const externalDirectiveObjects = [
+  'Regulation', 'Standard',
+];
+
+/**
  * Snapshotable objects
  */
 export const snapshotableObjects = GGRC.config.snapshotable_objects;
-
-/**
- * Objects with custom roles
- */
-export const roleableObjects = getRoleableModels()
-  .map((model) => model.model_singular);

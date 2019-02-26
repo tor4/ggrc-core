@@ -629,7 +629,7 @@ p {
 
 .hidden-widgets-list {
   .dropdown-menu {
-    width: 400px;
+    width: 420px;
     column-count: 2;
     column-gap: 0;
 
@@ -641,6 +641,32 @@ p {
     &.one-item {
       column-count: 1;
       width: 160px;
+    }
+
+    .external-link {
+      &__content {
+        color: $link;
+        display: inline-flex;
+        align-items: center;
+
+        .fa {
+          margin-left: 5px;
+          margin-top: 0;
+          opacity: 1;
+          font-size: 14px;
+          color: $link;
+        }
+      }
+
+      &:hover {
+        .external-link__content {
+          color: $darkBlue;
+
+          .fa {
+            color: $darkBlue;
+          }
+        }
+      } 
     }
   }
 }
