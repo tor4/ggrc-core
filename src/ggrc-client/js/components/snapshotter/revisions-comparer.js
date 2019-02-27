@@ -427,14 +427,8 @@ export default can.Component.extend({
        */
       function highlightValue($ca0, ca0, $ca1, ca1) {
         let value0 = ca0.attribute_value;
-        let objectId0 = (ca0 && ca0.attribute_object) ?
-          ca0.attribute_object.id : null; // for Person attr type
-
         let value1 = ca1 ? ca1.attribute_value : null;
-        let objectId1 = (ca1 && ca1.attribute_object) ?
-          ca1.attribute_object.id : null;
-
-        if (value0 !== value1 || objectId0 !== objectId1) {
+        if (value0 !== value1) {
           $ca0.find(valueSelector).addClass(highlightClass);
 
           if ($ca1) {
