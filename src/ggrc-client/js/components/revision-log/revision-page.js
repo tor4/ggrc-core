@@ -447,21 +447,11 @@ export default can.Component.extend({
       let ids;
       let defs;
       let showValue = function (value, def) {
-        let obj;
         switch (def.attribute_type) {
           case 'Checkbox':
             return _.flow(Number, Boolean)(value.attribute_value)
               ? '✓'
               : undefined;
-          case 'Map:Person':
-            if (!value.attribute_object) {
-              return;
-            }
-            obj = Person.findInCacheById(value.attribute_object.id);
-            if (obj === undefined) {
-              return value.attribute_value;
-            }
-            return obj.name || obj.email || value.attribute_value;
           case 'Date':
             if (!value.attribute_value) {
               return value.attribute_value;
