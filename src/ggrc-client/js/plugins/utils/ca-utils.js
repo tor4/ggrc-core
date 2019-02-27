@@ -3,8 +3,6 @@
  Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
  */
 
-import {getPlainText} from '../ggrc_utils';
-
 let customAttributesType = {
   Text: 'input',
   'Rich Text': 'text',
@@ -85,45 +83,6 @@ function sortCustomAttributes(a, b) {
  */
 function getCustomAttributeType(type) {
   return customAttributesType[type] || 'input';
-}
-
-/**
- * @deprecated Use CustomAttributeObject API to get access to the necessary custom
- * attribute field and make some manipulations with it.
- * @param {*} value
- * @param {*} type
- * @param {*} cav
- * @return {*}
- */
-function isEmptyCustomAttribute(value, type, cav) {
-  let result = false;
-  let types = ['Text', 'Rich Text', 'Date', 'Checkbox', 'Dropdown',
-    'Map:Person'];
-  let options = {
-    Checkbox: function (value) {
-      return !value || value === '0';
-    },
-    'Rich Text': function (value) {
-      value = getPlainText(value);
-      return _.isEmpty(value);
-    },
-    'Map:Person': function (value, cav) {
-      // Special case, Map:Person has 'Person' value by default
-      if (cav) {
-        return !cav.attribute_object;
-      }
-      return _.isEmpty(value);
-    },
-  };
-  if (value === undefined) {
-    return true;
-  }
-  if (types.indexOf(type) > -1 && options[type]) {
-    result = options[type](value, cav);
-  } else if (types.indexOf(type) > -1) {
-    result = _.isEmpty(value);
-  }
-  return result;
 }
 
 /**
@@ -465,7 +424,6 @@ export {
   convertToCaValue,
   convertValuesToFormFields,
   prepareCustomAttributes,
-  isEmptyCustomAttribute,
   getCustomAttributes,
   getCustomAttributeType,
   isEvidenceRequired,
