@@ -3,10 +3,8 @@
  Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
  */
 
-import template from './templates/tree-item-custom-attribute.stache';
 import {CONTROL_TYPE} from '../../plugins/utils/control-utils';
 import {formatDate} from '../../plugins/utils/date-utils';
-import {reify} from '../../plugins/utils/reify-utils';
 
 const formatValueMap = {
   [CONTROL_TYPE.CHECKBOX](caObject) {
@@ -19,24 +17,15 @@ const formatValueMap = {
 
     return formatDate(date, true);
   },
-  [CONTROL_TYPE.PERSON](caObject, options) {
-    const attr = caObject.attributeObject;
-    return options.fn(options.contexts.add({
-      object: attr ? reify(attr) : null,
-    }));
-  },
 };
 
 /*
   Used to get the string value for custom attributes
 */
-const getCustomAttrValue = (instance, customAttributeId, options) => {
-  let caObject;
+const getCustomAttrValue = (instance, customAttributeId) => {
   let hasHandler = false;
   let customAttrValue = null;
-  instance = Mustache.resolve(instance);
-  customAttributeId = Mustache.resolve(customAttributeId);
-  caObject = instance.customAttr(customAttributeId);
+  let caObject = instance.customAttr(customAttributeId);
 
   if (caObject) {
     hasHandler = _.has(formatValueMap, caObject.attributeType);
@@ -45,25 +34,29 @@ const getCustomAttrValue = (instance, customAttributeId, options) => {
 
   if (hasHandler) {
     const handler = formatValueMap[caObject.attributeType];
-    customAttrValue = handler(caObject, options);
+    customAttrValue = handler(caObject);
   }
 
   return customAttrValue || '';
 };
 
-export const viewModel = can.Map.extend({
+const viewModel = can.Map.extend({
+  define: {
+    value: {
+      get() {
+        let instance = this.attr('instance');
+        let attrId = this.attr('customAttributeId');
+        return getCustomAttrValue(instance, attrId);
+      },
+    },
+  },
   instance: null,
   customAttributeId: null,
 });
 
-export const helpers = {
-  getCustomAttrValue,
-};
-
 export default can.Component.extend({
   tag: 'tree-item-custom-attribute',
-  template,
+  template: '{{value}}',
   leakScope: true,
   viewModel,
-  helpers,
 });
