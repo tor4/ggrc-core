@@ -145,11 +145,6 @@
     </div>
   </div>
   {{/case}}
-  {{#case "File upload"}}
-    <div class='row-fluid'>
-      File upload
-    </div>
-  {{/case}}
   {{/switch}}
 </form>
 {{/instance}}
