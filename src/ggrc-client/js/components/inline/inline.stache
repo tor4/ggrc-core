@@ -48,12 +48,6 @@
               (value-changed)="fieldValueChanged(%event)"
             ></date-form-field>
           {{/case}}
-          {{#case 'person'}}
-            <person-form-field {value}="value"
-              class="inline__content-input"
-              (value-changed)="fieldValueChanged(%event)"
-            ></person-form-field>
-          {{/case}}
           {{#case 'number'}}
             <numberbox-form-field
               class="inline__content-input inline-input-form-field"

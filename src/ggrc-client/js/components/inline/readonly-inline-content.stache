@@ -30,14 +30,6 @@
       {{/if}}
     </div>
   {{/case}}
-
-  {{#case 'person'}}
-    {{#if context.value}}
-      <person-data {person-id}="context.value"></person-data>
-    {{else}}
-      <span class="empty-message">No person</span>
-    {{/if}}
-  {{/case}}
   
   {{#case 'multi-select-label'}}
     <multi-select-label {labels}="value"
