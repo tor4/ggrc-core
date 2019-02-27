@@ -124,19 +124,17 @@ const getValueAndDefinition = (values, definitions, attrId) => {
 };
 
 const getModifiedValue = (modifiedAttr, attr) => {
-  const isPerson = attr.def.attribute_type === 'Map:Person';
-  const contentProperty = isPerson ? 'attribute_object' : 'attribute_value';
   let value = attr.value;
 
-  if (!modifiedAttr || !modifiedAttr.hasOwnProperty(contentProperty)) {
+  if (!modifiedAttr || !modifiedAttr.attribute_value) {
     return value;
   }
 
-  if (value && value.hasOwnProperty(contentProperty)) {
-    value[contentProperty] = modifiedAttr[contentProperty];
+  if (value && value.attribute_value) {
+    value.attribute_value = modifiedAttr.attribute_value;
   } else {
     value = {
-      [contentProperty]: modifiedAttr[contentProperty],
+      attribute_value: modifiedAttr.attribute_value,
       custom_attribute_id: attr.def.id,
     };
   }

@@ -8,7 +8,6 @@ import {
   buildModifiedACL,
   buildModifiedListField,
 } from '../../plugins/utils/object-history-utils';
-import {caDefTypeName} from '../../plugins/utils/custom-attribute/custom-attribute-config';
 import template from './templates/restore-revision.stache';
 const tag = 'restore-revision';
 
@@ -87,17 +86,7 @@ export default can.Component.extend({
     },
     applyCustomAttributes(instance, modifiedAttributes) {
       modifiedAttributes.each((modifiedAttribute, caId) => {
-        const valueForPerson = _.get(
-          modifiedAttribute, 'attribute_object.id'
-        ) || null;
-        const caDef = _.find(GGRC.custom_attr_defs, (gca) =>
-          gca.id === Number(caId)
-        );
-        const isPerson = caDefTypeName.MapPerson === caDef.attribute_type;
-        const value = isPerson
-          ? valueForPerson
-          : modifiedAttribute.attribute_value;
-        instance.customAttr(caId, value);
+        instance.customAttr(caId, modifiedAttribute.attribute_value);
       });
     },
     closeDiff(element) {

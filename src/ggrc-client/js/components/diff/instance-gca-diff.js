@@ -6,7 +6,6 @@
 import {REFRESH_PROPOSAL_DIFF} from '../../events/eventTypes';
 import DiffBaseVM from './diff-base-vm';
 import template from './templates/instance-diff-items.stache';
-import {getPersonInfo} from '../../../js/plugins/utils/user-utils';
 import {formatDate} from '../../../js/plugins/utils/date-utils';
 const tag = 'instance-gca-diff';
 
@@ -27,27 +26,18 @@ const viewModel = DiffBaseVM.extend({
     this.attr('diff', []);
 
     caKeys.forEach((attrId) => {
-      let attr;
-      let modifiedAttr;
       attrId = Number(attrId);
 
-      attr = this.getValueAndDefinition(attrId);
-      modifiedAttr = modifiedAttributes[attrId];
+      let attr = this.getValueAndDefinition(attrId);
+      let modifiedAttr = modifiedAttributes[attrId];
 
       // attr was deleted
       if (!attr.def) {
         return;
       }
 
-      if (attr.def.attribute_type !== 'Map:Person') {
-        const diffObject = this.buildAttributeDiff(modifiedAttr, attr);
-        this.attr('diff').push(diffObject);
-        return;
-      }
-
-      this.buildPersonDiff(modifiedAttr, attr).then((diffObject) => {
-        this.attr('diff').push(diffObject);
-      });
+      const diffObject = this.buildAttributeDiff(modifiedAttr, attr);
+      this.attr('diff').push(diffObject);
     });
   },
   buildAttributeDiff(modifiedAttr, currentAttr) {
@@ -71,32 +61,6 @@ const viewModel = DiffBaseVM.extend({
       currentVal: [currentVal],
       modifiedVal: [modifiedVal],
     };
-  },
-  buildPersonDiff(modifiedAttr, currentAttr) {
-    const val = currentAttr.value;
-    const def = currentAttr.def;
-    const dfd = $.Deferred();
-    const diffObject = {
-      attrName: def.title,
-      currentVal: [this.attr('emptyValue')],
-      modifiedVal: [this.attr('emptyValue')],
-    };
-
-    if (modifiedAttr.attribute_object) {
-      diffObject.modifiedVal = [modifiedAttr.attribute_object.email];
-    }
-
-    // value is empty. Attr filled first time
-    if (val && val.attribute_object) {
-      getPersonInfo(val.attribute_object).then((person) => {
-        diffObject.currentVal = [person.email];
-        dfd.resolve(diffObject);
-      });
-    } else {
-      dfd.resolve(diffObject);
-    }
-
-    return dfd;
   },
   convertValue(value, type) {
     if (!value) {
