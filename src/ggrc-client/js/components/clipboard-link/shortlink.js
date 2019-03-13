@@ -12,7 +12,7 @@ export default can.Component.extend({
     '<i class="fa fa-google"/>Get Short Url</clipboard-link>'
   ),
   leakScope: true,
-  viewModel: {
+  viewModel: can.Map.extend({
     instance: null,
     define: {
       text: {
@@ -28,5 +28,5 @@ export default can.Component.extend({
         },
       },
     },
-  },
+  }),
 });

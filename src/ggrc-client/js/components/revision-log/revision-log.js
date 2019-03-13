@@ -36,7 +36,7 @@ export default can.Component.extend({
 
     viewModel.fetchItems();
   },
-  viewModel: {
+  viewModel: can.Map.extend({
     define: {
       showFilter: {
         get() {
@@ -223,7 +223,7 @@ export default can.Component.extend({
         this.attr('review', reifyUtil(review));
       }
     },
-  },
+  }),
   events: {
     '{viewModel.instance} refreshInstance': function () {
       this.viewModel.fetchItems();

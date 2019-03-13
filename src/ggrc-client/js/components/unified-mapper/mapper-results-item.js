@@ -15,7 +15,7 @@ export default can.Component.extend({
   tag: 'mapper-results-item',
   template: can.stache(template),
   leakScope: true,
-  viewModel: {
+  viewModel: can.Map.extend({
     itemData: {},
     searchOnly: false,
     drawRelatedAssessments: false,
@@ -61,5 +61,5 @@ export default can.Component.extend({
         instance: this.displayItem(),
       });
     },
-  },
+  }),
 });

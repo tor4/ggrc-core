@@ -12,7 +12,7 @@ export default can.Component.extend({
     '<i class="fa fa-link"></i>Get permalink</clipboard-link>'
   ),
   leakScope: true,
-  viewModel: {
+  viewModel: can.Map.extend({
     instance: null,
     define: {
       text: {
@@ -30,5 +30,5 @@ export default can.Component.extend({
         },
       },
     },
-  },
+  }),
 });

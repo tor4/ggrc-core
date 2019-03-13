@@ -11,7 +11,7 @@ import viewModel from './custom-roles-vm';
 
 export default can.Component.extend({
   tag: 'custom-roles',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel,
 });

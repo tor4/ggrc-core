@@ -16,7 +16,7 @@ export default can.Component.extend({
   tag: 'form-validation-text',
   template: can.stache('<p class="required">{{text}}</p>'),
   leakScope: true,
-  viewModel: {
+  viewModel: can.Map.extend({
     define: {
       text: {
         type: String,
@@ -46,5 +46,5 @@ export default can.Component.extend({
     validation: {},
     highlightInvalidFields: '@',
     type: 'input',
-  },
+  }),
 });

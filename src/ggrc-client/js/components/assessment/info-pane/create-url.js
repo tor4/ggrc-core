@@ -12,7 +12,7 @@ import pubSub from '../../../pub-sub';
 export default can.Component.extend({
   tag: 'create-url',
   leakScope: true,
-  viewModel: {
+  viewModel: can.Map.extend({
     value: null,
     context: null,
     create: function () {
@@ -49,5 +49,5 @@ export default can.Component.extend({
           });
         });
     },
-  },
+  }),
 });

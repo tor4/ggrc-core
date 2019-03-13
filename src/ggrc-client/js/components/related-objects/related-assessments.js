@@ -32,7 +32,7 @@ export default can.Component.extend({
   tag: 'related-assessments',
   template: can.stache(template),
   leakScope: true,
-  viewModel: {
+  viewModel: can.Map.extend({
     define: {
       unableToReuse: {
         get: function () {
@@ -169,7 +169,7 @@ export default can.Component.extend({
     isFunction(evidence) {
       return isFunction(evidence) ? evidence() : evidence;
     },
-  },
+  }),
   init() {
     this.viewModel.loadRelatedAssessments();
   },

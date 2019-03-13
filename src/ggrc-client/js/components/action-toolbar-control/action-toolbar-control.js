@@ -9,6 +9,6 @@ export default can.Component.extend({
     '<div class="action-toolbar__controls-item"><content/></div>'
   ),
   leakScope: true,
-  viewModel: {},
+  viewModel: can.Map.extend({}),
 });
 
