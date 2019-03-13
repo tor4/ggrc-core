@@ -6,11 +6,12 @@
 // Common templates
 import '../templates';
 
-import '../tracker';
+import '../plugins/lodash_helpers';
 import '../plugins/canjs_extensions';
+import '../plugins/jquery_extensions';
+import '../tracker';
 import '../bootstrap/modal-ajax';
 import '../bootstrap/modal-form';
-import '../plugins/lodash_helpers';
 import '../application';
 import '../plugins/ggrc_utils';
 import '../plugins/autocomplete';
