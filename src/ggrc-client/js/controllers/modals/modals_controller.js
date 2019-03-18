@@ -956,7 +956,7 @@ export default can.Control.extend({
       return $.Deferred().reject();
     }
 
-    if (instance.errors()) {
+    if (instance.getInstanceErrors()) {
       instance.removeAttr('_suppress_errors');
       return;
     }
