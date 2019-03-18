@@ -101,7 +101,7 @@
                               {(value)}="{instance.kind}"
                               {role}="'product_type'">
               <dropdown-component {options-list}="{options}"
-                        ($change)="{selectedChanged}" {name}="'selected'"
+                        on:el:change="selectedChanged()" {name}="'selected'"
                         {no-value}="{true}" {no-value-label}="'---'">
               </dropdown-component>
             </dropdown-wrapper>
