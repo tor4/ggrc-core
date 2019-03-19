@@ -6,6 +6,9 @@
 // Common templates
 import '../templates';
 
+// Validation
+import '../plugins/validation-extensions';
+
 import '../plugins/lodash_helpers';
 import '../plugins/canjs_extensions';
 import '../plugins/jquery_extensions';
