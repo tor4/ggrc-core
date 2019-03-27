@@ -41,8 +41,8 @@
               Open Original {{instance.constructor.title_singular}}
             </a>
           {{/if}}
-       
-        <button type="button" class="btn btn-small btn-icon" can-click="hide">
+
+        <button type="button" class="btn btn-small btn-icon" on:el:click="hide">
             <i class="fa fa-times black"></i>
         </button>
     </div>

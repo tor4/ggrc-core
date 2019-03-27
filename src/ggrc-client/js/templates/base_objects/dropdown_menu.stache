@@ -37,7 +37,7 @@
         </li>
       {{/is_allowed_to_create}}
     {{/is_allowed}}
-    
+
     {{^if_instance_of instance "TaskGroup|TaskGroupTask"}}
     <li>
       <permalink-component {instance}="{instance}"/>
