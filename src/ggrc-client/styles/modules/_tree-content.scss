@@ -240,13 +240,6 @@ ul.new-tree {
     a {
       font-weight:bold;
     }
-    .inner-tree & {
-      padding-left: 0;
-      line-height: 30px;
-      .btn {
-        margin: 5px 0;
-      }
-    }
     .btn {
       [class^="grcicon-"] {
         margin-top: 1px;
@@ -320,57 +313,6 @@ ul.new-tree {
           > .openclose {
             > .item-wrap {
               border-color: transparent;
-            }
-          }
-        }
-      }
-    }
-    .inner-tree {
-      margin-left: 38px;
-      li.tree-item {
-        @include opacity(1);
-        @include box-shadow(none);
-        margin-top: 0;
-        margin-bottom: 0;
-        li.tree-item {
-          > .item-main {
-            background: none;
-          }
-        }
-        > .item-main {
-          background: none;
-          > .item-wrap {
-            margin: 0;
-            border-color: $itemBorder;
-          }
-        }
-        &.item-open {
-          margin: 0;
-          border-bottom: 1px solid $itemBorder;
-          > .item-main {
-            > .item-wrap {
-              border-color: transparent;
-            }
-          }
-        }
-        .dashboard & {
-          > .item-main {
-            background: none;
-            > .openclose {
-              > .item-wrap {
-                margin: 0;
-                border-color: $itemBorder;
-              }
-            }
-          }
-          &.item-open {
-            margin-bottom: 20px;
-            > .item-main {
-              > .openclose {
-                > .item-wrap {
-                  border-color: transparent;
-                }
-              }
             }
           }
         }
