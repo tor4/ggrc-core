@@ -24,21 +24,6 @@ a {
   cursor: pointer;
 }
 
-.bottom-space {
-  padding-bottom: 25px;
-  p {
-    margin-bottom: 0;
-  }
-}
-
-.counter {
-  @include opacity(0.5);
-  color:#000;
-  .overdue & {
-    color: $red;
-  }
-}
-
 .wrap-row {
   margin-bottom: 20px;
   p {
@@ -76,15 +61,6 @@ a {
   word-wrap: break-word;
 }
 
-.need-comma {
-  &:after {
-    content: ",";
-  }
-  &:last-child:after {
-    content: none;
-  }
-}
-
 // status
 .status-label {
   border-radius: 50%;
@@ -93,19 +69,6 @@ a {
   float: left;
   margin: 9px 10px 0 10px;
   background: $status-draft;
-
-  .entry-list & {
-    margin: 5px 10px 0 4px !important;
-  }
-  .openclose__empty &,
-  .inner-tree &,
-  .inner-tree .openclose__empty {
-    margin: 10px 5px 0 10px;
-  }
-
-  .dashboard-tree & {
-    margin: 9px 10px 0 4px;
-  }
 }
 
 @each $status_label in draft, inactive, declined, inprogress, overdue, active, inprogress, verified, planned, accepted, pending, finished, requested, responded, amended-request, updated-response, assigned {
@@ -115,40 +78,6 @@ a {
 }
 
 // buttons
-.btn-info-pin-header {
-
-  margin-right: 10px;
-  &.undo {
-    margin-right: 10px;
-    margin-top: 6px;
-    &.btn-link {
-        margin:0 ;
-        background: transparent;
-        box-shadow: none;
-        color: $link;
-
-        &:hover {
-          color: $darkBlue;
-        }
-      }
-  }
-  .sticky-info-panel & {
-    margin-top: 30px;
-    &.undo {
-      margin-top: 22px;
-      &.btn-link {
-        margin-top: 30px;
-        background: transparent;
-        box-shadow: none;
-        color: $link;
-
-        &:hover {
-          color: $darkBlue;
-        }
-      }
-    }
-  }
-}
 .btn {
   @include btn-size(12px);
 
@@ -172,15 +101,6 @@ a {
     @include btn-size(11px, 16px, 2px 10px);
   }
 
-  &.btn-full {
-    text-align: center;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  &.btn-fixed {
-    width: 250px;
-    text-align: center;
-  }
   &:active {
     box-shadow: inset 0 0 4px rgba(0,0,0,0.4);
   }
@@ -205,70 +125,26 @@ a {
   opacity: 0.4;
 }
 
-// show hide
-.showhide {
-  float:left;
-  margin-top:8px;
-}
-
 // one line display of paragraphs
 .oneline {
   @extend %oneline;
-  &.expandable {
-    cursor:pointer;
-  }
-  &.expand-on-hover {
-    cursor:pointer;
-  }
 }
 
 // RTF
 .rtf {
   margin-bottom: 10px;
   line-height:1.2em;
-  ul,
-  ol {
-    margin-bottom: 10px;
-    margin-top: 10px;
-    li {
-      border: none !important;
-      padding: 0;
-      line-height:1.2em !important;
-    }
-  }
-  blockquote {
-    border:none;
-  }
-  p.no-data {
-    color:$disabled;
-    text-align:center;
-  }
 }
 
 // Date input field - To see date icon just add class .date to input field
 input.date {
   padding-left: 26px;
-  &.short-field {
-    height: 16px !important;
-    line-height: 16px !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-  }
 }
 
 //Making input 100% width of his parent element
 input.input-block-level,
 select.input-block-level {
   @extend %input-block-level;
-}
-
-.input-group {
-  position: relative;
-  .input-group-addon {
-    position: absolute;
-    top: 5px;
-    left: 5px;
-  }
 }
 
 // resizible widget functionality
@@ -398,37 +274,9 @@ select.input-block-level {
   }
 }
 
-.popoverfooter {
-  p.smallcode {
-    padding-top:4px;
-    font-style:italic;
-    color:lighten($gray,10%);
-    margin-bottom:0px;
-  }
-}
-
-span.no-data {
-  color:lighten($disabled,10%);
-  font-weight:normal;
-  &.warning {
-    color:$error;
-  }
-}
-
 // container-fluid reset
 .container-fluid {
   padding:0;
-}
-
-// affixed fixes
-.content {
-  &.affixed {
-    margin-top:46px;
-  }
-}
-
-select.multiple-selector {
-  height:88px;
 }
 
 // Tooltips
@@ -438,24 +286,8 @@ select.multiple-selector {
   }
 }
 
-.tooltip-inner {
-  text-align: left;
-}
-
 .form-search {
   margin: 0;
-}
-
-// Sticky headers
-.sticky-header {
-  @extend %sticky;
-  border-top: none !important;
-}
-
-.sticky-footer {
-  @extend %sticky;
-  @include box-shadow(inset 0 0 3px 0 #bbb);
-  border-bottom: none !important;
 }
 
 // Datepicker
@@ -517,10 +349,6 @@ select.multiple-selector {
   word-wrap: break-word;
   margin-bottom:10px;
   line-height:18px;
-  &.shorter-rtf {
-    width: 75%;
-    float: left
-  }
 }
 
 .drag {
@@ -534,90 +362,10 @@ select.multiple-selector {
 
 .field-wrap {
   @include clearfix;
-  input {
-    width: 40%;
-    float: left;
-    margin-right: 4px;
-    &.date {
-      width: 18%;
-      margin-right: 0;
-    }
-  }
-  .required {
-    float: left;
-    width: 8px;
-    font-weight: bold;
-    color: $red;
-    margin: 6px 8px 0 3px;
-  }
+  
   a {
     float: left;
     width: 15%;
-    &.drag {
-      float: left;
-      width: 23px;
-    }
-    &.remove-field {
-      i {
-        margin-top: 5px;
-      }
-    }
-    &.pull-right {
-      width: auto;
-      float: right;
-    }
-    &.btn {
-      width: auto;
-    }
-  }
-  &.task-wrap {
-    span.empty {
-      float: left;
-      width: 23px;
-      height: 23px;
-    }
-    input {
-      width: 37%;
-      &.date {
-        width: 18%;
-      }
-    }
-  }
-}
-
-// media
-.media {
-  margin-bottom: 20px;
-  .pull-left {
-    margin-right: 10px;
-    line-height: 14px;
-    [class*="fa-"] {
-      margin-top: 1px;
-    }
-  }
-  .media-body {
-    overflow: hidden;
-    zoom: 1;
-    a {
-      &.object-title {
-        color: $darkText;
-      }
-    }
-  }
-}
-
-p {
-  &.Draft {
-    color:darken(#f60,10%);
-    font-weight:bold;
-  }
-  &.Active {
-    color:$green;
-    font-weight:bold;
-  }
-  &.Inactive {
-    color:#666;
-    font-weight:bold;
   }
 }
 
@@ -672,21 +420,6 @@ p {
 }
 
 .dropdown-menu {
-  &.quick-search {
-    min-width: 100%;
-    padding: 15px 20px;
-    box-sizing: border-box;
-    select,
-    input {
-      margin-bottom: 0;
-    }
-    ul {
-      @extend %reset-list;
-    }
-    li {
-      margin-bottom: 20px;
-    }
-  }
   .btn {
     display: inline-block;
     text-transform: none;
@@ -888,16 +621,6 @@ p {
   }
 }
 
-.inner-count-list {
-  @extend %reset-list;
-  li {
-    margin-bottom: 6px;
-    [class*="fa-"] {
-      margin-top: 0 !important;
-    }
-  }
-}
-
 .workflow-trigger {
   font-size: 12px;
   float: right;
@@ -973,43 +696,6 @@ p {
         }
       }
     }
-  }
-}
-
-.add-trigger {
-  .disable {
-    cursor: not-allowed;
-    &:hover {
-      i {
-        @include opacity(.25);
-      }
-    }
-  }
-}
-
-.label-light {
-  background-color: lighten($blue, 55%);
-  span,
-  a {
-    color: $black;
-    text-shadow: none;
-    font-weight: normal;
-  }
-  a {
-    font-weight: bold;
-    text-decoration: none;
-    padding: 0 2px;
-    &:hover {
-      text-decoration: none;
-    }
-  }
-}
-
-.person-selector {
-  input {
-    float: left;
-    margin-right: 5px;
-    width: 70%;
   }
 }
 
