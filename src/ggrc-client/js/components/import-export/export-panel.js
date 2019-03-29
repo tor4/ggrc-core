@@ -89,7 +89,7 @@ export default can.Component.extend({
 
       this.viewModel.updateIsSelected(targetList, value);
     },
-    '{viewModel} type': function (viewModel, ev, type) {
+    '{viewModel} type': function ([viewModel], ev, type) {
       viewModel.attr('item').changeType(type);
       viewModel.setSelected();
     },
