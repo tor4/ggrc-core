@@ -12,9 +12,6 @@
       @extend %oneline;
       width: 77%;
       display: inline-block;
-      .past-items-list & {
-        width: 85%;
-      }
     }
     .custom-attr-wrap {
       border-top: none;
