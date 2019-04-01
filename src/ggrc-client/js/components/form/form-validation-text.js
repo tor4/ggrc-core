@@ -44,7 +44,7 @@ export default can.Component.extend({
       },
     },
     validation: {},
-    highlightInvalidFields: '@',
+    highlightInvalidFields: '',
     type: 'input',
   }),
 });
