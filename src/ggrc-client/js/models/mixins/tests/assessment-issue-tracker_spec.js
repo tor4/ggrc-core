@@ -4,7 +4,6 @@
 */
 
 import * as issueTrackerUtils from '../../../plugins/utils/issue-tracker-utils';
-import * as queryApiUtils from '../../../plugins/utils/query-api-utils';
 import {makeFakeInstance} from '../../../../js_specs/spec_helpers';
 import * as CurrentPageUtils from '../../../plugins/utils/current-page-utils';
 import assessmentIssueTracker from '../assessment-issue-tracker';
@@ -28,33 +27,23 @@ describe('assessmentIssueTracker mixin', () => {
   describe('"after:init" event', () => {
     const asmtProto = Assessment.prototype;
 
-    it('should call "initIssueTrackerForAssessment" for audit', (done) => {
-      let dfd = new $.Deferred();
-      spyOn(asmtProto, 'ensureParentAudit').and.returnValue(dfd);
-      spyOn(asmtProto, 'initIssueTrackerForAssessment');
-      makeFakeInstance({model: Assessment})({type: 'Assessment'});
-
-      dfd.resolve(audit).then(() => {
-        expect(asmtProto.initIssueTrackerForAssessment).toHaveBeenCalled();
-        done();
-      });
+    beforeEach(() => {
+      spyOn(asmtProto, 'initIssueTracker');
+      spyOn(asmtProto, 'trackAuditUpdates');
     });
 
-    it('should call "trackAuditUpdates" method', (done) => {
-      let dfd = $.Deferred();
-      spyOn(asmtProto, 'initIssueTracker').and.returnValue(dfd);
-      spyOn(asmtProto, 'trackAuditUpdates');
+    it('should call "initIssueTracker" for audit', () => {
       makeFakeInstance({model: Assessment})({type: 'Assessment'});
-      dfd.then(() => {
-        expect(asmtProto.trackAuditUpdates).toHaveBeenCalled();
-        done();
-      });
+      expect(asmtProto.initIssueTracker).toHaveBeenCalled();
+    });
 
-      dfd.resolve();
+    it('should call "trackAuditUpdates" method', () => {
+      makeFakeInstance({model: Assessment})({type: 'Assessment'});
+      expect(asmtProto.trackAuditUpdates).toHaveBeenCalled();
     });
   });
 
-  describe('ensureParentAudit() method: ', function () {
+  describe('getParentAudit() method: ', function () {
     let method;
     let assessment;
 
@@ -62,46 +51,24 @@ describe('assessmentIssueTracker mixin', () => {
       assessment = new can.Map({
         audit,
       });
-      method = Mixin.prototype.ensureParentAudit;
+      method = Mixin.prototype.getParentAudit;
     });
 
-    it('should resolve to assigned audit property', function (done) {
-      method.apply(assessment).then((resolvedAudit) => {
-        expect(resolvedAudit).toEqual(audit);
-        done();
-      });
+    it('should resolve to assigned audit property', function () {
+      assessment.isNew = () => false;
+      let resolvedAudit = method.apply(assessment);
+      expect(resolvedAudit).toEqual(audit);
     });
 
-    it('should resolve to audit from page instance', function (done) {
+    it('should resolve to audit from page instance', function () {
       spyOn(CurrentPageUtils, 'getPageInstance')
         .and.returnValue(audit);
 
       assessment.isNew = () => true;
       assessment.attr('audit', null);
 
-      method.apply(assessment).then((resolvedAudit) => {
-        expect(resolvedAudit).toEqual(audit);
-        done();
-      });
-    });
-
-    it('should fetch audit from server if not assigned and not in' +
-       ' page instance', function (done) {
-      spyOn(CurrentPageUtils, 'getPageInstance')
-        .and.returnValue({ });
-
-      let dfd = new $.Deferred();
-      dfd.resolve(_.set({}, 'Audit.values[0]', audit));
-      spyOn(queryApiUtils, 'batchRequests').and.returnValue(dfd);
-
-      assessment.attr('audit', null);
-      assessment.isNew = () => false;
-
-      method.apply(assessment).then((resolvedAudit) => {
-        expect(queryApiUtils.batchRequests).toHaveBeenCalled();
-        expect(resolvedAudit).toEqual(audit);
-        done();
-      });
+      let resolvedAudit = method.apply(assessment);
+      expect(resolvedAudit).toEqual(audit);
     });
   });
 

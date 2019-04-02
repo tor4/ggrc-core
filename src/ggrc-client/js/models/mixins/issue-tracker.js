@@ -15,9 +15,6 @@ export default Mixin.extend(
     'before:refresh'() {
       issueTrackerUtils.cleanUpWarnings(this);
     },
-    after_refresh() {
-      this.initIssueTracker();
-    },
     after_save() {
       issueTrackerUtils.checkWarnings(this);
     },
