@@ -4,7 +4,7 @@
 }}
 
 <div class="input-wrapper {{#if isNoneSelected}}none-selected{{/if}}">
-  <dropdown-component {name}="'inputValue'"
+  <dropdown-component name:bind="inputValue"
             {is-disabled}="{disabled}"
             {options-list}="{options}"
             {is-grouped-dropdown}="{isGroupedDropdown}"

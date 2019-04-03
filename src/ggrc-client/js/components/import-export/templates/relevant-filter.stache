@@ -30,7 +30,7 @@
         {{#if model_singular}}
           <option value="{{model_singular}}"
                   label="{{title_singular}}"
-                  {{#optionHidden}}hidden{{/optionHidden}}>
+                  {{#if optionHidden}}hidden{{/if}}>
           </option>
         {{/if}}
       {{/menu}}

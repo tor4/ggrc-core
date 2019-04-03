@@ -12,7 +12,7 @@
       your work. We will send you an email notification when it completes.
     </div>
   {{/inProgress}}
-  {{#exports}}
+  {{#each exports}}
     <div class="flex-box flex-col current-exports__item {{#isDisabled id}}disabled{{/isDisabled}}">
       {{#is(status, "Failed")}}
         <span class="status-failed">
@@ -51,5 +51,5 @@
         {{/switch}}
       </div>
     </div>
-  {{/exports}}
+  {{/each}}
 </div>
