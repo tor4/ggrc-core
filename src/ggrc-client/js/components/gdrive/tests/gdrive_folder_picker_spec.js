@@ -48,7 +48,7 @@ describe('gdrive-folder-picker component', function () {
   });
 
   describe('events', function () {
-    describe('"inserted" handler', function () {
+    describe('"init" handler', function () {
       let method;
       let that;
 
@@ -57,7 +57,7 @@ describe('gdrive-folder-picker component', function () {
           viewModel: viewModel,
           element: $('<div></div>'),
         };
-        method = events.inserted.bind(that);
+        method = events.init.bind(that);
       });
 
       it('calls setRevisionFolder()', function () {

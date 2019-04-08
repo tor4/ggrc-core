@@ -118,7 +118,7 @@ export default can.Component.extend({
   }),
 
   events: {
-    inserted: function () {
+    init: function () {
       let viewModel = this.viewModel;
 
       if (!viewModel.attr('readonly')) {

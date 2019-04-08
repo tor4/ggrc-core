@@ -279,7 +279,7 @@ export default can.Component.extend({
     },
   }),
   events: {
-    inserted() {
+    init() {
       this.viewModel.setupGroups();
     },
     '{viewModel.instance} updated'() {
