@@ -127,7 +127,7 @@
       </label>
       <a href="javascript://" class="field-hide" tabindex="-1">hide</a>
       <dropdown-component {options-list}="{model.statuses}"
-                {name}="'instance.status'"
+                name:bind="instance.status"
                 tabindex="23">
       </dropdown-component>
     </div>

@@ -26,7 +26,7 @@
     <div class="ggrc-form-item__multiple-row">
       <dropdown-component class="issue-tracker__dropdown"
           {options-list}="{instance.class.issue_tracker_enable_options}"
-          {name}="'isIntegrationEnabled'"
+          name:bind="isIntegrationEnabled"
       ></dropdown-component>
       {{#if_instance_of instance 'Audit'}}
         {{#if instance.issue_tracker.enabled}}
@@ -114,7 +114,7 @@
         Ticket Priority
       </label>
       <dropdown-component {options-list}="{instance.class.issue_tracker_priorities}"
-                {name}="'instance.issue_tracker.issue_priority'">
+                name:bind="instance.issue_tracker.issue_priority">
       </dropdown-component>
     </div>
     <div class="ggrc-form-item__multiple-row">
@@ -123,7 +123,7 @@
       </label>
       <dropdown-component {instance}="{instance}"
                 {options-list}="{instance.class.issue_tracker_severities}"
-                {name}="'instance.issue_tracker.issue_severity'">
+                name:bind="instance.issue_tracker.issue_severity">
       </dropdown-component>
     </div>
 

@@ -137,7 +137,7 @@
         <dropdown-component {options-list}="{model.statuses}"
                   {no-value}="{true}"
                   {no-value-label}="'---'"
-                  {name}="'instance.status'"
+                  name:bind="instance.status"
                   {is-disabled}="{instance.issueTrackerEnabled}"
                   tabindex="23">
         </dropdown-component>

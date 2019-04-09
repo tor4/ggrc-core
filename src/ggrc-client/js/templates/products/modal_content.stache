@@ -101,7 +101,7 @@
                               {(value)}="{instance.kind}"
                               {role}="'product_type'">
               <dropdown-component {options-list}="{options}"
-                        on:el:change="selectedChanged()" {name}="'selected'"
+                        on:el:change="selectedChanged()" name:bind="selected"
                         {no-value}="{true}" {no-value-label}="'---'">
               </dropdown-component>
             </dropdown-wrapper>
@@ -120,7 +120,7 @@
         </label>
         <a data-id="hide_state_lk" href="javascript://" class="field-hide" tabindex="-1">hide</a>
         <dropdown-component {options-list}="{model.statuses}"
-                  {name}="'instance.status'"
+                  name:bind="instance.status"
                   tabindex="23">
         </dropdown-component>
       </div>

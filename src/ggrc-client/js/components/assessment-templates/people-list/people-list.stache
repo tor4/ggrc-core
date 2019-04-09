@@ -9,7 +9,7 @@
   </label>
   <dropdown-component
     {options-list}="{peopleValues}"
-    {name}="'selectedValue'"
+    name:bind="selectedValue"
     on:el:change="dropdownChanged"
     {no-value}="{hasEmptyValue}"
   ></dropdown-component>
