@@ -21,6 +21,6 @@ const viewModel = can.Map.extend({
 export default can.Component.extend({
   tag: 'proposable-control',
   leakScope: false,
-  template: can.stache(template),
+  view: can.stache(template),
   viewModel,
 });

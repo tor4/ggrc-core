@@ -30,7 +30,7 @@ const defaultOrderBy = [
 
 export default can.Component.extend({
   tag: 'related-assessments',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     define: {

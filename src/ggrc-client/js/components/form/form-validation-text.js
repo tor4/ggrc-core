@@ -14,7 +14,7 @@ const textMap = {
  */
 export default can.Component.extend({
   tag: 'form-validation-text',
-  template: can.stache('<p class="required">{{text}}</p>'),
+  view: can.stache('<p class="required">{{text}}</p>'),
   leakScope: true,
   viewModel: can.Map.extend({
     define: {

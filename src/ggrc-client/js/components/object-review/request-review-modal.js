@@ -8,7 +8,7 @@ import {createReviewInstance, saveReview} from '../../plugins/utils/object-revie
 
 export default can.Component.extend({
   tag: 'request-review-modal',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     define: {

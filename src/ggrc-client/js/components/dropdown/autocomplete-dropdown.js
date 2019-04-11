@@ -7,7 +7,7 @@ import template from './autocomplete-dropdown.stache';
 
 export default can.Component.extend({
   tag: 'autocomplete-dropdown',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     options: [],

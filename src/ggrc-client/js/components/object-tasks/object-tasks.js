@@ -51,7 +51,7 @@ let viewModel = can.Map.extend({
 
 export default can.Component.extend({
   tag: 'object-tasks',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel,
   events: {

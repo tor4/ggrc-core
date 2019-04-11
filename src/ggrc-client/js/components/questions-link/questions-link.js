@@ -11,7 +11,7 @@ import template from './questions-link.stache';
 
 export default can.Component.extend({
   tag: 'questions-link',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     define: {

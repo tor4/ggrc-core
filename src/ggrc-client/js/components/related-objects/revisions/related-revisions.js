@@ -10,7 +10,7 @@ import Revision from '../../../models/service-models/revision.js';
 
 export default can.Component.extend({
   tag: 'related-revisions',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     define: {

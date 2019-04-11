@@ -19,7 +19,7 @@ let viewModel = baseAutocompleteWrapper.extend({
 
 export default can.Component.extend({
   tag: 'label-autocomplete-wrapper',
-  template: can.stache('<content/>'),
+  view: can.stache('<content/>'),
   leakScope: true,
   viewModel: viewModel,
 });

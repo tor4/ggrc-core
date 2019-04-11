@@ -13,7 +13,7 @@ import pubSub from '../../pub-sub';
 
 export default can.Component.extend({
   tag: 'attach-button',
-  template: can.stache(template),
+  view: can.stache(template),
   confirmationCallback: '',
   leakScope: true,
   viewModel: can.Map.extend({

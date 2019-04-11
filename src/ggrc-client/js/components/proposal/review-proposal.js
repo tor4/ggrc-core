@@ -14,7 +14,7 @@ import template from './templates/review-proposal.stache';
 
 export default can.Component.extend({
   tag: 'review-proposal',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     define: {

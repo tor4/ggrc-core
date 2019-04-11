@@ -129,7 +129,7 @@ const viewModel = DiffBaseVM.extend({
 
 export default can.Component.extend({
   tag: 'instance-gca-diff',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: viewModel,
   events: {

@@ -10,7 +10,7 @@ import {trigger} from 'can-event';
 
 export default can.Component.extend({
   tag: 'bulk-update-button',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     model: null,

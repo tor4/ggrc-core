@@ -7,7 +7,7 @@ import template from './model-loader.stache';
 
 export default can.Component.extend({
   tag: 'model-loader',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     define: {

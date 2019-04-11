@@ -12,7 +12,7 @@ import template from './autocomplete.stache';
 // the component's configuration object (i.e. its constructor's prototype)
 let component = {
   tag: 'autocomplete-component',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     placeholder: '',

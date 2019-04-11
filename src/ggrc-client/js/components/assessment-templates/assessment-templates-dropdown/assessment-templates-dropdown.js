@@ -13,7 +13,7 @@ import tracker from '../../../tracker';
 
 export default can.Component.extend({
   tag: 'assessment-templates-dropdown',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     responses: [],

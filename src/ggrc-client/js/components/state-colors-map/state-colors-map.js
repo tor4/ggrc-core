@@ -34,7 +34,7 @@ let viewModel = can.Map.extend({
  */
 export default can.Component.extend({
   tag: 'state-colors-map',
-  template: can.stache(
+  view: can.stache(
     '<span class="state-value-dot state-{{suffix}} {{verified}}">' +
     '{{state}}</span>'
   ),

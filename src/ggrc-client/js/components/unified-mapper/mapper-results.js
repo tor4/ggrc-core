@@ -34,7 +34,7 @@ const DEFAULT_PAGE_SIZE = 10;
 
 export default can.Component.extend({
   tag: 'mapper-results',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     define: {

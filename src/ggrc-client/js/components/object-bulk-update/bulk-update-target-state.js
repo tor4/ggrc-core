@@ -20,7 +20,7 @@ let objectStateToWarningMap = {
 
 export default can.Component.extend({
   tag: 'bulk-update-target-state',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     define: {

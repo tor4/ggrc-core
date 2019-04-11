@@ -8,7 +8,7 @@ import {trigger} from 'can-event';
 
 export default can.Component.extend({
   tag: 'object-selection-item',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     isSaving: false,

@@ -13,7 +13,7 @@ import Person from '../../models/business-models/person';
  */
 export default can.Component.extend({
   tag: 'person-data',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     define: {

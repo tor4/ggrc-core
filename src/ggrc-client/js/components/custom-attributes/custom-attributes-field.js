@@ -13,7 +13,7 @@ import template from './custom-attributes-field.stache';
 
 export default can.Component.extend({
   tag: 'custom-attributes-field',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     define: {

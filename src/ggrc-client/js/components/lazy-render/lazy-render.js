@@ -22,7 +22,7 @@ let viewModel = can.Map.extend({
  */
 export default can.Component.extend({
   tag: 'lazy-render',
-  template: can.stache('{{#if activated}}<content/>{{/if}}'),
+  view: can.stache('{{#if activated}}<content/>{{/if}}'),
   leakScope: true,
   viewModel,
 });

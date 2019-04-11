@@ -11,7 +11,7 @@ import {getVisibleColumnsConfig, getSortingForModel}
 
 export default can.Component.extend({
   tag: 'tree-header',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     define: {

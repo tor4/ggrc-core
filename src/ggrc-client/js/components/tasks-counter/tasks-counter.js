@@ -12,7 +12,7 @@ import CycleTaskGroupObjectTask from '../../models/business-models/cycle-task-gr
  */
 export default can.Component.extend({
   tag: 'tasks-counter',
-  template: can.stache(
+  view: can.stache(
     '<div class="tasks-counter {{stateCss}}">{{tasksAmount}}</div>'
   ),
   leakScope: true,

@@ -5,7 +5,7 @@
 
 export default can.Component.extend({
   tag: 'textarea-array',
-  template: can.stache(
+  view: can.stache(
     '<textarea class="{{className}}" placeholder="{{placeholder}}">' +
     '{{content}}' +
     '</textarea>'

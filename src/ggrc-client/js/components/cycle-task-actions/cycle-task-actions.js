@@ -112,7 +112,7 @@ let viewModel = can.Map.extend({
  */
 export default can.Component.extend({
   tag: 'cycle-task-actions',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel,
   events: {

@@ -8,7 +8,7 @@ import template from './inline-item.stache';
 
 export default can.Component.extend({
   tag: 'assessment-inline-item',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     instance: {},

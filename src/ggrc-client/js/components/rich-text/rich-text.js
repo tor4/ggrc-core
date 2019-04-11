@@ -12,7 +12,7 @@ const URL_TYPE_REGEX = /https?:\/\/[^\s]+$/;
 
 export default can.Component.extend('richText', {
   tag: 'rich-text',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     define: {

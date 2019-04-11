@@ -7,7 +7,7 @@ import template from './templates/ticket-id-checker.stache';
 
 export default can.Component.extend({
   tag: 'ticket-id-checker',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     instance: null,

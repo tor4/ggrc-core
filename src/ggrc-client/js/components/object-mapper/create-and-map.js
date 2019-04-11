@@ -25,7 +25,7 @@ import {isMegaMapping} from '../../plugins/utils/mega-object-utils';
 
 export default can.Component.extend({
   tag: 'create-and-map',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: false,
   viewModel: can.Map.extend({
     define: {

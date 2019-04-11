@@ -67,7 +67,7 @@ const messages = {
 
 export default can.Component.extend({
   tag: 'csv-import',
-  template: can.stache(template),
+  view: can.stache(template),
   requestData: null,
   leakScope: true,
   viewModel: can.Map.extend({

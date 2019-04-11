@@ -10,7 +10,7 @@ import template from './collapsible-panel-header.stache';
  */
 export default can.Component.extend({
   tag: 'collapsible-panel-header',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     titleIcon: null,

@@ -7,7 +7,7 @@ import template from './rich-text-form-field-view.stache';
 
 export default can.Component.extend({
   tag: 'rich-text-form-field-view',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     value: null,

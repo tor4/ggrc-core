@@ -10,7 +10,7 @@ import template from './templates/assessment-people.stache';
 
 export default can.Component.extend({
   tag: 'assessment-people',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: false,
   viewModel: can.Map.extend({
     define: {

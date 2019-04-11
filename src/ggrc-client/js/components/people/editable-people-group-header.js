@@ -9,7 +9,7 @@ import template from './editable-people-group-header.stache';
 
 export default can.Component.extend({
   tag: 'editable-people-group-header',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     define: {

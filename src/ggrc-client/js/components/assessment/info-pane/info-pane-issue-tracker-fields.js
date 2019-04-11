@@ -8,7 +8,7 @@ import template from './templates/info-pane-issue-tracker-fields.stache';
 
 export default can.Component.extend({
   tag: 'info-pane-issue-tracker-fields',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     instance: {},

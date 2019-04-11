@@ -10,7 +10,7 @@ import Proposal from '../../models/service-models/proposal';
 
 export default can.Component.extend({
   tag: 'apply-decline-proposal',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     define: {

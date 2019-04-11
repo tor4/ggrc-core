@@ -9,7 +9,7 @@ import template from './related-issues.stache';
 
 export default can.Component.extend({
   tag: 'related-issues',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     define: {

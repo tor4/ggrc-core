@@ -14,7 +14,7 @@ import {getRole} from '../../plugins/utils/acl-utils';
 
 export default can.Component.extend({
   tag: 'create-proposal',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     define: {

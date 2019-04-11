@@ -26,7 +26,7 @@ let viewModel = can.Map.extend({
 
 export default can.Component.extend({
   tag: 'tree-item-map',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel,
   events: {

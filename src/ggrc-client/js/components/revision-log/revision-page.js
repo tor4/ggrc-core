@@ -31,7 +31,7 @@ let LIST_FIELDS = {
 
 export default can.Component.extend({
   tag: 'revision-page',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     define: {

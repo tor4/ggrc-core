@@ -16,7 +16,7 @@ import template from './external-data-autocomplete.stache';
  */
 export default can.Component.extend({
   tag: 'external-data-autocomplete',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     define: {

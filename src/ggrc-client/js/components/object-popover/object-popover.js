@@ -14,7 +14,7 @@ const defaultRightPosition = 60;
  */
 export default can.Component.extend({
   tag: 'object-popover',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     expanded: false,

@@ -29,7 +29,7 @@ const viewModel = can.Map.extend({
 
 export default can.Component.extend('treePeopleWithRoleListField', {
   tag: 'tree-people-with-role-list-field',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel,
 });

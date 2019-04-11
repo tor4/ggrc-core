@@ -14,7 +14,7 @@ import template from './templates/related-revisions-item.stache';
 
 export default can.Component.extend({
   tag: 'related-revisions-item',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     define: {

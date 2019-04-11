@@ -11,7 +11,7 @@ import {sanitizer} from '../../plugins/utils/url-utils';
 
 export default can.Component.extend({
   tag: 'related-urls',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     define: {

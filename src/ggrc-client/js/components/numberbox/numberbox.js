@@ -11,7 +11,7 @@ const NEGATIVE_NUMBER_PATTERN = '([-]{0,1})';
 
 export default can.Component.extend({
   tag: 'numberbox-component',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     value: '',

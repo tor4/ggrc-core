@@ -31,7 +31,7 @@ const init = function (element) {
 
 export default can.Component.extend({
   tag: 'cycle-task-objects',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel,
   init,

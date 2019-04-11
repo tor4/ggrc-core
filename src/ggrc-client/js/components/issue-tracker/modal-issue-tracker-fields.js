@@ -9,7 +9,7 @@ import template from './templates/modal-issue-tracker-fields.stache';
 
 export default can.Component.extend({
   tag: 'modal-issue-tracker-fields',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     instance: {},

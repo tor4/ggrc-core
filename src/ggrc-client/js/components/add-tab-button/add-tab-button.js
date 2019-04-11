@@ -44,7 +44,7 @@ const viewModel = can.Map.extend({
 
 export default can.Component.extend({
   tag: 'add-tab-button',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel,
   events: {

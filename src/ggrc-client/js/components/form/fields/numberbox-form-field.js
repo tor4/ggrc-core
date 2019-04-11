@@ -9,7 +9,7 @@ import {TEXT_FORM_FIELD_VM} from './text-form-field';
 
 export default can.Component.extend({
   tag: 'numberbox-form-field',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: TEXT_FORM_FIELD_VM,
   events: {

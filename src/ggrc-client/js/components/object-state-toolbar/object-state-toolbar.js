@@ -11,7 +11,7 @@ import template from './object-state-toolbar.stache';
  */
 export default can.Component.extend({
   tag: 'object-state-toolbar',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     define: {

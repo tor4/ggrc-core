@@ -7,7 +7,7 @@ import template from './templates/related-proposals.stache';
 
 export default can.Component.extend({
   tag: 'related-proposals',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     baseInstance: {},

@@ -7,7 +7,7 @@ import template from './custom-attributes-actions.stache';
 
 export default can.Component.extend({
   tag: 'custom-attributes-actions',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     instance: null,

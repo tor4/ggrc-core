@@ -12,7 +12,7 @@ import template from './object-list.stache';
  */
 export default can.Component.extend({
   tag: 'object-list',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     define: {

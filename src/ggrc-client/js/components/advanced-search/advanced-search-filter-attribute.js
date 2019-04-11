@@ -93,7 +93,7 @@ let viewModel = can.Map.extend({
  */
 export default can.Component.extend({
   tag: 'advanced-search-filter-attribute',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: viewModel,
   events: {

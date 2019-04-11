@@ -7,7 +7,7 @@ import template from './spinner.stache';
 
 export default can.Component.extend({
   tag: 'spinner-component',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   scope: can.Map.extend({
     extraCssClass: '',

@@ -124,7 +124,7 @@ const viewModel = can.Map.extend({
  */
 export default can.Component.extend({
   tag: 'assessment-mapped-controls',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: viewModel,
   events: {

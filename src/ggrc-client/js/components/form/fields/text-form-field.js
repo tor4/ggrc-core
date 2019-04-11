@@ -61,7 +61,7 @@ const TEXT_FORM_FIELD_VM = can.Map.extend({
 });
 
 export default can.Component.extend({
-  template: can.stache(template),
+  view: can.stache(template),
   tag: 'text-form-field',
   leakScope: true,
   viewModel: TEXT_FORM_FIELD_VM,

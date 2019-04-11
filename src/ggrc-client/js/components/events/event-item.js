@@ -7,7 +7,7 @@ import template from './event-item.stache';
 
 export default can.Component.extend({
   tag: 'event-item',
-  template: can.stache(template),
+  view: can.stache(template),
   viewModel: can.Map.extend({
     define: {
       hasHiddenRevisions: {

@@ -11,7 +11,7 @@ import template from './autocomplete-results.stache';
  */
 export default can.Component.extend({
   tag: 'autocomplete-results',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     define: {

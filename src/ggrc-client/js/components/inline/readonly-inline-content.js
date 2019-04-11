@@ -9,7 +9,7 @@ import template from './readonly-inline-content.stache';
 
 export default can.Component.extend({
   tag: 'readonly-inline-content',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     withReadMore: false,

@@ -9,7 +9,7 @@ import {getPageInstance} from '../../plugins/utils/current-page-utils';
 
 export default can.Component.extend({
   tag: 'assessment-template-clone-button',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     model: null,

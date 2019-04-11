@@ -77,7 +77,7 @@ const viewModel = can.Map.extend({
 export default can.Component.extend({
   tag: 'dashboard-workflows',
   leakScope: true,
-  template: can.stache(template),
+  view: can.stache(template),
   viewModel,
   init() {
     this.viewModel.initMyWorkflows();

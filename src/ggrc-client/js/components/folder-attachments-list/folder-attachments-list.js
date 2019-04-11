@@ -19,7 +19,7 @@ import template from './folder-attachments-list.stache';
  */
 export default can.Component.extend({
   tag: 'folder-attachments-list',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     define: {

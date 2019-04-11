@@ -17,7 +17,7 @@ import {notifier} from '../../plugins/utils/notifiers-utils';
  */
 export default can.Component.extend({
   tag: 'comment-add-form',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     define: {

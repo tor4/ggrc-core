@@ -14,7 +14,7 @@ import template from './simple-modal.stache';
  */
 export default can.Component.extend({
   tag: 'simple-modal',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     extraCssClass: '',

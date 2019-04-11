@@ -13,7 +13,7 @@ import template from './templates/restore-revision.stache';
 
 export default can.Component.extend({
   tag: 'restore-revision',
-  template: can.stache(template),
+  view: can.stache(template),
   leakScope: true,
   viewModel: can.Map.extend({
     instance: {},
