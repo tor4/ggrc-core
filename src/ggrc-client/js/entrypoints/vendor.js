@@ -49,4 +49,7 @@ import 'can-map-define';
 import 'can-jquery';
 import 'can-jquery/legacy';
 
+// Temporary add to hide unneeded logs
+import '../plugins/console-interceptor';
+
 window.can = can3;
