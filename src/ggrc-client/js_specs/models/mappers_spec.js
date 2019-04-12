@@ -344,15 +344,12 @@ describe('mappers', function () {
       describe('when last_instance is not this MappingResult\'s ' +
                'instance', function () {
         it('calls the function on itself', function () {
-          let sanityCheck = false;
           let instance = {};
           let mr = new LL.MappingResult(instance, [], 'bar');
-          mr.walk_instances(function (instance, _result, depth) {
-            expect(instance).toBe(instance);
-            expect(depth).toBe(0);
-            sanityCheck = true;
-          }, 'bar', 0);
-          expect(sanityCheck).toBe(true);
+          let spy = jasmine.createSpy('spy');
+          mr.walk_instances(spy, 'bar', 0);
+
+          expect(spy).toHaveBeenCalledWith(instance, jasmine.any(Object), 0);
         });
 
         describe('when mappings length is greater than zero', function () {
@@ -391,13 +388,11 @@ describe('mappers', function () {
         });
 
         it('no action is taken', function () {
-          let sanityCheck = false;
           let instance = {};
           let mr = new LL.MappingResult(instance, [], 'bar');
           mr.walk_instances(function (walkInstance, _result, depth) {
             fail('fn was called');
           }, instance, 0);
-          expect(sanityCheck).toBe(false);
         });
       });
     });
@@ -630,79 +625,61 @@ describe('mappers', function () {
 
     describe('#refresh_stubs', function () {
       it('returns promise based on existing deferred, ' +
-         'returning binding list, if it exists', function () {
+         'returning binding list, if it exists', function (done) {
         let binding = {list: []};
         let sourceDfd = binding._refresh_stubs_deferred = new $.Deferred();
         let ret = ll.refresh_stubs(binding);
-        let sanity = false;
         sourceDfd.resolve();
         ret.done(function (data) {
           expect(data).toBe(binding.list);
-          sanity = true;
+          done();
         });
-        if (!sanity) {
-          fail('sanity check failed for done callback from returned promise');
-        }
       });
 
       it('makes new refresh stubs deferred, returning binding list, ' +
-         'if it does not already exist', function () {
+         'if it does not already exist', function (done) {
         let ret;
         let binding = {list: []};
-        let sanity = false;
         ll._refresh_stubs = jasmine.createSpy().and.returnValue($.when());
         ret = ll.refresh_stubs(binding);
         ret.done(function (data) {
           expect(data).toBe(binding.list);
-          sanity = true;
+          done();
         });
-        if (!sanity) {
-          fail('sanity check failed for done callback from returned promise');
-        }
         expect(ll._refresh_stubs).toHaveBeenCalled();
       });
     });
 
     describe('#refresh_instances', function () {
       it('returns promise based on existing deferred, ' +
-         'returning binding list, if it exists', function () {
+         'returning binding list, if it exists', function (done) {
         let binding = {list: []};
         let sourceDfd = binding._refresh_instances_deferred = new $.Deferred();
         let ret = ll.refresh_instances(binding);
-        let sanity = false;
         sourceDfd.resolve();
         ret.done(function (data) {
           expect(data).toBe(binding.list);
-          sanity = true;
+          done();
         });
-        if (!sanity) {
-          fail('sanity check failed for done callback from returned promise');
-        }
       });
 
       it('makes new refresh instances deferred, returning binding list, ' +
-         'if it does not already exist', function () {
+         'if it does not already exist', function (done) {
         let ret;
         let binding = {list: []};
-        let sanity = false;
         ll._refresh_instances = jasmine.createSpy().and.returnValue($.when());
         ret = ll.refresh_instances(binding);
         ret.done(function (data) {
           expect(data).toBe(binding.list);
-          sanity = true;
+          done();
         });
-        if (!sanity) {
-          fail('sanity check failed for done callback from returned promise');
-        }
-        expect(ll._refresh_instances).toHaveBeenCalled();
       });
     });
 
     describe('#_refresh_instances', function () {
-      it('returns promise based on binding list', function () {
+      it('returns promise based on binding list', function (done) {
         let ret;
         let binding = {list: [{instance: 'a'}]};
-        let sanity = false;
         spyOn(ll, 'refresh_stubs').and.returnValue($.when());
         spyOn(RefreshQueue.prototype, 'trigger').and.callFake(function () {
           return $.when(this.objects);
@@ -711,11 +688,8 @@ describe('mappers', function () {
         ret = ll._refresh_instances(binding);
         ret.done(function (data) {
           expect(data).toEqual(['a']);
-          sanity = true;
+          done();
         });
-        if (!sanity) {
-          fail('sanity check failed for done callback from returned promise');
-        }
       });
     });
   });
