@@ -3,6 +3,7 @@
  Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
  */
 
+import canEvent from 'can-event';
 import {makeFakeInstance} from '../../../../js_specs/spec_helpers';
 import Relationship from '../relationship';
 
@@ -40,12 +41,12 @@ describe('Relationship model', function () {
 
     it('triggers "destroyed" event', function () {
       spyOn($, 'ajax').and.returnValue($.Deferred().resolve());
-      spyOn(can, 'trigger');
+      spyOn(canEvent, 'trigger');
 
       instance.unmap(true);
 
-      expect(can.trigger)
-        .toHaveBeenCalledWith(instance.constructor, 'destroyed', instance);
+      expect(canEvent.trigger)
+        .toHaveBeenCalledWith('destroyed', instance);
     });
   });
 });

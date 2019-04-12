@@ -3,6 +3,7 @@
  Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
  */
 
+import canEvent from 'can-event';
 import {getComponentVM} from '../../../../js_specs/spec_helpers';
 import Component from '../multiselect-dropdown';
 
@@ -114,7 +115,7 @@ describe('multiselect-dropdown component', function () {
         viewModel.attr('element', {});
         viewModel.attr('options', options);
         viewModel.attr('selected', []);
-        spyOn(can, 'trigger');
+        spyOn(canEvent, 'trigger');
 
         viewModel.updateSelected();
 
@@ -207,7 +208,7 @@ describe('multiselect-dropdown component', function () {
 
     it('close dropdown without changing of options',
       function () {
-        spyOn(can, 'trigger');
+        spyOn(canEvent, 'trigger');
         viewModel.attr('isOpen', true);
         viewModel.attr('_stateWasUpdated', false);
 
@@ -222,7 +223,7 @@ describe('multiselect-dropdown component', function () {
 
     it('close dropdown with changing of options',
       function () {
-        spyOn(can, 'trigger');
+        spyOn(canEvent, 'trigger');
         viewModel.attr('isOpen', true);
         viewModel.attr('_stateWasUpdated', false);
 
