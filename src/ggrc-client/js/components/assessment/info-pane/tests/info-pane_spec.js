@@ -1836,7 +1836,7 @@ describe('assessment-info-pane component', () => {
       spyOn(viewModel.attr('deferredSave'), 'isPending')
         .and.returnValue(true);
 
-      handler(instance);
+      handler([instance]);
       expect(viewModel.reinitFormFields.calls.count()).toBe(0);
     });
 
@@ -1845,12 +1845,12 @@ describe('assessment-info-pane component', () => {
       spyOn(viewModel.attr('deferredSave'), 'isPending')
         .and.returnValue(false);
 
-      handler(instance);
+      handler([instance]);
       expect(viewModel.reinitFormFields.calls.count()).toBe(1);
     });
 
     it('should make a backup of instance', () => {
-      handler(instance);
+      handler([instance]);
 
       expect(instance.backup).toHaveBeenCalled();
     });
