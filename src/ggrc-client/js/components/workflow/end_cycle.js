@@ -27,11 +27,14 @@ import {trigger} from 'can-event';
 
 export default can.Component.extend({
   tag: 'cycle-end-cycle',
+  viewModel: can.Map.extend({
+    cycle: null,
+  }),
   events: {
     click: function (el, ev) {
       ev.stopPropagation();
 
-      this.scope.cycle
+      this.viewModel.attr('cycle')
         .refresh()
         .then(function (cycle) {
           return cycle.attr('is_current', false).save();
