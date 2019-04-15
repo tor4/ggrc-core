@@ -125,7 +125,9 @@ describe('people-mention component', () => {
     beforeEach(() => {
       actionKeySpy = jasmine.createSpy('actionKeySpy');
 
-      let originalViewModel = can.Map.extend(component.prototype.viewModel);
+      let originalViewModel = can.Map.extend(
+        component.prototype.viewModel.prototype
+      );
       extendedVm = originalViewModel.extend({
         define: {
           actionKey: {

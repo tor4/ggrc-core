@@ -19,8 +19,8 @@ describe('mapper-results component', function () {
   let viewModel;
 
   beforeEach(function () {
-    let init = Component.prototype.viewModel.init;
-    Component.prototype.viewModel.init = undefined;
+    let init = Component.prototype.viewModel.prototype.init;
+    Component.prototype.viewModel.prototype.init = undefined;
     viewModel = getComponentVM(Component);
     viewModel.attr('mapper', {
       type: 'Control',
@@ -28,7 +28,7 @@ describe('mapper-results component', function () {
     viewModel.attr('submitCbs', $.Callbacks());
     viewModel.attr('paging',
       new Pagination({pageSizeSelect: [5, 10, 15]}));
-    Component.prototype.viewModel.init = init;
+    Component.prototype.viewModel.prototype.init = init;
     viewModel.init = init;
   });
 
@@ -964,7 +964,7 @@ describe('mapper-results component', function () {
     let viewModel;
 
     beforeEach(function () {
-      Component.prototype.viewModel.init = undefined;
+      Component.prototype.viewModel.prototype.init = undefined;
       viewModel = getComponentVM(Component);
       viewModel.attr({});
     });

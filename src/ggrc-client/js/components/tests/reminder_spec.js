@@ -32,7 +32,7 @@ describe('reminder component', function () {
       eventObj = $.Event();
       $element = $('<div></div>');
 
-      method = Component.prototype.viewModel.reminder.bind(viewModel);
+      method = Component.prototype.viewModel.prototype.reminder.bind(viewModel);
     });
 
     it('saves the instance only after it has been refreshed', function () {
