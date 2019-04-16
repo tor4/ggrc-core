@@ -32,7 +32,7 @@ export default can.Component.extend({
     },
     '{viewModel.selectedList} change'(list) {
       let instance = this.viewModel.attr('instance');
-      let index = list.indexOf(instance);
+      let index = $.makeArray(list).indexOf(instance);
 
       this.viewModel.attr('isChecked', index >= 0);
     },
