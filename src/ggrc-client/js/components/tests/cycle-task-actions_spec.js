@@ -34,13 +34,13 @@ describe('cycle-task-actions component', function () {
       });
 
       changeStatus = vm.changeStatus.bind(vm);
+
+      fakeElement = document.createElement('div');
+      fakeElement.dataset.value = 'Verified';
     });
 
     it('puts status and adds previous one for undo', async function (done) {
       spyOn(vm, 'setStatus').and.returnValue(Promise.resolve(true));
-      fakeElement = {
-        data: jasmine.createSpy().and.returnValues('Verified', null),
-      };
 
       await changeStatus(null, fakeElement, fakeEvent);
       expect(vm.attr('oldValues').length).toEqual(1);
@@ -52,9 +52,6 @@ describe('cycle-task-actions component', function () {
     it('puts status, adds previous one for undo and fires "expand" event',
       async function (done) {
         spyOn(vm, 'setStatus').and.returnValue(Promise.resolve(true));
-        fakeElement = {
-          data: jasmine.createSpy().and.returnValues('Verified', 'open'),
-        };
 
         await changeStatus(null, fakeElement, fakeEvent);
         expect(vm.attr('oldValues').length).toEqual(1);
@@ -67,9 +64,6 @@ describe('cycle-task-actions component', function () {
     it('doesn\'t change previous status if setStatus returned false',
       async function (done) {
         spyOn(vm, 'setStatus').and.returnValue(Promise.resolve(false));
-        fakeElement = {
-          data: jasmine.createSpy().and.returnValues('Verified'),
-        };
 
         await changeStatus(null, fakeElement, fakeEvent);
         expect(vm.attr('oldValues').length).toEqual(0);
