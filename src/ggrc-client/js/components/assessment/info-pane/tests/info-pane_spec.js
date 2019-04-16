@@ -1136,13 +1136,16 @@ describe('assessment-info-pane component', () => {
         expect(vm.attr('comments').serialize()).toEqual([data.Comment]);
       });
 
-      it('replaces files list with loaded files', function () {
+      it('replaces files list with loaded files', function (done) {
         let evidenceData = {data: '1'};
         data['Evidence:FILE'] = [evidenceData];
-        vm.updateRelatedItems();
-        expect(vm.attr('files').serialize()).toEqual([
-          (new Evidence(evidenceData)).serialize(),
-        ]);
+
+        vm.updateRelatedItems().then(() => {
+          expect(vm.attr('files')[0].serialize()).toEqual(
+            (new Evidence(evidenceData)).serialize()
+          );
+          done();
+        });
       });
 
       it('creates Evidence model for each loaded file', function () {
@@ -1154,13 +1157,16 @@ describe('assessment-info-pane component', () => {
         });
       });
 
-      it('replaces urls list with loaded urls', function () {
+      it('replaces urls list with loaded urls', function (done) {
         let evidenceData = {data: '1'};
         data['Evidence:URL'] = [evidenceData];
-        vm.updateRelatedItems();
-        expect(vm.attr('urls').serialize()).toEqual([
-          (new Evidence(evidenceData)).serialize(),
-        ]);
+
+        vm.updateRelatedItems().then(() => {
+          expect(vm.attr('urls')[0].serialize()).toEqual(
+            (new Evidence(evidenceData)).serialize()
+          );
+          done();
+        });
       });
 
       it('creates Evidence model for each loaded url', function () {
