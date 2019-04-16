@@ -73,6 +73,7 @@ describe('"release-notes-menu-item" component', () => {
           saveDfd = $.Deferred();
           profile.save = jasmine.createSpy('save').and.returnValue(saveDfd);
           profileDfd.resolve(profile);
+          saveDfd.resolve();
         });
 
 
@@ -95,10 +96,6 @@ describe('"release-notes-menu-item" component', () => {
         });
 
         describe('and current user\'s profile was saved', () => {
-          beforeEach(() => {
-            saveDfd.resolve();
-          });
-
           it('calls open() method', async (done) => {
             await handler();
             expect(vm.open).toHaveBeenCalled();

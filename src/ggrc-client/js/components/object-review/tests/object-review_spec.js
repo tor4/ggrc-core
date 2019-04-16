@@ -220,23 +220,25 @@ describe('object-review component', () => {
         spyOn(viewModel, 'showNotification');
       });
 
-      it('and set review from response to attribute', () => {
+      it('and set review from response to attribute', (done) => {
         viewModel.loadReview();
 
-        refeshReviewDfd.resolve(review);
-
-        expect(Review.prototype.refresh).toHaveBeenCalled();
-        expect(viewModel.attr('review')).toBe(review);
+        refeshReviewDfd.resolve(review).then(() => {
+          expect(Review.prototype.refresh).toHaveBeenCalled();
+          expect(viewModel.attr('review')).toBe(review);
+          done();
+        });
       });
 
-      it('and show loader', () => {
+      it('and show loader', (done) => {
         viewModel.loadReview();
 
         expect(viewModel.attr('loading')).toBeTruthy();
 
-        refeshReviewDfd.resolve(review);
-
-        expect(viewModel.attr('loading')).toBeFalsy();
+        refeshReviewDfd.resolve(review).then(() => {
+          expect(viewModel.attr('loading')).toBeFalsy();
+          done();
+        });
       });
     });
   });
@@ -393,10 +395,12 @@ describe('object-review component', () => {
       expect(ObjectReviewUtils.saveReview).toHaveBeenCalled();
     });
 
-    it('should set review from response to attr', () => {
+    it('should set review from response to attr', (done) => {
       viewModel.attr('review', null);
-      viewModel.updateReview(currentReview);
-      expect(viewModel.attr('review')).toEqual(reviewAfterSave);
+      viewModel.updateReview(currentReview).then(() => {
+        expect(viewModel.attr('review')).toEqual(reviewAfterSave);
+        done();
+      });
     });
   });
 

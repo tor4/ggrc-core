@@ -615,9 +615,10 @@ describe('Permission', function () {
       GGRC.permissions = GGRC_PERMISSIONS;
     });
     it('updates permissions', function (done) {
-      Permission.refresh();
-      expect(GGRC.permissions).toEqual('permissions');
-      done();
+      Permission.refresh().then(() => {
+        expect(GGRC.permissions).toEqual('permissions');
+        done();
+      });
     });
   });
 });

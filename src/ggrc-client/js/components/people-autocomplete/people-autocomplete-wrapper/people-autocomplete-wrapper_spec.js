@@ -129,12 +129,14 @@ describe('people-autocomplete-wrapper component', () => {
         };
         requestDfd.resolve(data);
 
-        vm.getResult(value);
+        const getResultChain = vm.getResult(value);
 
         requestDfd.then(() => {
-          expect(vm.processItems)
-            .toHaveBeenCalledWith(value, data[modelName].values);
-          done();
+          getResultChain.then(() => {
+            expect(vm.processItems)
+              .toHaveBeenCalledWith(value, data[modelName].values);
+            done();
+          });
         });
       });
     });

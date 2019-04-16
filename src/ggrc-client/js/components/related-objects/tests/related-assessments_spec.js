@@ -258,38 +258,44 @@ describe('related-assessments component', () => {
 
       describe('after saving', () => {
         it('cleans selectedEvidences', (done) => {
-          viewModel.reuseSelected();
+          let reuseSelectedChain = viewModel.reuseSelected();
 
           saveDfd.resolve().then(() => {
-            expect(viewModel.attr('selectedEvidences.length')).toBe(0);
-            done();
+            reuseSelectedChain.then(() => {
+              expect(viewModel.attr('selectedEvidences.length')).toBe(0);
+              done();
+            });
           });
         });
 
         it('turns off isSaving flag', (done) => {
-          viewModel.reuseSelected();
+          let reuseSelectedChain = viewModel.reuseSelected();
 
           viewModel.attr('isSaving', true);
 
           saveDfd.resolve().then(() => {
-            expect(viewModel.attr('isSaving')).toBe(false);
-            done();
+            reuseSelectedChain.then(() => {
+              expect(viewModel.attr('isSaving')).toBe(false);
+              done();
+            });
           });
         });
 
         it('dispatches "reusableObjectsCreated" event', (done) => {
           spyOn(viewModel, 'dispatch');
 
-          viewModel.reuseSelected();
+          let reuseSelectedChain = viewModel.reuseSelected();
 
           let model = {};
           saveDfd.resolve(model).then(() => {
-            expect(viewModel.dispatch)
-              .toHaveBeenCalledWith({
-                type: 'reusableObjectsCreated',
-                items: [model],
-              });
-            done();
+            reuseSelectedChain.then(() => {
+              expect(viewModel.dispatch)
+                .toHaveBeenCalledWith({
+                  type: 'reusableObjectsCreated',
+                  items: [model],
+                });
+              done();
+            });
           });
         });
       });

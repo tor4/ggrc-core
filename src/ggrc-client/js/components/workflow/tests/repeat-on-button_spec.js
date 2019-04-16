@@ -146,31 +146,39 @@ describe('repeat-on-button component', function () {
     });
 
     it('should notify with selected values when repeat is enabled',
-      function () {
+      function (done) {
         let unit = 'day';
         let repeatEvery = '2';
         viewModel.attr('state.result.unit', unit);
         viewModel.attr('state.result.repeatEvery', repeatEvery);
         viewModel.attr('repeatEnabled', true);
 
-        viewModel.save();
+        let saveChain = viewModel.save();
 
         expect(viewModel.attr('isSaving')).toBeTruthy();
 
-        saveDfd.resolve();
-        expect(viewModel.attr('isSaving')).toBeFalsy();
-        expect(viewModel.attr('state.open')).toBeFalsy();
+        saveDfd.resolve().then(() => {
+          saveChain.then(() => {
+            expect(viewModel.attr('isSaving')).toBeFalsy();
+            expect(viewModel.attr('state.open')).toBeFalsy();
+            done();
+          });
+        });
       });
 
     it('should notify with empty values when repeat is disabled',
-      function () {
-        viewModel.save();
+      function (done) {
+        let saveChain = viewModel.save();
 
         expect(viewModel.attr('isSaving')).toBeTruthy();
 
-        saveDfd.resolve();
-        expect(viewModel.attr('isSaving')).toBeFalsy();
-        expect(viewModel.attr('state.open')).toBeFalsy();
+        saveDfd.resolve().then(() => {
+          saveChain.then(() => {
+            expect(viewModel.attr('isSaving')).toBeFalsy();
+            expect(viewModel.attr('state.open')).toBeFalsy();
+            done();
+          });
+        });
       });
   });
 

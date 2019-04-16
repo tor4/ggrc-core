@@ -88,26 +88,30 @@ describe('gdrive-folder-picker component', function () {
         method = events['a[data-toggle=gdrive-remover] click'].bind(that);
       });
 
-      it('unsets folder id for deferred instance', function () {
+      it('unsets folder id for deferred instance', function (done) {
         viewModel.attr('deferred', true);
 
         spyOn(viewModel, 'unsetCurrent');
 
-        method();
-        expect(viewModel.instance.attr('folder')).toEqual(null);
-        expect(viewModel.unsetCurrent).toHaveBeenCalled();
+        method().then(() => {
+          expect(viewModel.instance.attr('folder')).toEqual(null);
+          expect(viewModel.unsetCurrent).toHaveBeenCalled();
+          done();
+        });
       });
 
-      it('calls unlinkFolder() for existing instance', function () {
+      it('calls unlinkFolder() for existing instance', function (done) {
         viewModel.attr('deferred', false);
 
         spyOn(viewModel, 'unsetCurrent');
         spyOn(viewModel, 'unlinkFolder')
           .and.returnValue($.Deferred().resolve());
 
-        method();
-        expect(viewModel.unlinkFolder).toHaveBeenCalled();
-        expect(viewModel.unsetCurrent).toHaveBeenCalled();
+        method().then(() => {
+          expect(viewModel.unlinkFolder).toHaveBeenCalled();
+          expect(viewModel.unsetCurrent).toHaveBeenCalled();
+          done();
+        });
       });
     });
 

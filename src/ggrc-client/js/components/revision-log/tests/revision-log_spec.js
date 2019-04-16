@@ -80,40 +80,47 @@ describe('revision-log component', function () {
       expect(viewModel.attr('revisions')).toBeNull();
     });
 
-    it('calls fetchAdditionalInfoForRevisions with fetched revisions', () => {
-      viewModel.fetchItems();
+    it('calls fetchAdditionalInfoForRevisions with fetched revisions',
+      (done) => {
+        viewModel.fetchItems();
 
-      fetchDfd.resolve('revisions');
-
-      expect(viewModel.fetchAdditionalInfoForRevisions)
-        .toHaveBeenCalledWith('revisions');
-    });
+        fetchDfd.resolve('revisions').then(() => {
+          expect(viewModel.fetchAdditionalInfoForRevisions)
+            .toHaveBeenCalledWith('revisions');
+          done();
+        });
+      });
 
     it('calls composeRevisionsData with fetched revisions ' +
-    'after additional info fetched', () => {
-      viewModel.fetchItems();
-
+    'after additional info fetched', (done) => {
       fetchDfd.resolve('revisions');
 
-      expect(viewModel.composeRevisionsData)
-        .toHaveBeenCalledWith('additionalFetched');
+      viewModel.fetchItems().then(() => {
+        expect(viewModel.composeRevisionsData)
+          .toHaveBeenCalledWith('additionalFetched');
+        done();
+      });
     });
 
-    it('displays specified error if fetching the data fails', function () {
-      viewModel.fetchItems();
+    it('displays specified error if fetching the data fails', function (done) {
       fetchDfd.reject('Server error');
 
-      expect(NotifierUtils.notifier).toHaveBeenCalledWith(
-        'error',
-        'Failed to fetch revision history data.'
-      );
+      viewModel.fetchItems().fail(() => {
+        expect(NotifierUtils.notifier).toHaveBeenCalledWith(
+          'error',
+          'Failed to fetch revision history data.'
+        );
+        done();
+      });
     });
 
-    it('assigns result of composeRevisionsData to revisions attr', () => {
-      viewModel.fetchItems();
+    it('assigns result of composeRevisionsData to revisions attr', (done) => {
       fetchDfd.resolve('revisions');
 
-      expect(viewModel.attr('revisions')).toEqual('composedRevisions');
+      viewModel.fetchItems().then(() => {
+        expect(viewModel.attr('revisions')).toEqual('composedRevisions');
+        done();
+      });
     });
 
     it('assigns false to "isLoading" after data fetching ' +

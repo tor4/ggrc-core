@@ -98,12 +98,13 @@ describe('snapshot-scope-updater component', function () {
     });
 
     it('sets refresh flag for each tree-widget-container that contains' +
-    ' snapshots', function () {
-      method();
-
-      $('tree-widget-container').each(function () {
-        let viewModel = $(this).viewModel();
-        expect(viewModel.setRefreshFlag).toHaveBeenCalledWith(true);
+    ' snapshots', function (done) {
+      method().then(() => {
+        $('tree-widget-container').each(function () {
+          let viewModel = $(this).viewModel();
+          expect(viewModel.setRefreshFlag).toHaveBeenCalledWith(true);
+          done();
+        });
       });
     });
 
@@ -136,13 +137,17 @@ describe('snapshot-scope-updater component', function () {
     });
 
     describe('after instance refresh', function () {
-      it('saves the instance attached to the component', function () {
-        method();
-        refreshDfd.resolve();
-        expect(updaterViewModel.instance.save).toHaveBeenCalled();
+      it('saves the instance attached to the component', function (done) {
+        let methodChain = method();
+        refreshDfd.resolve().then(() => {
+          methodChain.then(() => {
+            expect(updaterViewModel.instance.save).toHaveBeenCalled();
+            done();
+          });
+        });
       });
 
-      it('sets snapshots attr for the instance', function () {
+      it('sets snapshots attr for the instance', function (done) {
         let expectedResult = {
           operation: 'upsert',
         };
@@ -150,26 +155,38 @@ describe('snapshot-scope-updater component', function () {
           operation: 'wrongValue',
         };
         updaterViewModel.instance.attr('snapshots', wrongValue);
-        method();
-        refreshDfd.resolve();
-        expect(updaterViewModel.instance.attr('snapshots'))
-          .toEqual(
-            jasmine.objectContaining(expectedResult)
-          );
+        let methodChain = method();
+        refreshDfd.resolve().then(() => {
+          methodChain.then(() => {
+            expect(updaterViewModel.instance.attr('snapshots'))
+              .toEqual(
+                jasmine.objectContaining(expectedResult)
+              );
+            done();
+          });
+        });
       });
 
       it('shows progress message',
-        function () {
-          method();
-          refreshDfd.resolve();
-          expect(updaterViewModel._showProgressWindow).toHaveBeenCalled();
+        function (done) {
+          let methodChain = method();
+          refreshDfd.resolve().then(() => {
+            methodChain.then(() => {
+              expect(updaterViewModel._showProgressWindow).toHaveBeenCalled();
+              done();
+            });
+          });
         });
 
       it('shows success message',
-        function () {
-          method();
-          refreshDfd.resolve();
-          expect(updaterViewModel._showSuccessMsg).toHaveBeenCalled();
+        function (done) {
+          let methodChain = method();
+          refreshDfd.resolve().then(() => {
+            methodChain.then(() => {
+              expect(updaterViewModel._showSuccessMsg).toHaveBeenCalled();
+              done();
+            });
+          });
         });
     });
   });

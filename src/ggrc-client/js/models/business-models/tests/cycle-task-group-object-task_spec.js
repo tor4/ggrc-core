@@ -102,7 +102,7 @@ describe('CycleTaskGroupObjectTask model', function () {
 
     it('populates the workflow and related objects ' +
       'when creating new task from workflow page',
-    function () {
+    function (done) {
       let cycles = [{
         id: 'cycle id',
         is_current: true}];
@@ -115,18 +115,23 @@ describe('CycleTaskGroupObjectTask model', function () {
         cycles: cycles,
       });
 
+      let resolveChain = $.Deferred().resolve(cycles);
+
       spyOn(Workflow, 'findInCacheById').and.returnValue(workflow);
       spyOn(workflow, 'refresh_all').and
-        .returnValue($.Deferred().resolve(cycles));
+        .returnValue(resolveChain);
 
       instance.form_preload(true, {workflow: workflow});
 
-      expect(instance.attr('workflow.id')).toEqual('workflow id');
-      expect(instance.attr('workflow.type')).toEqual('Workflow');
-      expect(instance.attr('context.id')).toEqual('context id');
-      expect(instance.attr('context.type')).toEqual('Context');
-      expect(instance.attr('cycle.id')).toEqual('cycle id');
-      expect(instance.attr('cycle.type')).toEqual('Cycle');
+      resolveChain.then(() => {
+        expect(instance.attr('workflow.id')).toEqual('workflow id');
+        expect(instance.attr('workflow.type')).toEqual('Workflow');
+        expect(instance.attr('context.id')).toEqual('context id');
+        expect(instance.attr('context.type')).toEqual('Context');
+        expect(instance.attr('cycle.id')).toEqual('cycle id');
+        expect(instance.attr('cycle.type')).toEqual('Cycle');
+        done();
+      });
     });
   });
 });

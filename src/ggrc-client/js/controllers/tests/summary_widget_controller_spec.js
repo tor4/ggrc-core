@@ -140,9 +140,11 @@ describe('SummaryWidgetController', function () {
         method('Assessment');
         expect(ctrlInst.options.forceRefresh).toBe(false);
       });
-      it('calls drawChart() method', function () {
-        method('Assessment');
-        expect(ctrlInst.drawChart).toHaveBeenCalled();
+      it('calls drawChart() method', function (done) {
+        method('Assessment').then(() => {
+          expect(ctrlInst.drawChart).toHaveBeenCalled();
+          done();
+        });
       });
     });
   });

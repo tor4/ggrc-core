@@ -723,17 +723,19 @@ describe('mappers', function () {
       });
 
       it('makes a new binding referencing the instance and ' +
-         'old mappings', () => {
+         'old mappings', (done) => {
         let rll = new LL.ReifyingListLoader();
         let binding = {};
         let result = rll.make_result({testField: 1}, []);
         spyOn(rll, 'insert_results');
 
-        rll.insert_from_source_binding(binding, [result]);
-        expect(rll.insert_results).toHaveBeenCalled();
-        expect(rll.insert_results.calls.argsFor(0)[1][0])
-          .toEqual(jasmine.objectContaining({testField: 1}));
-        expect(rll.insert_results.calls.argsFor(1)).toEqual([]);
+        rll.insert_from_source_binding(binding, [result]).then(() => {
+          expect(rll.insert_results).toHaveBeenCalled();
+          expect(rll.insert_results.calls.argsFor(0)[1][0])
+            .toEqual(jasmine.objectContaining({testField: 1}));
+          expect(rll.insert_results.calls.argsFor(1)).toEqual([]);
+          done();
+        });
       });
     });
 
@@ -823,19 +825,22 @@ describe('mappers', function () {
         expect(binding.source_binding.refresh_instances).toHaveBeenCalled();
       });
 
-      it('runs all results from source binding through filter function', () => {
-        let mockInst = new GGRC.Jasmine.MockModel({value: 'a'});
-        let mockResult = {instance: mockInst, mappings: []};
-        spyOn(binding.source_binding, 'refresh_instances')
-          .and.returnValue(new $.Deferred().resolve([mockResult]));
+      it('runs all results from source binding through filter function',
+        (done) => {
+          let mockInst = new GGRC.Jasmine.MockModel({value: 'a'});
+          let mockResult = {instance: mockInst, mappings: []};
+          spyOn(binding.source_binding, 'refresh_instances')
+            .and.returnValue(new $.Deferred().resolve([mockResult]));
 
-        // Items are sent through a refresh queue before continuing.
-        spyOn(RefreshQueue.prototype, 'trigger')
-          .and.returnValue($.when([mockInst]));
+          // Items are sent through a refresh queue before continuing.
+          spyOn(RefreshQueue.prototype, 'trigger')
+            .and.returnValue($.when([mockInst]));
 
-        cfll._refresh_stubs(binding);
-        expect(cfll.filter_fn).toHaveBeenCalledWith(mockResult);
-      });
+          cfll._refresh_stubs(binding).then(() => {
+            expect(cfll.filter_fn).toHaveBeenCalledWith(mockResult);
+            done();
+          });
+        });
     });
 
     describe('listeners', function () {

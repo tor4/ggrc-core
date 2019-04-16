@@ -22,7 +22,7 @@ import Context from '../../models/service-models/context';
 const viewModel = can.Map.extend({
   parentInstance: null,
   openPicker() {
-    uploadFiles()
+    return uploadFiles()
       .then((files) => {
         this.mapDocuments(files);
       }, () => {

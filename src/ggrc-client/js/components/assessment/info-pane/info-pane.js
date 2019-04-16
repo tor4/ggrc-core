@@ -431,7 +431,7 @@ export default can.Component.extend({
     updateRelatedItems: function () {
       this.attr('isUpdatingRelatedItems', true);
 
-      this.attr('instance').getRelatedObjects()
+      return this.attr('instance').getRelatedObjects()
         .then((data) => {
           this.attr('mappedSnapshots').replace(data.Snapshot);
           this.attr('comments').replace(data.Comment);

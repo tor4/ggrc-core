@@ -85,21 +85,23 @@ describe('bulk-update-button component', function () {
           'Some Model update is in progress. This may take several minutes.');
     });
 
-    it('shows notification about bulk update result', function () {
-      updateDfd.resolve([{status: 'updated'}]);
-
-      expect(viewModel.getResultNotification)
-        .toHaveBeenCalledWith(viewModel.attr('model'), 1);
-      expect(NotifiersUtils.notifier)
-        .toHaveBeenCalledWith('info', resMessage);
+    it('shows notification about bulk update result', function (done) {
+      updateDfd.resolve([{status: 'updated'}]).then(() => {
+        expect(viewModel.getResultNotification)
+          .toHaveBeenCalledWith(viewModel.attr('model'), 1);
+        expect(NotifiersUtils.notifier)
+          .toHaveBeenCalledWith('info', resMessage);
+        done();
+      });
     });
 
-    it('triggers TreeView refresh when some items updated', function () {
-      updateDfd.resolve([{status: 'updated'}]);
-
-      expect(el.closest).toHaveBeenCalled();
-      expect(can.trigger)
-        .toHaveBeenCalledWith(parentEl, 'refreshTree');
+    it('triggers TreeView refresh when some items updated', function (done) {
+      updateDfd.resolve([{status: 'updated'}]).then(() => {
+        expect(el.closest).toHaveBeenCalled();
+        expect(can.trigger)
+          .toHaveBeenCalledWith(parentEl, 'refreshTree');
+        done();
+      });
     });
 
     it('does not trigger TreeView refresh when no item was updated',

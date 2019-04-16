@@ -45,7 +45,7 @@ describe('ModalsController', function () {
     });
 
     it('waits until current user is pre-fetched if not yet in cache',
-      function () {
+      function (done) {
         let userId = GGRC.current_user.id;
         let dfdFetch = new $.Deferred();
         let fetchedUser = new can.Map({id: userId, email: 'john@doe.com'});
@@ -56,13 +56,15 @@ describe('ModalsController', function () {
         init();
 
         expect(ctrlInst.after_preload).not.toHaveBeenCalled();
-        dfdFetch.resolve(fetchedUser);
-        expect(ctrlInst.after_preload).toHaveBeenCalled();
+        dfdFetch.resolve(fetchedUser).then(() => {
+          expect(ctrlInst.after_preload).toHaveBeenCalled();
+          done();
+        });
       }
     );
 
     it('waits until current user is pre-fetched if only partially in cache',
-      function () {
+      function (done) {
         let userId = GGRC.current_user.id;
         let dfdRefresh = new $.Deferred();
         let fetchedUser = new can.Map({id: userId, email: 'john@doe.com'});
@@ -79,8 +81,10 @@ describe('ModalsController', function () {
         init();
 
         expect(ctrlInst.after_preload).not.toHaveBeenCalled();
-        dfdRefresh.resolve(fetchedUser);
-        expect(ctrlInst.after_preload).toHaveBeenCalled();
+        dfdRefresh.resolve(fetchedUser).then(() => {
+          expect(ctrlInst.after_preload).toHaveBeenCalled();
+          done();
+        });
       }
     );
 
@@ -207,14 +211,14 @@ describe('ModalsController', function () {
         });
 
         it('calls instance.backup() when resolved', (done) => {
-          method(instance);
+          let methodChain = method(instance);
 
-          formPreloadDfd.done(() => {
-            expect(instance.backup).toHaveBeenCalled();
-            done();
+          formPreloadDfd.resolve().then(() => {
+            methodChain.then(() => {
+              expect(instance.backup).toHaveBeenCalled();
+              done();
+            });
           });
-
-          formPreloadDfd.resolve();
         });
 
         it('returns formPreloadDfd', () => {

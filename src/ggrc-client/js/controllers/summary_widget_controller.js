@@ -136,7 +136,7 @@ export default can.Control.extend({
     chartOptions.attr('isInitialized', true);
 
     that.setState(type, {total: 0, statuses: { }}, true);
-    that.getStatuses(that.options.instance.id).then(function (raw) {
+    return that.getStatuses(that.options.instance.id).then(function (raw) {
       let data = that.parseStatuses(type, raw);
       let chart = that.drawChart(elementId, data);
 

@@ -22,7 +22,7 @@ export default can.Map.extend({
   showNewValue: false,
   queryField: 'title',
   getResult: function (event) {
-    this.requestItems(event.value)
+    return this.requestItems(event.value)
       .then((data) => {
         const modelName = this.attr('modelName');
         const result = this.filterResult(data[modelName].values);

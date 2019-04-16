@@ -159,11 +159,13 @@ describe('external-data-autocomplete component', () => {
       it('turns off "saving" flag', (done) => {
         viewModel.attr('saving', true);
 
-        viewModel.onItemPicked(item);
+        let onItemPickedChain = viewModel.onItemPicked(item);
 
         saveDfd.resolve().always(() => {
-          expect(viewModel.attr('saving')).toBe(false);
-          done();
+          onItemPickedChain.then(() => {
+            expect(viewModel.attr('saving')).toBe(false);
+            done();
+          });
         });
       });
 

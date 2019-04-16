@@ -20,7 +20,7 @@ export default can.Component.extend({
     isConfirmationNeeded: true,
     onStateChangeDfd: $.Deferred().resolve(),
     openEditMode: function (el) {
-      this.attr('onStateChangeDfd').then(function () {
+      return this.attr('onStateChangeDfd').then(function () {
         if (this.isInEditableState()) {
           this.dispatch('setEditMode');
         }

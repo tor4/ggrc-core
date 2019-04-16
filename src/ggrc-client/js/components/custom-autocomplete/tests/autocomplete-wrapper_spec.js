@@ -39,45 +39,49 @@ describe('autocomplete-wrapper viewModel', () => {
       expect(viewModel.requestItems).toHaveBeenCalledWith(event.value);
     });
 
-    it('should assign event value to "currentValue', () => {
+    it('should assign event value to "currentValue', (done) => {
       deferred.resolve(data);
-      viewModel.getResult(event);
-
-      expect(viewModel.attr('currentValue')).toEqual(event.value);
+      viewModel.getResult(event).then(() => {
+        expect(viewModel.attr('currentValue')).toEqual(event.value);
+        done();
+      });
     });
 
-    it('should assign filtered items to "result" attribute', () => {
+    it('should assign filtered items to "result" attribute', (done) => {
       deferred.resolve(data);
       const filtered = [1, 2];
       viewModel.filterResult.and.returnValue(filtered);
-      viewModel.getResult(event);
-
-      expect(viewModel.filterResult).toHaveBeenCalledTimes(1);
-      expect(viewModel.filterResult).toHaveBeenCalledWith(
-        data[viewModel.attr('modelName')].values);
-      expect(viewModel.attr('result').serialize())
-        .toEqual(filtered);
+      viewModel.getResult(event).then(() => {
+        expect(viewModel.filterResult).toHaveBeenCalledTimes(1);
+        expect(viewModel.filterResult).toHaveBeenCalledWith(
+          data[viewModel.attr('modelName')].values);
+        expect(viewModel.attr('result').serialize())
+          .toEqual(filtered);
+        done();
+      });
     });
 
     it('should assign value returned from isCurrentValueUnique function ' +
-    'to "showNewValue" attribute', () => {
+    'to "showNewValue" attribute', (done) => {
       deferred.resolve(data);
       viewModel.attr('showNewValue', false);
       const expected = new can.Map({});
       viewModel.isCurrentValueUnique.and.returnValue(expected);
 
-      viewModel.getResult(event);
-
-      expect(viewModel.attr('showNewValue')).toBe(expected);
+      viewModel.getResult(event).then(() => {
+        expect(viewModel.attr('showNewValue')).toBe(expected);
+        done();
+      });
     });
 
-    it('should assign true to "showResults" attribute', () => {
+    it('should assign true to "showResults" attribute', (done) => {
       deferred.resolve(data);
       viewModel.attr('showResults', false);
 
-      viewModel.getResult(event);
-
-      expect(viewModel.attr('showResults')).toBe(true);
+      viewModel.getResult(event).then(() => {
+        expect(viewModel.attr('showResults')).toBe(true);
+        done();
+      });
     });
   });
 

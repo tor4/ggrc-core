@@ -233,10 +233,10 @@ describe('export component', () => {
         spyOn(viewModel, 'verifyTargetJob');
 
         event();
-        exportsDfd.resolve();
-
-        expect(viewModel.verifyTargetJob).toHaveBeenCalled();
-        done();
+        exportsDfd.resolve().then(() => {
+          expect(viewModel.verifyTargetJob).toHaveBeenCalled();
+          done();
+        });
       });
     });
   });

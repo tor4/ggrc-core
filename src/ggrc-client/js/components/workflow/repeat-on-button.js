@@ -122,7 +122,7 @@ export default can.Component.extend({
       }
 
       this.attr('isSaving', true);
-      onSave(unit, repeatEvery)
+      return onSave(unit, repeatEvery)
         .then(function () {
           this.attr('isSaving', false);
           this.attr('state.open', false);

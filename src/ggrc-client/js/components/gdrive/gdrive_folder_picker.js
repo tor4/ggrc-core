@@ -144,6 +144,7 @@ export default can.Component.extend({
      * @param {Object} el - The jQuery-wrapped DOM element on which the event
      *   has been triggered.
      * @param {Object} ev - The event object.
+     * @return {Object} - Deferred chain.
      */
     'a[data-toggle=gdrive-remover] click': function (el, ev) {
       let viewModel = this.viewModel;
@@ -156,7 +157,7 @@ export default can.Component.extend({
         dfd = viewModel.unlinkFolder();
       }
 
-      dfd.then(viewModel.unsetCurrent.bind(viewModel));
+      return dfd.then(viewModel.unsetCurrent.bind(viewModel));
     },
     'a[data-toggle=gdrive-picker] click': function (el, ev) {
       uploadFiles({

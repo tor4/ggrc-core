@@ -103,10 +103,11 @@ export default can.Component.extend({
     /**
      * Creates model in system and dispatches corresponding event.
      * @param {Object} item - an item picked by user.
+     * @return {Object} - Deferred chain.
      */
     onItemPicked(item) {
       this.attr('saving', true);
-      this.createOrGet(item).then((model) => {
+      return this.createOrGet(item).then((model) => {
         if (this.attr('autoClean')) {
           this.attr('searchCriteria', '');
         }

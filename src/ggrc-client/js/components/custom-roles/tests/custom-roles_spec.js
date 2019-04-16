@@ -122,14 +122,18 @@ describe('custom-roles view model', () => {
         spyOn(vm, 'filterACL');
       });
 
-      it('calls filterACL', () => {
-        vm.save(args);
-        expect(vm.filterACL).toHaveBeenCalled();
+      it('calls filterACL', (done) => {
+        vm.save(args).then(() => {
+          expect(vm.filterACL).toHaveBeenCalled();
+          done();
+        });
       });
 
-      it('sets null to updatableGroupId attribute', () => {
-        vm.save(args);
-        expect(vm.attr('updatableGroupId')).toBe(null);
+      it('sets null to updatableGroupId attribute', (done) => {
+        vm.save(args).then(() => {
+          expect(vm.attr('updatableGroupId')).toBe(null);
+          done();
+        });
       });
     });
   });

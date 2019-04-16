@@ -103,7 +103,7 @@ export default can.Component.extend({
         });
       });
 
-      $.when(...reusedObjectList)
+      return $.when(...reusedObjectList)
         .done((...evidence) => {
           this.dispatch({
             type: 'reusableObjectsCreated',

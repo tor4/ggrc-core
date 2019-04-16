@@ -32,16 +32,20 @@ describe('object-review-utils', () => {
         spyOn(review, 'isNew').and.returnValue(true);
       });
 
-      it('should save and refresh review', () => {
-        saveReview(review, reviewableInstance);
-        expect(review.save).toHaveBeenCalled();
-        expect(review.refresh).toHaveBeenCalled();
+      it('should save and refresh review', (done) => {
+        saveReview(review, reviewableInstance).then(() => {
+          expect(review.save).toHaveBeenCalled();
+          expect(review.refresh).toHaveBeenCalled();
+          done();
+        });
       });
 
-      it('should refresh Permissions and reviewable object', () => {
-        saveReview(review, reviewableInstance);
-        expect(Permission.refresh).toHaveBeenCalled();
-        expect(reviewableInstance.refresh).toHaveBeenCalled();
+      it('should refresh Permissions and reviewable object', (done) => {
+        saveReview(review, reviewableInstance).then(() => {
+          expect(Permission.refresh).toHaveBeenCalled();
+          expect(reviewableInstance.refresh).toHaveBeenCalled();
+          done();
+        });
       });
     });
 

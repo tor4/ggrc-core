@@ -128,12 +128,9 @@ describe('Cacheable conflict resolution', function () {
     spyOn(obj, 'refresh').and.returnValue($.when(obj.serialize()));
     ajaxSpy.and.returnValue(
       new $.Deferred().reject(xhr, 400, 'BAD REQUEST'));
-    DummyModel.update(1, obj.serialize()).then(
-      failAll(done),
-      function (_xhr) {
-        expect(_xhr).toBe(xhr);
-        done();
-      }
-    );
+    DummyModel.update(1, obj.serialize()).then(function (_xhr) {
+      expect(_xhr).toBe(xhr);
+      done();
+    });
   });
 });

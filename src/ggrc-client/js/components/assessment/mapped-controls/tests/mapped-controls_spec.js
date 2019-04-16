@@ -36,30 +36,34 @@ describe('assessment-mapped-controls component', () => {
         },
       };
 
-      viewModel.loadItems(1);
+      let loadItemsChain = viewModel.loadItems(1);
 
       expect(viewModel.getParams).toHaveBeenCalled();
       expect(viewModel.attr('isLoading')).toBeTruthy();
 
       pendingRequest.resolve(response).then(() => {
-        expect(viewModel.attr('isLoading')).toBeFalsy();
-        expect(viewModel.attr('testType').attr()).toEqual(items);
-        done();
+        loadItemsChain.then(() => {
+          expect(viewModel.attr('isLoading')).toBeFalsy();
+          expect(viewModel.attr('testType').attr()).toEqual(items);
+          done();
+        });
       });
     });
 
     it('turns off spinner when request fails', (done) => {
       spyOn(NotifiersUtils, 'notifier');
 
-      viewModel.loadItems(1);
+      let loadItemsChain = viewModel.loadItems(1);
 
       expect(viewModel.attr('isLoading')).toBeTruthy();
 
       pendingRequest.reject().then(null, () => {
-        expect(viewModel.attr('isLoading')).toBeFalsy();
-        expect(NotifiersUtils.notifier)
-          .toHaveBeenCalledWith('error', 'Failed to fetch related objects.');
-        done();
+        loadItemsChain.then(() => {
+          expect(viewModel.attr('isLoading')).toBeFalsy();
+          expect(NotifiersUtils.notifier)
+            .toHaveBeenCalledWith('error', 'Failed to fetch related objects.');
+          done();
+        });
       });
     });
   });

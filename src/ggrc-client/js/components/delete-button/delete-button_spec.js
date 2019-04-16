@@ -103,23 +103,27 @@ describe('delete-button component', () => {
 
       describe('after destroy of instance in case of error', () => {
         it('calls "fetchRelatedObjects" if error.status is 409', (done) => {
-          vm.onConfirm();
+          let onConfirmChain = vm.onConfirm();
           destroyDfd.reject({status: 409});
 
-          destroyDfd.fail(() => {
-            expect(vm.fetchRelatedObjects).toHaveBeenCalled();
-            done();
+          onConfirmChain.then(() => {
+            destroyDfd.fail(() => {
+              expect(vm.fetchRelatedObjects).toHaveBeenCalled();
+              done();
+            });
           });
         });
 
         it('calls handleAjaxError if error.status is not 409', (done) => {
           const error = {};
-          vm.onConfirm();
+          let onConfirmChain = vm.onConfirm();
           destroyDfd.reject(error);
 
-          destroyDfd.fail(() => {
-            expect(ErrorsUtils.handleAjaxError).toHaveBeenCalledWith(error);
-            done();
+          onConfirmChain.then(() => {
+            destroyDfd.fail(() => {
+              expect(ErrorsUtils.handleAjaxError).toHaveBeenCalledWith(error);
+              done();
+            });
           });
         });
       });

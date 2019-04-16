@@ -48,29 +48,31 @@ describe('unarchive-link component', function () {
       expect($.fn.trigger).not.toHaveBeenCalled();
     });
 
-    it('instance was saved without notification', function () {
+    it('instance was saved without notification', function (done) {
       instance.attr('archived', true);
 
       event($element, eventObj);
-      pendingSave.resolve();
-
-      expect(instance.attr('archived')).toBeFalsy();
-      expect(instance.save).toHaveBeenCalled();
-      expect($.fn.trigger).not.toHaveBeenCalled();
+      pendingSave.resolve().then(() => {
+        expect(instance.attr('archived')).toBeFalsy();
+        expect(instance.save).toHaveBeenCalled();
+        expect($.fn.trigger).not.toHaveBeenCalled();
+        done();
+      });
     });
 
-    it('instance was saved without notification', function () {
+    it('instance was saved without notification', function (done) {
       let successMessage = displayName + ' ' + notifyText;
       instance.attr('archived', true);
       viewModel.attr('notify', true);
 
       event($element, eventObj);
-      pendingSave.resolve();
-
-      expect(instance.attr('archived')).toBeFalsy();
-      expect(instance.save).toHaveBeenCalled();
-      expect($.fn.trigger).toHaveBeenCalledWith('ajax:flash',
-        {success: [successMessage]});
+      pendingSave.resolve().then(() => {
+        expect(instance.attr('archived')).toBeFalsy();
+        expect(instance.save).toHaveBeenCalled();
+        expect($.fn.trigger).toHaveBeenCalledWith('ajax:flash',
+          {success: [successMessage]});
+        done();
+      });
     });
   });
 });

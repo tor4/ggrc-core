@@ -55,7 +55,7 @@ export default can.Component.extend({
       let instance = this.instance;
 
       this._showProgressWindow();
-      instance
+      return instance
         .refresh()
         .then(function () {
           let data = {

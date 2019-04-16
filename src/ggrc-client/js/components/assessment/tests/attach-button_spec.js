@@ -34,27 +34,31 @@ describe('attach-button component', function () {
 
   describe('checkFolder() method', function () {
     it('should set isFolderAttached to true when folder is attached',
-      function () {
+      function (done) {
         viewModel.attr('isFolderAttached', false);
         viewModel.attr('instance.folder', 'gdrive_folder_id');
 
         spyOn(viewModel, 'findFolder').and
           .returnValue($.Deferred().resolve({}));
 
-        viewModel.checkFolder();
-        expect(viewModel.attr('isFolderAttached')).toBe(true);
+        viewModel.checkFolder().then(() => {
+          expect(viewModel.attr('isFolderAttached')).toBe(true);
+          done();
+        });
       });
 
     it('should set isFolderAttached to false when folder is not attached',
-      function () {
+      function (done) {
         viewModel.attr('isFolderAttached', true);
         viewModel.attr('instance.folder', null);
 
         spyOn(viewModel, 'findFolder').and
           .returnValue($.Deferred().resolve());
 
-        viewModel.checkFolder();
-        expect(viewModel.attr('isFolderAttached')).toBe(false);
+        viewModel.checkFolder().then(() => {
+          expect(viewModel.attr('isFolderAttached')).toBe(false);
+          done();
+        });
       });
 
     it('set correct isFolderAttached if instance refreshes during ' +

@@ -27,13 +27,14 @@ describe('confirm-edit-action component', function () {
       });
 
       it('dispatches setEditMode event if instance is in editable state',
-        function () {
+        function (done) {
           spyOn(viewModel, 'isInEditableState').and.returnValue(true);
           spyOn(viewModel, 'dispatch');
 
-          viewModel.openEditMode();
-
-          expect(viewModel.dispatch).toHaveBeenCalledWith('setEditMode');
+          viewModel.openEditMode().then(() => {
+            expect(viewModel.dispatch).toHaveBeenCalledWith('setEditMode');
+            done();
+          });
         });
     });
   });

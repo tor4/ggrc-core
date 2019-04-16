@@ -29,13 +29,14 @@ describe('workflow-start-cycle component', function () {
         .and.returnValue(generateDfd);
     });
 
-    it('should update TaskGroups when cycle was generated', function () {
+    it('should update TaskGroups when cycle was generated', function (done) {
       handler();
-      generateDfd.resolve();
-
-      expect(helpers.generateCycle).toHaveBeenCalled();
-      expect(workflowMock.refresh_all)
-        .toHaveBeenCalledWith('task_groups', 'task_group_tasks');
+      generateDfd.resolve().then(() => {
+        expect(helpers.generateCycle).toHaveBeenCalled();
+        expect(workflowMock.refresh_all)
+          .toHaveBeenCalledWith('task_groups', 'task_group_tasks');
+        done();
+      });
     });
 
     it('shouldn\'t update TaskGroups when cycle wasn\'t generated',

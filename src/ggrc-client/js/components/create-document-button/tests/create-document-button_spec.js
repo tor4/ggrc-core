@@ -123,12 +123,14 @@ describe('create-document-button component', () => {
         spyOn(viewModel, 'useExistingDocuments')
           .and.returnValue($.Deferred().resolve([document2]));
 
-        viewModel.mapDocuments([]);
+        let mapDocumentsChain = viewModel.mapDocuments([]);
 
         checkDocumentsExistDfd.resolve([]).then(() => {
-          expect(viewModel.refreshPermissionsAndMap)
-            .toHaveBeenCalledWith([document1, document2]);
-          done();
+          mapDocumentsChain.then(() => {
+            expect(viewModel.refreshPermissionsAndMap)
+              .toHaveBeenCalledWith([document1, document2]);
+            done();
+          });
         });
       });
     });
@@ -237,12 +239,14 @@ describe('create-document-button component', () => {
     });
 
     it('should trigger "cancel" event if file is not picked', (done) => {
-      viewModel.openPicker();
+      let openPickerChain = viewModel.openPicker();
 
       uploadFilesDfd.reject()
         .fail(() => {
-          expect(viewModel.dispatch).toHaveBeenCalledWith('cancel');
-          done();
+          openPickerChain.then(() => {
+            expect(viewModel.dispatch).toHaveBeenCalledWith('cancel');
+            done();
+          });
         });
     });
   });

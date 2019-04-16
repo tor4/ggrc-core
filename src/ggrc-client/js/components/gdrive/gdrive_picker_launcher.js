@@ -71,7 +71,7 @@ export default can.Component.extend({
       let stopFn = () => {};
 
       this.attr('isUploading', true);
-      uploadFiles({
+      return uploadFiles({
         parentId: $el.data('folder-id'),
         pickFolder: $el.data('type') === 'folders',
       })
@@ -116,10 +116,10 @@ export default can.Component.extend({
       }
       bindXHRToButton(parentFolderDfd, el);
 
-      parentFolderDfd
+      return parentFolderDfd
         .done(function (parentFolder) {
           that.attr('isUploading', true);
-          uploadFiles({
+          return uploadFiles({
             parentId: parentFolder.id,
           })
             .then((files) => {

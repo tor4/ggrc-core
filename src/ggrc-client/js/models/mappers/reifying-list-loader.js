@@ -27,7 +27,7 @@ import Mappings from './mappings';
           refreshQueue.enqueue(result.instance);
           newResults.push(self.make_result(result.instance, [result], binding));
         });
-        refreshQueue.trigger().then(function () {
+        return refreshQueue.trigger().then(function () {
           self.insert_results(binding, newResults);
         });
       },

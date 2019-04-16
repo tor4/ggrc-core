@@ -49,10 +49,12 @@ describe('tree-widget-container component', function () {
     });
 
     it('sets refreshLoaded flag in false after resolve loaded field',
-      function () {
+      function (done) {
         display(true);
-        dfd.resolve();
-        expect(vm.attr('refreshLoaded')).toBe(false);
+        dfd.resolve().then(() => {
+          expect(vm.attr('refreshLoaded')).toBe(false);
+          done();
+        });
       });
 
     it('returns value of loaded field', function () {

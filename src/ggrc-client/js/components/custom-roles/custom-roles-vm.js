@@ -46,7 +46,7 @@ export default can.Map.extend({
   save(args) {
     this.attr('updatableGroupId', args.groupId);
 
-    this.attr('instance').save()
+    return this.attr('instance').save()
       .then(() => {
         this.filterACL();
       }).always(() => {

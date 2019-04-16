@@ -213,7 +213,7 @@ class GGRCGapiClient {
    */
   runAuthorization(immediate) {
     // make auth request
-    this.makeGapiAuthRequest(immediate)
+    return this.makeGapiAuthRequest(immediate)
       .then(this.oauthResult.resolve, () => {
         if (immediate) {
           this.showGapiModal({
