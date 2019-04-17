@@ -15,11 +15,13 @@ describe('Cacheable model', () => {
   let origGcaDefs;
   let DummyModel;
   let dummyable;
+  let ajaxSpy;
 
   beforeEach(() => {
     origGcaDefs = GGRC.custom_attr_defs;
     dummyable = Mixin.extend({}, {});
     spyOn(dummyable, 'add_to');
+    ajaxSpy = spyOn($, 'ajax');
 
     DummyModel = makeFakeModel({
       model: Cacheable,
@@ -35,6 +37,7 @@ describe('Cacheable model', () => {
         mixins: [dummyable],
         attributes: {dummy_attribute: 'dummy_convert'},
         is_custom_attributable: true,
+        ajax: $.ajax,
       },
     });
   });
@@ -153,7 +156,7 @@ describe('Cacheable model', () => {
     it('processes args before sending', function (done) {
       let obj = _obj;
       spyOn(DummyModel, 'process_args');
-      spyOn(can, 'ajax').and.returnValue($.when({}));
+      ajaxSpy.and.returnValue($.when({}));
       DummyModel.update(obj.id, obj).then(() => {
         expect(DummyModel.process_args).toHaveBeenCalledWith(obj);
         done();
@@ -171,13 +174,13 @@ describe('Cacheable model', () => {
     });
 
     it('unboxes collections when passed back from the find', function (done) {
-      spyOn(can, 'ajax').and.returnValue($.when({
+      ajaxSpy.and.returnValue($.when({
         dummy_models_collection: {
           dummy_models: [{id: 1}],
         },
       }));
       DummyModel.findAll().then(function (data) {
-        expect(can.ajax).toHaveBeenCalled();
+        expect($.ajax).toHaveBeenCalled();
         expect(data).toEqual(jasmine.any(can.List));
         expect(data.length).toBe(1);
         expect(data[0]).toEqual(jasmine.any(DummyModel));
@@ -188,9 +191,9 @@ describe('Cacheable model', () => {
 
     it('makes a collection of a single object when passed back ' +
        'from the find', function (done) {
-      spyOn(can, 'ajax').and.returnValue($.when({id: 1}));
+      ajaxSpy.and.returnValue($.when({id: 1}));
       DummyModel.findAll().then(function (data) {
-        expect(can.ajax).toHaveBeenCalled();
+        expect($.ajax).toHaveBeenCalled();
         expect(data).toEqual(jasmine.any(can.List));
         expect(data.length).toBe(1);
         expect(data[0]).toEqual(jasmine.any(DummyModel));
@@ -213,7 +216,7 @@ describe('Cacheable model', () => {
       let dummyInsts = DummyModel.models(dummyModels);
       // we want to see how our observable list gets items over time, so spy on the push method
       spyOn(list, 'push').and.callThrough();
-      spyOn(can, 'ajax').and.returnValue($.when(dummyModels));
+      ajaxSpy.and.returnValue($.when(dummyModels));
       let st = 3; // preload Date.now() because it's called once before we even get to modelizing
       spyOn(Date, 'now').and.callFake(() => {
         // Date.now() is called once per item.
