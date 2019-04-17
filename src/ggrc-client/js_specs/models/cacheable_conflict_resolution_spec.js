@@ -4,15 +4,24 @@
 */
 
 import Cacheable from '../../js/models/cacheable';
-import {failAll} from '../spec_helpers';
+import {
+  failAll,
+  makeFakeModel,
+} from '../spec_helpers';
 
 describe('Cacheable conflict resolution', function () {
   let DummyModel;
+  let ajaxSpy;
 
   beforeAll(function () {
-    DummyModel = Cacheable.extend({
-      update: 'PUT /api/dummy_models/{id}',
-    }, {});
+    ajaxSpy = spyOn($, 'ajax');
+    DummyModel = makeFakeModel({
+      model: Cacheable,
+      staticProps: {
+        ajax: $.ajax,
+        update: 'PUT /api/dummy_models/{id}',
+      },
+    });
   });
 
   function _resovleDfd(obj, reject) {
@@ -44,7 +53,7 @@ describe('Cacheable conflict resolution', function () {
         obj.attr('foo', 'thud'); // uh-oh!  The same attr has been changed locally and remotely!
         return _resovleDfd(obj);
       });
-      spyOn(can, 'ajax')// .and.returnValue(new $.Deferred().reject({status: 409}, 409, "CONFLICT"));
+      ajaxSpy// .and.returnValue(new $.Deferred().reject({status: 409}, 409, "CONFLICT"));
         .and.callFake(function () {
           return _resovleDfd({status: 409}, true);
         });
@@ -63,7 +72,7 @@ describe('Cacheable conflict resolution', function () {
   it('does not refresh model', function (done) {
     let obj = new DummyModel({id: 1});
     spyOn(obj, 'refresh').and.returnValue($.when(obj));
-    spyOn(can, 'ajax').and.returnValue(
+    ajaxSpy.and.returnValue(
       new $.Deferred().reject({status: 409}, 409, 'CONFLICT'));
     DummyModel.update(obj.id, obj.serialize()).then(function () {
       done();
@@ -77,7 +86,7 @@ describe('Cacheable conflict resolution', function () {
     let obj = new DummyModel({id: 1});
     spyOn(obj, 'refresh').and.returnValue($.when(obj));
     spyOn(window, 'setTimeout').and.returnValue(999);
-    spyOn(can, 'ajax').and.returnValue(
+    ajaxSpy.and.returnValue(
       new $.Deferred().reject({status: 409}, 409, 'CONFLICT'));
     DummyModel.update(obj.id, obj.serialize()).then(function () {
       done();
@@ -100,7 +109,7 @@ describe('Cacheable conflict resolution', function () {
       obj.attr('baz', 'quux');
       return $.when(obj);
     });
-    spyOn(can, 'ajax').and.returnValue(new $.Deferred().reject(
+    ajaxSpy.and.returnValue(new $.Deferred().reject(
       {status: 409}, 409, 'CONFLICT'));
     DummyModel.update(obj.id, obj.serialize()).then(function () {
       expect(obj).toEqual(jasmine.objectContaining(
@@ -117,7 +126,7 @@ describe('Cacheable conflict resolution', function () {
     let obj = new DummyModel({id: 1});
     let xhr = {status: 400};
     spyOn(obj, 'refresh').and.returnValue($.when(obj.serialize()));
-    spyOn(can, 'ajax').and.returnValue(
+    ajaxSpy.and.returnValue(
       new $.Deferred().reject(xhr, 400, 'BAD REQUEST'));
     DummyModel.update(1, obj.serialize()).then(
       failAll(done),
