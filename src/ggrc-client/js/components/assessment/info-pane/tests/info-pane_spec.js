@@ -1561,7 +1561,8 @@ describe('assessment-info-pane component', () => {
           const expectedResult = $.Deferred();
           event.saveDfd = expectedResult;
           vm.showRequiredInfoModal(event);
-          expect(vm.attr('modal.content.saveDfd')).toBe(expectedResult);
+          expect(vm.attr('modal.content.saveDfd').serialize())
+            .toEqual(expectedResult);
         });
 
         it('resolved deferred object, if there is no event.saveDfd',

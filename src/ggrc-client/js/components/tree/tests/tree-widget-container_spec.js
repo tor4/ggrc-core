@@ -61,7 +61,7 @@ describe('tree-widget-container component', function () {
       let result;
       vm.attr('loaded', dfd);
       result = display();
-      expect(result).toBe(dfd);
+      expect(result.serialize()).toEqual(dfd);
     });
   });
 
