@@ -82,7 +82,7 @@ describe('export-panel component', function () {
       it('should call panel changeType method', () => {
         viewModel.attr('item', panel);
 
-        event(viewModel, {}, 'Assessment');
+        event([viewModel], {id: 1, type: 'Assessment'}, 'Assessment');
 
         expect(panel.changeType).toHaveBeenCalledWith('Assessment');
       });
@@ -91,7 +91,7 @@ describe('export-panel component', function () {
         viewModel.attr('item', panel);
         spyOn(viewModel, 'setSelected');
 
-        event(viewModel, {}, 'Assessment');
+        event([viewModel], {}, 'Assessment');
         expect(viewModel.setSelected).toHaveBeenCalled();
       });
     });
