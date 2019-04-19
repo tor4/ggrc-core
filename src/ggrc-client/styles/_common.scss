@@ -200,6 +200,11 @@ a {
   }
 }
 
+.disabled-block {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
 .disabled-original {
   color: black;
   opacity: 0.4;

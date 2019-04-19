@@ -16,7 +16,9 @@
       </div>
     {{/if}}
     <div class="grid-data__toolbar flex-box">
-      <tree-pagination {paging}="{pageInfo}" {$disabled}="{isLoading}"></tree-pagination>
+      <tree-pagination  {paging}="{pageInfo}"
+                        class="{{#if isLoading}}disabled-block{{/if}}">
+      </tree-pagination>
     </div>
     <revision-page {revisions}="{revisions}"
                    {instance}="{instance}"

@@ -16,7 +16,7 @@
     <autocomplete-component {search-items-type}="'Person'"
                   on:itemSelected="setPerson(%event)"
                   {placeholder}="'Select person'"
-                  {{#if disabled}}disabled{{/if}}>
+                  class="{{#if disabled}}disabled-block{{/if}}">
     </autocomplete-component>
     {{else}}
     <external-data-autocomplete {type}="'Person'"
