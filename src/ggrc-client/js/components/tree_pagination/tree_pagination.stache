@@ -38,9 +38,9 @@
           {{#pagesList}}
             <div class="pagination-item__popover-item single-line
                        {{#is(paging.current, .)}}pagination-item__popover-item_selected{{/is}}"
-                 title="{{getPageTitle}}"
+                 title="{{getPageTitle(.)}}"
                  on:el:click="setCurrentPage(.)">
-              {{getPageTitle}}
+              {{getPageTitle(.)}}
             </div>
           {{/pagesList}}
       </simple-popover>
