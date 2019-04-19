@@ -142,7 +142,7 @@ describe('csv-import component', () => {
       vm.analyseSelectedFile({
         id: 42,
         name: 'file.csv',
-      }).fail(() => {
+      }).then(() => {
         expect(vm.attr('fileId')).toEqual(42);
         expect(vm.attr('fileName')).toEqual('file.csv');
         expect(vm.attr('state')).toEqual(jobStatuses.SELECT);
