@@ -29,8 +29,8 @@ export default can.Component.extend({
       return this.attr('active');
     },
     setPopoverStyle: function (el, direction) {
-      let pos = el[0].getBoundingClientRect();
-      let top = Math.floor(el.position().top);
+      let pos = el.getBoundingClientRect();
+      let top = Math.floor($(el).position().top);
       let left = Math.floor(pos.width / 2);
       let width = (direction !== 'right') ?
         Math.floor(window.innerWidth - (pos.right - pos.width / 2)) :

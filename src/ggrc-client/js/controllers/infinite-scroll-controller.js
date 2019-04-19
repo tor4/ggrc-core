@@ -75,6 +75,8 @@ const LhnTooltipsControl = can.Control.extend({
             .appendTo('body');
       }
     }
+    this.options.extended = this.options.$extended[0];
+
     if (!this.options.$lhs) {
       this.options.$lhs = $('#lhs');
     }
@@ -85,8 +87,8 @@ const LhnTooltipsControl = can.Control.extend({
   // Tooltip / popover handling
   '{trigger_selector} mouseenter': 'on_mouseenter',
   '{trigger_selector} mouseleave': 'on_mouseleave',
-  '{$extended} mouseleave': 'on_mouseleave',
-  '{$extended} mouseenter': 'on_tooltip_mouseenter',
+  '{extended} mouseleave': 'on_mouseleave',
+  '{extended} mouseenter': 'on_tooltip_mouseenter',
   on_mouseenter: function (el, ev) {
     let instance = el.closest('[data-model]').data('model') ||
         el.closest(':data(model)').data('model');
