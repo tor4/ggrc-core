@@ -90,6 +90,8 @@ describe('ModalsController', function () {
 
     it('does not wait for fetching the current user if already in cache',
       function () {
+        jasmine.clock().install();
+
         let dfdRefresh = new $.Deferred();
         let userId = GGRC.current_user.id;
 
@@ -104,8 +106,11 @@ describe('ModalsController', function () {
 
         init();
 
+        jasmine.clock().tick(1);
         // after_preload should have been called immediately
         expect(ctrlInst.after_preload).toHaveBeenCalled();
+
+        jasmine.clock().uninstall();
       }
     );
   });
@@ -299,27 +304,42 @@ describe('ModalsController', function () {
     });
 
     it('calls apply_object_params()', (done) => {
+      jasmine.clock().install();
+
       resetFormDfd.resolve();
       method();
 
+      jasmine.clock().tick(1);
       expect(ctrlInst.apply_object_params).toHaveBeenCalled();
       done();
+
+      jasmine.clock().uninstall();
     });
 
     it('calls serialize_form()', (done) => {
+      jasmine.clock().install();
+
       resetFormDfd.resolve();
       method();
 
+      jasmine.clock().tick(1);
       expect(ctrlInst.serialize_form).toHaveBeenCalled();
       done();
+
+      jasmine.clock().uninstall();
     });
 
     it('calls autocomplete()', (done) => {
+      jasmine.clock().install();
+
       resetFormDfd.resolve();
       method();
 
+      jasmine.clock().tick(1);
       expect(ctrlInst.autocomplete).toHaveBeenCalled();
       done();
+
+      jasmine.clock().uninstall();
     });
   });
 });

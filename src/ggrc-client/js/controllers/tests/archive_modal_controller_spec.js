@@ -46,6 +46,12 @@ describe('ToggleArchive modal', function () {
       event = Ctrl.prototype['a.btn[data-toggle=archive]:not(:disabled) click']
         .bind(ctrlInst);
       eventObj = $.Event();
+
+      jasmine.clock().install();
+    });
+
+    afterEach(function () {
+      jasmine.clock().uninstall();
     });
 
     it('was notified when was archived successfully', function () {
@@ -53,6 +59,8 @@ describe('ToggleArchive modal', function () {
       event($element, eventObj);
       pendingRefresh.resolve();
       pendingSave.resolve();
+
+      jasmine.clock().tick(1);
 
       expect(instance.attr('archived')).toBeTruthy();
       expect(instance.refresh).toHaveBeenCalled();
@@ -67,6 +75,8 @@ describe('ToggleArchive modal', function () {
       pendingRefresh.resolve();
       pendingSave.reject({responseText: errorMessage});
 
+      jasmine.clock().tick(1);
+
       expect(instance.refresh).toHaveBeenCalled();
       expect(instance.save).toHaveBeenCalled();
       expect($.fn.trigger).toHaveBeenCalledWith('ajax:flash',
@@ -77,6 +87,8 @@ describe('ToggleArchive modal', function () {
       let errorMessage = 'Internal error';
       event($element, eventObj);
       pendingRefresh.reject({responseText: errorMessage});
+
+      jasmine.clock().tick(1);
 
       expect(instance.refresh).toHaveBeenCalled();
       expect(instance.save).not.toHaveBeenCalled();

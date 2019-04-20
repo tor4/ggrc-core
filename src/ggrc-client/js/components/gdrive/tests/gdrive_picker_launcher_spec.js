@@ -173,9 +173,14 @@ describe('gdrive-picker-launcher', function () {
     describe('sets "isUploading" flag to false', function () {
       beforeEach(function () {
         viewModel.attr('isUploading', true);
+        jasmine.clock().install();
       });
 
-      it('after uploadFiles() success', function (done) {
+      afterEach(function () {
+        jasmine.clock().uninstall();
+      });
+
+      it('after uploadFiles() success', function () {
         spyOn(viewModel, 'createDocumentModel')
           .and.returnValue($.Deferred().resolve());
         parentFolderDfd.resolve(parentFolderStub);
@@ -183,15 +188,17 @@ describe('gdrive-picker-launcher', function () {
 
         viewModel.trigger_upload_parent(viewModel, el);
 
+        jasmine.clock().tick(1);
         expect(viewModel.attr('isUploading')).toBe(false);
       });
 
-      it('when uploadFiles() was failed', function (done) {
+      it('when uploadFiles() was failed', function () {
         parentFolderDfd.resolve(parentFolderStub);
         uploadFilesDfd.reject();
 
         viewModel.trigger_upload_parent(viewModel, el);
 
+        jasmine.clock().tick(1);
         expect(viewModel.attr('isUploading')).toBe(false);
       });
     });

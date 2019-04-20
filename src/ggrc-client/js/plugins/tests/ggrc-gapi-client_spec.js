@@ -61,6 +61,8 @@ describe('backendGdriveClient', () => {
 
       describe('runs backend auth', () => {
         beforeEach(() => {
+          jasmine.clock().install();
+
           backendGdriveClient.runBackendAuth.and.callFake(() => {
             backendGdriveClient.authDfd = $.Deferred();
           });
@@ -69,10 +71,12 @@ describe('backendGdriveClient', () => {
         afterEach((done) => {
           backendGdriveClient.withAuth(action);
 
-          backendGdriveClient.authDfd.resolve().then(() => {
-            expect(backendGdriveClient.runBackendAuth).toHaveBeenCalled();
-            done();
-          });
+          jasmine.clock().tick(10);
+
+          expect(backendGdriveClient.runBackendAuth).toHaveBeenCalled();
+          done();
+
+          jasmine.clock().uninstall();
         });
 
         it('if there was no auth dfd', () => {

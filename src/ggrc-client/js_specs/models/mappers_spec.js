@@ -895,18 +895,24 @@ describe('mappers', function () {
 
         it('adds the new item when the filter func returns a deferred ' +
            'resolving to true', function () {
+          jasmine.clock().install();
           let filterResult = new LL.MappingResult({id: 2}, [newResult]);
           cfll.filter_fn.and.returnValue($.when(true));
           cfll.init_listeners(binding);
           spyOn(cfll, 'make_result').and.returnValue(filterResult);
           spyOn(cfll, 'insert_results');
           sourceBinding.list.push(newResult);
+
+          jasmine.clock().tick(1);
           expect(cfll.insert_results).toHaveBeenCalledWith(
             binding, [filterResult]);
+
+          jasmine.clock().uninstall();
         });
 
         it('does not add the new item when the filter func returns ' +
            'a deferred resolving to false', function () {
+          jasmine.clock().install();
           let filterResult = new LL.MappingResult({id: 2}, [newResult]);
           cfll.filter_fn.and.returnValue($.when(false));
           cfll.init_listeners(binding);
@@ -914,14 +920,18 @@ describe('mappers', function () {
           spyOn(cfll, 'insert_results');
           spyOn(cfll, 'remove_instance');
           sourceBinding.list.push(newResult);
+
+          jasmine.clock().tick(1);
           expect(cfll.insert_results).not.toHaveBeenCalledWith(
             binding, [filterResult]);
           expect(cfll.remove_instance).toHaveBeenCalledWith(
             binding, newResult.instance, newResult);
+          jasmine.clock().uninstall();
         });
 
         it('does not add the new item when the filter func returns ' +
            'a deferred that rejects', function () {
+          jasmine.clock().install();
           let filterResult = new LL.MappingResult({id: 2}, [newResult]);
           cfll.filter_fn.and.returnValue(new $.Deferred().reject());
           cfll.init_listeners(binding);
@@ -929,10 +939,13 @@ describe('mappers', function () {
           spyOn(cfll, 'insert_results');
           spyOn(cfll, 'remove_instance');
           sourceBinding.list.push(newResult);
+
+          jasmine.clock().tick(1);
           expect(cfll.insert_results).not.toHaveBeenCalledWith(
             binding, [filterResult]);
           expect(cfll.remove_instance).toHaveBeenCalledWith(
             binding, newResult.instance, newResult);
+          jasmine.clock().uninstall();
         });
       });
 
