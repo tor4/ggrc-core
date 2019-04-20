@@ -43,12 +43,16 @@ describe('revision-page component', function () {
         object: [],
         revisionsForCompare: [],
       });
-      viewModel._computeObjectChanges.and.returnValue('computedObjectChanges');
+      const objectChanges = [{
+        id: 1,
+        updatedAt: 3,
+      }];
+      viewModel._computeObjectChanges.and.returnValue(objectChanges);
 
       viewModel.attr('revisions', revisions);
 
-      expect(viewModel.attr('changeHistory'))
-        .toEqual(jasmine.arrayContaining(['computedObjectChanges']));
+      expect(viewModel.attr('changeHistory').serialize())
+        .toEqual(jasmine.arrayContaining(objectChanges));
       expect(viewModel._computeObjectChanges)
         .toHaveBeenCalledWith(revisions.object, revisions.revisionsForCompare);
       expect(viewModel._computeObjectChanges.calls.count()).toBe(1);
@@ -58,13 +62,17 @@ describe('revision-page component', function () {
       const revisions = new can.Map({
         mappings: [],
       });
+      const mappingChanges = {
+        id: 3,
+        updatedAt: 2,
+      };
       viewModel._computeMappingChanges
-        .and.returnValue('computedMappingChanges');
+        .and.returnValue(mappingChanges);
 
       viewModel.attr('revisions', revisions);
 
-      expect(viewModel.attr('changeHistory'))
-        .toEqual(jasmine.arrayContaining(['computedMappingChanges']));
+      expect(viewModel.attr('changeHistory').serialize())
+        .toEqual(jasmine.arrayContaining([mappingChanges]));
       expect(viewModel._computeMappingChanges)
         .toHaveBeenCalledWith(revisions.mappings);
       expect(viewModel._computeMappingChanges.calls.count()).toBe(1);
