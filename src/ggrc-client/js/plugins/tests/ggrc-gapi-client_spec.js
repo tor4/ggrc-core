@@ -17,6 +17,7 @@ describe('backendGdriveClient', () => {
       thenStub = jasmine.createSpy();
       action = jasmine.createSpy().and.returnValue({
         then: thenStub,
+        pipe: thenStub,
       });
     });
 
