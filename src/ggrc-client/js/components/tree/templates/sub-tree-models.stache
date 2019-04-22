@@ -20,7 +20,7 @@
           <label for="{{inputId}}" class="single-line" title="{{displayName}}">
             <input type="checkbox"
               id="{{inputId}}"
-              checked:bind="display"
+              el:checked:bind="display"
               value="{{name}}">
             {{displayName}}
           </label>

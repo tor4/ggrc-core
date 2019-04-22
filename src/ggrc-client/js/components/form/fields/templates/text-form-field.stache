@@ -8,6 +8,6 @@
          id="form-field-{{fieldId}}"
          placeholder="{{placeholder}}"
          class="text-field"
-         value:bind="inputValue"
+         el:value:bind="inputValue"
          {{#if disabled}}disabled{{/if}}>
 </div>

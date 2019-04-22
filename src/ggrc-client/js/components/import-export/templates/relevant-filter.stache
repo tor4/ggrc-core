@@ -25,7 +25,7 @@
     Mapped to:
     <select class="filter-type-selector select-filter{{@index}}"
             {{#readOnly}}disabled="disabled"{{/readOnly}}
-            value:bind="model_name">
+            el:value:bind="model_name">
       {{#menu}}
         {{#if model_singular}}
           <option value="{{model_singular}}"

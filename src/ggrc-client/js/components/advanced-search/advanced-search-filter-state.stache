@@ -9,7 +9,7 @@
   </div>
   {{#if showOperator}}
   <div class="filter-state__operator">
-    <select value:bind="stateModel.operator">
+    <select el:value:bind="stateModel.operator">
       <option value="ANY">Any of</option>
       <option value="NONE">None of</option>
     </select>

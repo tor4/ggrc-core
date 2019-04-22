@@ -19,7 +19,7 @@ import {trigger} from 'can-event';
  *
  * Usage example (state and permission checks not included):
  *
- *   <cycle-end-cycle {cycle}="{instance}">
+ *   <cycle-end-cycle cycle:from="instance">
  *       <button>Click to end a Cycle</button>
  *   </cycle-end-cycle>
  *

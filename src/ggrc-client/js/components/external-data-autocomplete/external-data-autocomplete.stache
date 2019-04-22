@@ -6,7 +6,7 @@
 <input type="text"
        class="input-block-level {{extraCssClass}}"
        on:el:input="setSearchCriteria($element)"
-       value:bind="searchCriteria"
+       el:value:bind="searchCriteria"
        on:el:focus="openResults()"
        on:el:blur="closeResults()"
        placeholder="{{placeholder}}">

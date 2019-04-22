@@ -137,7 +137,7 @@
                class="input-block-level"
                placeholder="Enter Ticket Title"
                type="text"
-               value:bind="instance.issue_tracker.title"
+               el:value:bind="instance.issue_tracker.title"
         />
         {{#isValidAttrProperty instance "issue_tracker" "title"}}
           <label class="help-inline warning">{{this}}</label>

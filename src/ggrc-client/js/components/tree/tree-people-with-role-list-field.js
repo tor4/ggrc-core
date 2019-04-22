@@ -8,9 +8,9 @@ import {
 } from '../../plugins/utils/acl-utils';
 import Person from '../../models/business-models/person';
 
-const template = '<tree-field-wrapper {source}="{peopleList}"' +
-' {type}="{type}" {field}="\'email\'">' +
-'<tree-field {source}="{items}"/></tree-field-wrapper>';
+const template = '<tree-field-wrapper source:from="peopleList"' +
+' type:from="type" field:from="\'email\'">' +
+'<tree-field source:from="items"/></tree-field-wrapper>';
 
 const viewModel = can.Map.extend({
   define: {

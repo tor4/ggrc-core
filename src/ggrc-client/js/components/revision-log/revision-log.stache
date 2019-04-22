@@ -10,7 +10,7 @@
         <label class="flex-box">
           <input type="checkbox"
                  on:el:change="changeLastUpdatesFilter(%element)"
-                 checked:bind="options.showLastReviewUpdates"/>
+                 el:checked:bind="options.showLastReviewUpdates"/>
           Show updates after last review
         </label>
       </div>

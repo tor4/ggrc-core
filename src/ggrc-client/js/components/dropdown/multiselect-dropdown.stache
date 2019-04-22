@@ -25,7 +25,7 @@
         <li class="multiselect-dropdown__element">
           <label class="multiselect-dropdown__label" >
             <input type="checkbox"
-              checked:bind="_selectedAll"
+              el:checked:bind="_selectedAll"
               on:el:click="selectAll()"
               class="multiselect-dropdown__checkbox"/>
             Select all
@@ -35,7 +35,7 @@
         <li class="multiselect-dropdown__element">
           <label class="multiselect-dropdown__label">
             <input type="checkbox"
-              checked:bind="checked"
+              el:checked:bind="checked"
               on:el:click="optionChange(.)"
               value="{{value}}"
               id="{{id}}"

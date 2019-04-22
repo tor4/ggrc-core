@@ -7,7 +7,7 @@
   <h6>{{title}}</h6>
   <div class="mapping-criteria__content flex-box flex-box-multi">
     <div class="mapping-criteria__type">
-      <select value:bind="criteria.objectName" {{#if isClone}}disabled{{/if}}>
+      <select el:value:bind="criteria.objectName" {{#if isClone}}disabled{{/if}}>
       {{#mappingTypes}}
         <option value="{{model_singular}}"
                 label="{{title_singular}}">

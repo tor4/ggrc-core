@@ -24,7 +24,7 @@
   </h6>
 
   <div class="single-line-filter">
-    <select value:bind="type" class="input-block-level option-type-selector">
+    <select el:value:bind="type" class="input-block-level option-type-selector">
       {{#exportable}}
         <option value="{{model_singular}}" label="{{title_plural}}"></option>
       {{/exportable}}
@@ -34,7 +34,7 @@
   {{#is(type, "Snapshot")}}
    <h6>Select snapshot object type</h6>
    <div class="single-line-filter">
-     <select value:bind="item.snapshot_type" class="input-block-level option-type-selector">
+     <select el:value:bind="item.snapshot_type" class="input-block-level option-type-selector">
        {{#snapshotable_objects}}
          <option value="{{.}}" label="{{.}}" ></option>
        {{/snapshotable_objects}}

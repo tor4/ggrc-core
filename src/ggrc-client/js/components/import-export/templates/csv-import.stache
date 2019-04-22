@@ -39,7 +39,7 @@
 
         {{#case 'Not Started'}}
           <label class="confirm-action">
-            <input type="checkbox" checked:bind="isConfirm">
+            <input type="checkbox" el:checked:bind="isConfirm">
             <span>
               I confirm that the import file containing {{importedObjectsCount}}
               {{#is(importedObjectsCount, 1)}}object{{else}}objects{{/is}} is complete and accurate to the best of my knowledge.

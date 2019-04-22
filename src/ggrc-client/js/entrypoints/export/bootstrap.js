@@ -11,6 +11,9 @@ gapiClient.loadGapiClient();
 
 RouterConfig.setupRoutes([]);
 
-$('#csv_export').html(can.stache('<csv-export filename="Export Objects"/>'));
+const csvExportTemplate = can.stache(
+  '<csv-export filename:from="\'Export Objects\'"/>'
+);
+$('#csv_export').html(csvExportTemplate);
 $('#page-header').html(can.stache('<page-header/>'));
 initWidgets();

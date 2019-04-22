@@ -12,7 +12,7 @@
     {{/if}}
 </div>
 <div class="span-custom1-and-half">
-  <select class="input-block-level" value:bind="selected.type">
+  <select class="input-block-level" el:value:bind="selected.type">
     {{#types}}
       <option value="{{type}}">{{name}}</option>
     {{/types}}

@@ -7,6 +7,6 @@
   class="numberbox-input {{additionalClass}}"
   placeholder="{{placeholder}}"
   type="text"
-  value:bind="value"
+  el:value:bind="value"
   {{#if disabled}}disabled{{/if}}
 />

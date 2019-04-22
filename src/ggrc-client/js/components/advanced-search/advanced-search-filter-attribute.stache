@@ -28,7 +28,7 @@
         placeholder="Type here..."
         name="right"
         type="text"
-        value:bind="attribute.value"
+        el:value:bind="attribute.value"
         on:el:enter="setValue($element)">
     </div>
   {{/if}}

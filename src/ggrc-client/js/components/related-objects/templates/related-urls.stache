@@ -30,7 +30,7 @@
       <form class="related-urls__create create-form">
         <fieldset class="create-form__layout"
           {{#if isDisabled}}disabled{{/if}}>
-          <input value:bind="value"
+          <input el:value:bind="value"
           class="create-form__input"
           type="text"
           placeholder="Add URL"
