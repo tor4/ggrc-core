@@ -130,15 +130,12 @@ describe('QueryAPI utils', function () {
 
     beforeEach(() => {
       spyOn(can, 'ajax').and.returnValue($.Deferred());
-      jasmine.clock().install();
-    });
-
-    afterEach(() => {
-      jasmine.clock().uninstall();
     });
 
     it('makes request with based on passed object stubs and fields ' +
     'configuration', () => {
+      jasmine.clock().install();
+
       const stubs = [
         new can.Map({id: 123, type: 'Type1'}),
         new can.Map({id: 223, type: 'Type1'}),
@@ -179,9 +176,11 @@ describe('QueryAPI utils', function () {
       expect(can.ajax).toHaveBeenCalledWith(jasmine.objectContaining({
         data: JSON.stringify(expectedQuery),
       }));
+
+      jasmine.clock().uninstall();
     });
 
-    it('returns flatten result of query', () => {
+    it('returns flatten result of query', (done) => {
       const stubs = [
         new can.Map({id: 123, type: 'Type1'}),
         new can.Map({id: 223, type: 'Type1'}),
@@ -216,11 +215,10 @@ describe('QueryAPI utils', function () {
         JSON.parse(data).map(generateQueryApiResponse),
       ));
 
-      const result = QueryAPI.loadObjectsByStubs(stubs, fields);
-
-      jasmine.clock().tick(BATCH_TIMEOUT + 1);
-
-      return expectAsync(result).toBeResolvedTo(expectedResult);
+      QueryAPI.loadObjectsByStubs(stubs, fields).then((res) => {
+        expect(res).toEqual(expectedResult);
+        done();
+      });
     });
   });
 
@@ -229,15 +227,12 @@ describe('QueryAPI utils', function () {
 
     beforeEach(() => {
       spyOn(can, 'ajax').and.returnValue($.Deferred());
-      jasmine.clock().install();
-    });
-
-    afterEach(() => {
-      jasmine.clock().uninstall();
     });
 
     it('makes request with based on passed object types and fields ' +
     'configuration', () => {
+      jasmine.clock().install();
+
       const object = {id: 12345, type: 'FakeType'};
       const types = ['Type1', 'Type2', 'Type3'];
       const fields = ['id', 'type', 'title'];
@@ -260,9 +255,11 @@ describe('QueryAPI utils', function () {
       expect(can.ajax).toHaveBeenCalledWith(jasmine.objectContaining({
         data: JSON.stringify(expectedQuery),
       }));
+
+      jasmine.clock().uninstall();
     });
 
-    it('returns flatten result of query', () => {
+    it('returns flatten result of query', (done) => {
       const object = new can.Map({id: 12345, type: 'FakeType'});
       const types = ['Type1', 'Type2', 'Type3'];
       const fields = ['id', 'type', 'title'];
@@ -287,11 +284,10 @@ describe('QueryAPI utils', function () {
         JSON.parse(data).map(generateQueryApiResponse),
       ));
 
-      const result = QueryAPI.loadObjectsByTypes(object, types, fields);
-
-      jasmine.clock().tick(BATCH_TIMEOUT + 1);
-
-      return expectAsync(result).toBeResolvedTo(expectedResult);
+      QueryAPI.loadObjectsByTypes(object, types, fields).then((res) => {
+        expect(res).toEqual(expectedResult);
+        done();
+      });
     });
   });
 });
