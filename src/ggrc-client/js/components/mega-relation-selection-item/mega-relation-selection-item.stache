@@ -3,14 +3,14 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 
-<label ($click)="switchRelation(%event, false)">
+<label on:el:click="switchRelation(%event, false)">
   <input
     type="radio"
     name="map_as--{{id}}"
     {{#if parentRelation}}checked{{/if}}
     {{#if isDisabled}}disabled{{/if}}> Parent
 </label>
-<label($click)="switchRelation(%event, true)">
+<label on:el:click="switchRelation(%event, true)">
   <input
     type="radio"
     name="map_as--{{id}}"
