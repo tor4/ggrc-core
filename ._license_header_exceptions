@@ -18,6 +18,7 @@
 < docs/source/contributing/javascript.rst
 < docs/source/contributing/performance.rst
 < docs/source/contributing/python.rst
+< docs/source/frontend/frontend-dependencies.md
 < docs/source/frontend/index.rst
 < docs/source/frontend/modals.rst
 < docs/source/frontend/overview.rst
