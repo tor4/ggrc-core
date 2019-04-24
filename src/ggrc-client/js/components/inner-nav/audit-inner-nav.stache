@@ -7,10 +7,10 @@
   <nav class="internav">
     {{#if showTabs}}
       {{#priorityTabs}}
-        <inner-nav-item {widget}="{.}"
-          {active-widget}="{activeWidget}"
-          {show-title}="{true}"
-          {show-all-tabs}="{showAllTabs}"
+        <inner-nav-item widget:from="{.}"
+          activeWidget:from="activeWidget"
+          showTitle:from="true"
+          showAllTabs:from="showAllTabs"
           on:close="closeTab(%event)"></inner-nav-item>
       {{/priorityTabs}}
     {{/if}}
@@ -19,20 +19,20 @@
 
 {{#if showTabs}}
   <div class="tabs not-priority">
-    <inner-nav-collapse {title}="'Show Audit Scope'">
+    <inner-nav-collapse title:from="'Show Audit Scope'">
       <nav class="internav">
         {{#notPriorityTabs}}
-          <inner-nav-item {widget}="{}.}"
-            {active-widget}="{activeWidget}"
-            {show-title}="{false}"
-            {show-all-tabs}="{showAllTabs}"
+          <inner-nav-item widget:from="}."
+            activeWidget:from="activeWidget"
+            showTitle:from="false"
+            showAllTabs:from="showAllTabs"
             on:close="closeTab(%event)"></inner-nav-item>
         {{/notPriorityTabs}}
 
         <add-tab-button
-          {instance}="{instance}"
-          {widget-list}="{hiddenWidgets}"
-          {add-tab-title}="'Add Scope'">
+          instance:from="instance"
+          widgetList:from="hiddenWidgets"
+          addTabTitle:from="'Add Scope'">
         </add-tab-button>
       </nav>
     </inner-nav-collapse>

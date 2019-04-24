@@ -5,12 +5,12 @@
 
 <div class="filter-attribute flex-box flex-box-multi">
   <div class="filter-attribute__name">
-    <autocomplete-dropdown {(value)}="{attribute.field}"
-                           {options}="{attributeTitles}">
+    <autocomplete-dropdown value:bind="attribute.field"
+                           options:from="attributeTitles">
     </autocomplete-dropdown>
   </div>
   <div class="filter-attribute__operator">
-    <select {($value)}="{attribute.operator}">
+    <select value:bind="attribute.operator">
       <option value="~">Contains</option>
       <option value="=">Equals</option>
       <option value="!~">Does not contain</option>
@@ -28,7 +28,7 @@
         placeholder="Type here..."
         name="right"
         type="text"
-        {($value)}="{attribute.value}"
+        value:bind="attribute.value"
         on:el:enter="setValue($element)">
     </div>
   {{/if}}

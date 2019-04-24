@@ -6,10 +6,10 @@
 <div class="related-urls">
   <content/>
   <div class="related-urls__list">
-    <object-list {(items)}="{urls}" {empty-message}="{emptyMessage}" {show-more}="{showMore}">
+    <object-list items:bind="urls" emptyMessage:from="emptyMessage" showMore:from="showMore">
       <div class="action-toolbar">
         <document-object-list-item
-          {instance}="{.}">
+          instance:from="{.}">
         </document-object-list-item>
         {{#if canRemoveUrl}}
           <div class="action-toolbar__controls">
@@ -30,7 +30,7 @@
       <form class="related-urls__create create-form">
         <fieldset class="create-form__layout"
           {{#if isDisabled}}disabled{{/if}}>
-          <input {($value)}="{value}"
+          <input value:bind="value"
           class="create-form__input"
           type="text"
           placeholder="Add URL"

@@ -9,15 +9,15 @@
     <div class="ggrc-form-item">
       <div class="ggrc-form-item__multiple-row">
         <label class="form-label ggrc-form-item__label">State</label>
-        <dropdown-component {options-list}="{model.statuses}"
+        <dropdown-component optionsList:from="model.statuses"
                   name:bind="instance.status">
         </dropdown-component>
       </div>
       <div class="ggrc-form-item__multiple-row">
         <label class="form-label ggrc-form-item__label">Document Type</label>
-        <dropdown-component {options-list}="{model.kinds}"
+        <dropdown-component optionsList:from="model.kinds"
                   name:bind="instance.kind"
-                  {{^if new_object_form}}{is-disabled}="{true}"{{/if}}>
+                  {{^if new_object_form}}isDisabled:from="true"{{/if}}>
         </dropdown-component>
       </div>
     </div>
@@ -33,7 +33,7 @@
           <i class="fa fa-asterisk"></i>
         </label>
         <document-object-list-item
-          {instance}="{instance}">
+          instance:from="instance">
         </document-object-list-item>
       </div>
     </div>
@@ -47,17 +47,17 @@
         <div class="rich-text">
           <rich-text
             tabindex="3"
-            {hidden-toolbar}="{true}"
-            {placeholder}="'Enter Description'"
-            {(content)}="{instance.description}">
+            hiddenToolbar:from="true"
+            placeholder:from="'Enter Description'"
+            content:bind="instance.description">
           </rich-text>
         </div>
       </div>
     </div>
 
     <access-control-list-roles-helper
-      {instance}="{.}"
-      {is-new-instance}="{new_object_form}">
+      instance:from="{.}"
+      isNewInstance:from="new_object_form">
     </access-control-list-roles-helper>
 
     <div class="ggrc-form-item">
@@ -65,7 +65,7 @@
         <label class="ggrc-form-item__label">
           Code
         </label>
-        <input disabled class="input-block-level" name="slug" placeholder="DOCUMENT-XXX" type="text" {$value}="{slug}">
+        <input disabled class="input-block-level" name="slug" placeholder="DOCUMENT-XXX" type="text" value:from="slug">
       </div>
     </div>
   </form>

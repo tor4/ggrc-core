@@ -28,9 +28,9 @@
             </div>
             <div class="pane-header__toolbar">
               {{#is_info_pin}}
-                <info-pin-buttons {maximized}="{maximized}" 
-                                  {on-change-maximized-state}="{@onChangeMaximizedState}" 
-                                  {on-close}="{@onClose}">
+                <info-pin-buttons maximized:from="maximized" 
+                                  onChangeMaximizedState:from="@onChangeMaximizedState" 
+                                  onClose:from="@onClose">
                 </info-pin-buttons>
               {{/is_info_pin}}
 
@@ -41,34 +41,34 @@
       </div>
 
       <tab-container>
-        <tab-panel {(panels)}="{panels}" {title-text}="'Attributes'">
+        <tab-panel panels:bind="panels" titleText:from="'Attributes'">
           <div class="row-fluid wrap-row">
             <div class="span12">
               <h6>Description</h6>
               <div class="rtf-block">
                 <read-more
-                  {text}="{instance.description}"
-                  {handle-markdown}="{instance.class.isChangeableExternally}">
+                  text:from="instance.description"
+                  handleMarkdown:from="instance.class.isChangeableExternally">
                 </read-more>
               </div>
             </div>
           </div>
           <div class="row-fluid wrap-row">
             <div>
-              <custom-roles {instance}="{instance}"></custom-roles>
+              <custom-roles instance:from="instance"></custom-roles>
             </div>
           </div>
 
           <div class="row-fluid wrap-row">
               <related-documents
-                {instance}="{instance}"
-                {model-type}="'Evidence'"
-                {kind}="'URL'">
+                instance:from="instance"
+                modelType:from="'Evidence'"
+                kind:from="'URL'">
                 <related-urls
-                  {instance}="{instance}"
-                  {(urls)}="{documents}"
-                  {is-disabled}="{isLoading}"
-                  {is-not-editable}="{instance.archived}"
+                  instance:from="instance"
+                  urls:bind="documents"
+                  isDisabled:from="isLoading"
+                  isNotEditable:from="instance.archived"
                   on:createUrl="createRelatedDocument(%event.payload)"
                   on:removeUrl="removeRelatedDocument(%event.payload)">
                   <div class="related-urls__heading">
@@ -83,14 +83,14 @@
                 <h6>Attachment</h6>
                 {{#if_helpers '\n #if' instance.archived '\n or ^is_allowed' 'update' instance context='for'}}
                   <ggrc-gdrive-folder-picker
-                    {hide-label}="{true}"
-                    {readonly}="{true}"
-                    {instance}="{instance}">
+                    hideLabel:from="true"
+                    readonly:from="true"
+                    instance:from="instance">
                   </ggrc-gdrive-folder-picker>
                 {{else}}
                   <ggrc-gdrive-folder-picker
-                    {hide-label}="{true}"
-                    {instance}="{instance}">
+                    hideLabel:from="true"
+                    instance:from="instance">
                   </ggrc-gdrive-folder-picker>
                 {{/if_helpers}}
             </div>
@@ -121,7 +121,7 @@
                 </div>
                 <div class="span4">
                   <h6>Audit Firm</h6>
-                  <object-loader {path}="instance.audit_firm">
+                  <object-loader path:from="instance.audit_firm">
                     {{#if loadedObject}}
                       <p>{{loadedObject.title}}</p>
                     {{else}}
@@ -177,10 +177,10 @@
 
               {{#if instance.can_use_issue_tracker}}
                 <info-issue-tracker-fields
-                  {instance}="{instance}"
-                  {note}="'Turns on Ticket Tracker integration.'">
+                  instance:from="instance"
+                  note:from="'Turns on Ticket Tracker integration.'">
                   {{^if instance.archived}}
-                    <generate-issues-in-bulk-button {instance}="{instance}">
+                    <generate-issues-in-bulk-button instance:from="instance">
                     </generate-issues-in-bulk-button>
                   {{/if}}
                 </info-issue-tracker-fields>
@@ -189,14 +189,14 @@
           </div><!-- custom-attr-wrap end -->
           {{> /static/templates/custom_attributes/info.stache}}
         </tab-panel>
-        <tab-panel {(panels)}="{panels}" {title-text}="'Change Log'">
-            <revision-log {instance}="{instance}" {options}="{tabOptions}"></revision-log>
+        <tab-panel panels:bind="panels" titleText:from="'Change Log'">
+            <revision-log instance:from="instance" options:from="tabOptions"></revision-log>
         </tab-panel>
       </tab-container>
     </div>
   </section>
 
   {{#if is_info_widget}}
-    <info-pane-footer {created-at}="{instance.created_at}" {modified-at}="{instance.updated_at}" {modified-by}="{instance.modified_by}"></info-pane-footer>
+    <info-pane-footer createdAt:from="instance.created_at" modifiedAt:from="instance.updated_at" modifiedBy:from="instance.modified_by"></info-pane-footer>
   {{/if}}
 {{/instance}}

@@ -7,14 +7,14 @@
   {{#if isOpen}}
     {{#directlyItems}}
       <sub-tree-item class="tree-item-element"
-                     {extra-css}="'directly-related'"
-                     {instance}="{.}"
-                     {limit-depth-tree}="{limitDepthTree}"
+                     extraCss:from="'directly-related'"
+                     instance:from="{.}"
+                     limitDepthTree:from="limitDepthTree"
       ></sub-tree-item>
     {{/directlyItems}}
 
     {{#if showPagination}}
-      <tree-pagination {paging}="{paging}"></tree-pagination>
+      <tree-pagination paging:from="paging"></tree-pagination>
     {{/if}}
 
     {{#if showMore}}
@@ -28,9 +28,9 @@
     {{#if needToSplit}}
       <div class="sub-tree-link">
         <sub-tree-expander on:expandNotDirectly="expandNotDirectlyRelated()"
-                           {expanded}="{notDirectlyExpanded}"
-                           {disabled}="{disabled}"
-                           {display}="{display}">
+                           expanded:from="notDirectlyExpanded"
+                           disabled:from="disabled"
+                           display:from="display">
           <a on:el:click="expandNotDirectly()" href="javascript://">
             <i class="fa fa-caret-{{#if expanded}}down{{else}}right{{/if}}"></i>
             Show objects not directly related to this {{contextName}}
@@ -41,9 +41,9 @@
       {{#if notDirectlyExpanded}}
         {{#notDirectlyItems}}
           <sub-tree-item class="tree-item-element"
-                         {extra-css}="'not-directly-related'"
-                         {instance}="{.}"
-                         {limit-depth-tree}="{limitDepthTree}"
+                         extraCss:from="'not-directly-related'"
+                         instance:from="{.}"
+                         limitDepthTree:from="limitDepthTree"
           ></sub-tree-item>
         {{/notDirectlyItems}}
       {{/if}}
@@ -55,6 +55,6 @@
   {{/if}}
 
   <div class="tree-spinner">
-    <spinner-component {toggle}="{loading}" {size}="'large'"></spinner-component>
+    <spinner-component toggle:from="loading" size:from="'large'"></spinner-component>
   </div>
 </div>

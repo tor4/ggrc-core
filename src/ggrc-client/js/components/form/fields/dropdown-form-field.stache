@@ -5,11 +5,11 @@
 
 <div class="input-wrapper {{#if isNoneSelected}}none-selected{{/if}}">
   <dropdown-component name:bind="inputValue"
-            {is-disabled}="{disabled}"
-            {options-list}="{options}"
-            {is-grouped-dropdown}="{isGroupedDropdown}"
-            {options-groups}="{dropdownOptionsGroups}"
-            {no-value}="{noValue}"
-            {control-id}="'form-field-{{fieldId}}'">
+            isDisabled:from="disabled"
+            optionsList:from="options"
+            isGroupedDropdown:from="isGroupedDropdown"
+            optionsGroups:from="dropdownOptionsGroups"
+            noValue:from="noValue"
+            controlId:from="'form-field-{{fieldId}}'">
   </dropdown-component>
 </div>

@@ -8,14 +8,14 @@
     <div class="attr">
       {{#switch attr_type}}
         {{#case "custom"}}
-          <tree-item-custom-attribute {instance}="{instance}"
-                                      {custom-attribute-id}="{attr_custom_attribute_id}"
+          <tree-item-custom-attribute instance:from="instance"
+                                      customAttributeId:from="attr_custom_attribute_id"
           ></tree-item-custom-attribute>
         {{/case}}
 
         {{#case "role"}}
           <div class="roles attr-content">
-            <tree-people-with-role-list-field {instance}="{instance}" {role}="{attr_name}">
+            <tree-people-with-role-list-field instance:from="instance" role:from="attr_name">
             </tree-people-with-role-list-field>
           </div>
         {{/case}}
@@ -23,16 +23,16 @@
         {{#case 'map_as'}}
           <mega-relation-selection-item
             class="tree-radio-select-area"
-            {is-disabled}="{isDisabled}"
-            {id}="{instance.id}"
-            {map-as-child}="{mapAsChild}">
+            isDisabled:from="isDisabled"
+            id:from="instance.id"
+            mapAsChild:from="mapAsChild">
           </mega-relation-selection-item>
         {{/case}}
 
         {{#default}}
           <tree-item-attr
-            {instance}="{instance}"
-            {name}="{attr_name}"
+            instance:from="instance"
+            name:from="attr_name"
           ></tree-item-attr>
         {{/default}}
       {{/switch}}

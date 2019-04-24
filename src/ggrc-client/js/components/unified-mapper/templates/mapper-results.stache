@@ -3,30 +3,30 @@
   Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 
-<object-selection {items}="{items}" 
-                  {selected-items}="{selected}"
-                  {disabled-ids}="{disabledIds}"
-                  {all-items}="{allItems}"
-                  {(refresh-selection)}="{refreshItems}"
-                  {(all-selected)}="{allSelected}"
+<object-selection items:from="items"
+                  selectedItems:from="selected"
+                  disabledIds:from="disabledIds"
+                  allItems:from="allItems"
+                  refreshSelection:bind="refreshItems"
+                  allSelected:bind="allSelected"
                   {{#if serviceColumnsEnabled}}class="object-selection__service-columns"{{/if}}>
   {{#if items.length}}
     <div class="list-header">
       {{^disableColumnsConfiguration}}
-        <mapper-results-columns-configuration {model-type}="{getDisplayModel.model_singular}"
-                                              {available-columns}="{columns.available}"
-                                              {(selected-columns)}="{columns.selected}"
-                                              {service-columns}="{columns.service}">
+        <mapper-results-columns-configuration modelType:from="getDisplayModel.model_singular"
+                                              availableColumns:from="columns.available"
+                                              selectedColumns:bind="columns.selected"
+                                              serviceColumns:from="columns.service">
         </mapper-results-columns-configuration>
       {{/disableColumnsConfiguration}}
       <mapper-results-items-header class="{{#useSnapshots}}is-snapshot{{/useSnapshots}}
                                           {{#searchOnly}}search-only{{/searchOnly}}
                                           {{#relatedAssessments.show}}has-related-assessments{{/relatedAssessments.show}}"
-                                   {model-type}="{type}"
-                                   {columns}="{columns.selected}"
-                                   {service-columns}="{columns.service}"
-                                   {(sort-key)}="{sort.key}"
-                                   {(sort-direction)}="{sort.direction}">
+                                   modelType:from="type"
+                                   columns:from="columns.selected"
+                                   serviceColumns:from="columns.service"
+                                   sortKey:bind="sort.key"
+                                   sortDirection:bind="sort.direction">
       </mapper-results-items-header>
       {{^searchOnly}}
         <div class="list-selection-switcher">
@@ -46,22 +46,22 @@
       {{/searchOnly}}
     </div>
     <div class="list-body {{#isLoading}}loading{{/isLoading}}">
-      <object-list {items}="{items}" {is-loading}="{isLoading}" {list-type}="'GRID'">
+      <object-list items:from="items" isLoading:from="isLoading" listType:from="'GRID'">
         <mapper-results-item class="{{#relatedAssessments.show}}has-related-assessments{{/relatedAssessments.show}}"
-                             {item-data}="{data}"
-                             {search-only}="{searchOnly}"
-                             {selected-columns}="{columns.selected}"
-                             {service-columns}="{columns.service}"
-                             {draw-related-assessments}="{relatedAssessments.show}"
+                             itemData:from="data"
+                             searchOnly:from="searchOnly"
+                             selectedColumns:from="columns.selected"
+                             serviceColumns:from="columns.service"
+                             drawRelatedAssessments:from="relatedAssessments.show"
                              on:showRelatedAssessments="showRelatedAssessments(%event)">
         </mapper-results-item>
       </object-list>
     </div>
-    <tree-pagination {paging}="{paging}" {placement}="{top}"></tree-pagination>
+    <tree-pagination paging:from="paging" placement:from="top"></tree-pagination>
   {{else}}
     {{#if isLoading}}
       <div class="no-items-spinner-wrapper">
-        <spinner-component {toggle}="{isLoading}" {extra-css-class}="'grid-spinner'" class="spinner-wrapper active"></spinner-component>
+        <spinner-component toggle:from="isLoading" extraCssClass:from="'grid-spinner'" class="spinner-wrapper active"></spinner-component>
       </div>
     {{else}}
       <div class="well well-small">No {{getDisplayModel.title_plural}} were found</div>
@@ -69,13 +69,13 @@
   {{/if}}
 </object-selection>
 {{#relatedAssessments.show}}
-  <simple-modal {instance}="{relatedAssessments.instance}"
-                {modal-title}="'Related Assessments'"
-                {state}="{relatedAssessments.state}"
-                {extra-css-class}="{related-assessments}">
+  <simple-modal instance:from="relatedAssessments.instance"
+                modalTitle:from="'Related Assessments'"
+                state:from="relatedAssessments.state"
+                extraCssClass:from="related-assessments">
     <div class="simple-modal__body">
       <related-assessments
-        {instance}="{instance}">
+        instance:from="instance">
       </related-assessments>
     </div>
   </simple-modal>

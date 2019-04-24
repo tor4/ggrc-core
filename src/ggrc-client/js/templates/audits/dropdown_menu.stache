@@ -8,7 +8,7 @@
     {{#is_allowed 'update' instance context='for'}}
       {{#if instance.is_snapshotable}}
         <li>
-          <snapshot-scope-update {instance}="{instance}">
+          <snapshot-scope-update instance:from="instance">
             <a href="javascript://" on:el:click="upsertIt">
               <i class="fa fa-refresh"></i>
               Update objects to latest version</a>
@@ -19,9 +19,9 @@
 
       <li>
         <assessment-template-clone-button
-          {object-type}="'AssessmentTemplate'"
-          {parent-id}="{instance.id}"
-          {parent-type}="{instance.class.model_singular}">
+          objectType:from="'AssessmentTemplate'"
+          parentId:from="instance.id"
+          parentType:from="instance.class.model_singular">
           <i class="fa fa-sliders"></i>
           Define Assessment template
         </assessment-template-clone-button>
@@ -33,9 +33,9 @@
     {{#if instance.class.is_clonable}}
       {{#is_allowed 'update' instance context='for'}}
         <li>
-          <object-cloner {instance}="{instance}"
-                         {modal-title}="'Clone {{ instance.type }}''"
-                         {modal-description}="'Select all that you would like to clone as well?'">
+          <object-cloner instance:from="instance"
+                         modalTitle:from="'Clone {{ instance.type }}''"
+                         modalDescription:from="'Select all that you would like to clone as well?'">
             <a href="javascript://" on:el:click="cloneObject">
               <i class="fa fa-clone"></i>
               Clone {{ instance.type }}
@@ -71,14 +71,14 @@
   </li>
 
   <li>
-    <permalink-component {instance}="{instance}"/>
+    <permalink-component instance:from="instance"/>
   </li>
 
   {{#is_info_pin}}
     <unmap-dropdown-item
-      {page_instance}="{page_instance}"
-      {instance}="{instance}"
-      {options}="{options}">
+      page_instance:from="page_instance"
+      instance:from="instance"
+      options:from="options">
     </unmap-dropdown-item>
 
     {{#if instance.viewLink}}
@@ -91,7 +91,7 @@
     {{/if}}
   {{/is_info_pin}}
 
-  <object-loader {path}="instance.program">
+  <object-loader path:from="instance.program">
     {{^if instance.archived}}
       {{#if_helpers '\n #current_user_is_admin' '\n or #has_role' 'Program Managers' loadedObject}}
         <li>
@@ -126,7 +126,7 @@
   {{#if instance.archived}}
     {{#current_user_is_admin}}
         <li>
-           <unarchive-link {instance}="{instance}" {notify}="{true}">
+           <unarchive-link instance:from="instance" notify:from="true">
                <i class="fa fa-archive"></i>
                Unarchive Audit
            </unarchive-link>

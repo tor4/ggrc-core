@@ -7,18 +7,18 @@
   <nav class="internav">
     {{#if showTabs}}
       {{#widgetList}}
-        <inner-nav-item {widget}="{.}"
-          {active-widget}="{activeWidget}"
-          {show-title}="{true}"
-          {show-all-tabs}="{showAllTabs}"
+        <inner-nav-item widget:from="{.}"
+          activeWidget:from="activeWidget"
+          showTitle:from="true"
+          showAllTabs:from="showAllTabs"
           on:close="closeTab(%event)"></inner-nav-item>
       {{/widgetList}}
     {{/if}}
 
     <add-tab-button
-      {instance}="{instance}"
-      {widget-list}="{hiddenWidgets}"
-      {add-tab-title}="'Add Tab'">
+      instance:from="instance"
+      widgetList:from="hiddenWidgets"
+      addTabTitle:from="'Add Tab'">
     </add-tab-button>
 
     {{#is(instance.type, "Workflow")}}

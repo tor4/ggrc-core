@@ -6,31 +6,31 @@
 <div class="flex-box">
   <related-people-access-control
     class="width-100"
-    {conflict-roles}="{conflictRoles}"
-    {order-of-roles}="{orderOfRoles}"
-    {include-roles}="{includeRoles}"
-    {exclude-roles}="{excludeRoles}"
-    {updatable-group-id}="{updatableGroupId}"
-    {is-new-instance}="{isNewInstance}"
-    {read-only}="{readOnly}"
-    {instance}="{instance}">
+    conflictRoles:from="conflictRoles"
+    orderOfRoles:from="orderOfRoles"
+    includeRoles:from="includeRoles"
+    excludeRoles:from="excludeRoles"
+    updatableGroupId:from="updatableGroupId"
+    isNewInstance:from="isNewInstance"
+    readOnly:from="readOnly"
+    instance:from="instance">
       <div class="people-groups">
         {{#groups}}
           <related-people-access-control-group
             class="people-group"
-            {auto-update}="{true}"
+            autoUpdate:from="true"
             on:updateRoles="updateRoles(%event)"
-            {is-new-instance}="{isNewInstance}"
-            {required}="{required}"
-            {group-id}="{groupId}"
-            {title}="{title}"
-            {people}="{people}"
-            {instance}="{instance}"
-            {is-proposal}="{isProposal}"
-            {updatable-group-id}="{updatableGroupId}"
-            {read-only}="{readOnly}"
+            isNewInstance:from="isNewInstance"
+            required:from="required"
+            groupId:from="groupId"
+            title:from="title"
+            people:from="people"
+            instance:from="instance"
+            isProposal:from="isProposal"
+            updatableGroupId:from="updatableGroupId"
+            readOnly:from="readOnly"
             data-original-title="{{groupTooltip}}"
-            {single-user-role}="{singleUserRole}"
+            singleUserRole:from="singleUserRole"
             {{#showGroupTooltip}}
               rel="tooltip"
               data-placement="bottom"
@@ -38,14 +38,14 @@
             >
               <div {{^required}}class="hidable"{{/required}}>
                 <deletable-people-group
-                  {show-empty-message}="{false}"
-                  {required}="{required}"
+                  showEmptyMessage:from="false"
+                  required:from="required"
                   on:unmap="removePerson(%event)"
-                  {can-unmap}="{canEdit}"
-                  {is-loading}="{isLoading}"
-                  {group-id}="{groupId}"
-                  {instance}="{instance}"
-                  {people}="{people}">
+                  canUnmap:from="canEdit"
+                  isLoading:from="isLoading"
+                  groupId:from="groupId"
+                  instance:from="instance"
+                  people:from="people">
                   <label class="people-group__title-content form-label form-label__extended">
                     <span class="people-group__title people-group__title--deletable">{{title}}</span>
                     {{#if required}}
@@ -60,20 +60,20 @@
                 </deletable-people-group>
                 <div>
                   {{#if isUpdating}}
-                    <spinner-component {toggle}="{isUpdating}"></spinner-component>
+                    <spinner-component toggle:from="isUpdating"></spinner-component>
                   {{else}}
                     {{#if canEdit}}
                       {{^if_config_exist 'external_services.Person'}}
                       <autocomplete-component
-                          {search-items-type}="'Person'"
+                          searchItemsType:from="'Person'"
                           on:itemSelected="addPerson(%event.selectedItem, @groupId)"
-                          {placeholder}="{placeholder}">
+                          placeholder:from="placeholder">
                       </autocomplete-component>
                       {{else}}
                       <external-data-autocomplete
-                        {type}="'Person'"
-                        {placeholder}="{placeholder}"
-                        {min-length}="2"
+                        type:from="'Person'"
+                        placeholder:from="placeholder"
+                        minLength:from="2"
                         on:itemSelected="addPerson(%event.selectedItem, @groupId)">
                       </external-data-autocomplete>
                       {{/if_config_exist}}

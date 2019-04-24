@@ -13,9 +13,9 @@
     <div class="rich-text">
       <rich-text
         tabindex="3"
-        {hidden-toolbar}="{true}"
-        {placeholder}="'Enter Assessment Procedure'"
-        {(content)}="{instance.test_plan}">
+        hiddenToolbar:from="true"
+        placeholder:from="'Enter Assessment Procedure'"
+        content:bind="instance.test_plan">
       </rich-text>
     </div>
   </div>

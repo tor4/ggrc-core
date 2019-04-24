@@ -4,30 +4,30 @@
 }}
 
 <global-custom-attributes
-  {instance}="{instance}"
-  {is-attributes-disabled}="{isAttributesDisabled}"
+  instance:from="instance"
+  isAttributesDisabled:from="isAttributesDisabled"
   class="ggrc-form ggrc-form-multiple-columns">
     {{#each items}}
       <div class="ggrc-form-item {{#is attributeType 'input'}}ggrc-form-item__row{{else}}ggrc-form-item__multiple-row{{/if}}">
         <div class="{{#is attributeType 'input'}}ggrc-form-item__row{{else}}ggrc-form-item__multiple-row{{/if}}">
           <inline-edit-control class="inline-edit-control"
             on:inlineSave="saveCustomAttributes(%event, %context)"
-            {instance}="{instance}"
-            {dropdown-options}="{multiChoiceOptions}"
-            {dropdown-no-value}="{true}"
-            {edit-mode}="{editMode}"
-            {is-edit-icon-denied}="{isEditDenied}"
-            {is-loading}="{isSaving}"
-            {value}="{value}"
-            {type}="{attributeType}"
-            {mandatory}="{mandatory}"
-            {with-read-more}="{true}">
+            instance:from="instance"
+            dropdownOptions:from="multiChoiceOptions"
+            dropdownNoValue:from="true"
+            editMode:from="editMode"
+            isEditIconDenied:from="isEditDenied"
+            isLoading:from="isSaving"
+            value:from="value"
+            type:from="attributeType"
+            mandatory:from="mandatory"
+            withReadMore:from="true">
               <base-inline-control-title
-                {title}="{title}"
-                {instance}="{instance}"
-                {edit-mode}="{editMode}"
-                {redirection-enabled}="{redirectionEnabled}"
-                {is-edit-icon-denied}="{isEditIconDenied}"
+                title:from="title"
+                instance:from="instance"
+                editMode:from="editMode"
+                redirectionEnabled:from="redirectionEnabled"
+                isEditIconDenied:from="isEditIconDenied"
                 on:setEditModeInline="setEditModeInline(%event)">
                   <div class="info-pane__section-title {{#if mandatory}}form-label form-label__extended{{/if}}">
                     {{title}}

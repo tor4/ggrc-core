@@ -4,5 +4,5 @@
 }}
 
 <div class="input-wrapper">
-  <datepicker-component {(date)}="{inputValue}" {readonly}="{readonly}" {disabled}="{disabled}"></datepicker-component>
+  <datepicker-component date:bind="inputValue" readonly:from="readonly" disabled:from="disabled"></datepicker-component>
 </div>

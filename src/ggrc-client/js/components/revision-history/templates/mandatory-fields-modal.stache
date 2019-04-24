@@ -3,10 +3,10 @@
   Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 
-<simple-modal {state}="{state}"
-              {instance}="{instance}"
-              {replace-content}="{true}"
-              {extra-css-class}="'mandatory-fields'">
+<simple-modal state:from="state"
+              instance:from="instance"
+              replaceContent:from="true"
+              extraCssClass:from="'mandatory-fields'">
   <div class="simple-modal__header">
       <div class="simple-modal__header-text">Global custom attribute validation</div>
       <button type="button"
@@ -20,15 +20,15 @@
     <div class="simple-modal__section">
       <p>
         Please fill in the field(s) below to apply this version -
-        <person-data {person}="{revisionModifiedBy}"></person-data>,
+        <person-data person:from="revisionModifiedBy"></person-data>,
         {{dateTime revisionUpdatedAt}}.
       </p>
     </div>
     <div class="simple-modal__section">
       {{#if showCAs}}
         <div class="ggrc-form">
-          <gca-controls {instance}="{instance}"
-                        {items}="{caFields}">
+          <gca-controls instance:from="instance"
+                        items:from="caFields">
           </gca-controls>
         </div>
       {{/if}}
@@ -44,7 +44,7 @@
               type="button" on:el:click="cancel()">
         Cancel
       </button>
-      <spinner-component {toggle}="{loading}"></spinner-component>
+      <spinner-component toggle:from="loading"></spinner-component>
     </div>
   </div>
 

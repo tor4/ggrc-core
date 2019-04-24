@@ -4,17 +4,17 @@
 }}
 
 {{#baseInstance}}
-<model-loader {path}="'service-models/proposal'">
+<model-loader path:from="'service-models/proposal'">
   <related-objects class="object-history"
-                   {initial-order-by}="'status,created_at'"
-                   {predefined-filter}="{predefinedFilter}"
-                   {base-instance}="{baseInstance}"
-                   {(related-objects)}="{proposals}"
-                   {model-constructor}="{loadedModel}"
-                   {related-items-type}="'Proposal'">
+                   initialOrderBy:from="'status,created_at'"
+                   predefinedFilter:from="predefinedFilter"
+                   baseInstance:from="baseInstance"
+                   relatedObjects:bind="proposals"
+                   modelConstructor:from="loadedModel"
+                   relatedItemsType:from="'Proposal'">
 
     <div class="grid-data__toolbar flex-box">
-      <tree-pagination {paging}="{paging}" class="grid-data__toolbar-item"></tree-pagination>
+      <tree-pagination paging:from="paging" class="grid-data__toolbar-item"></tree-pagination>
     </div>
     <div class="object-history__header flex-row flex-box">
       <div class="flex-size-1">
@@ -36,10 +36,10 @@
       </div>
     </div>
     <div class="object-history__body {{#isLoading}}loading{{/isLoading}}">
-      <object-list {items}="{relatedObjects}" {is-loading}="{isLoading}" {list-type}="'GRID'">
+      <object-list items:from="relatedObjects" isLoading:from="isLoading" listType:from="'GRID'">
         <related-proposals-item class="object-history__row flex-box"
-                                {instance}="{baseInstance}"
-                                {proposal}="{instance}">
+                                instance:from="baseInstance"
+                                proposal:from="instance">
         </related-proposals-item>
       </object-list>
     </div>

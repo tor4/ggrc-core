@@ -5,7 +5,7 @@
 
 {{#if isLazyRender}}
   <lazy-render
-    {trigger}="{lazyTrigger}">
+    trigger:from="lazyTrigger">
     <div class="tab-content">
       <div class="tab-pane {{cssClasses}}">
         <content></content>

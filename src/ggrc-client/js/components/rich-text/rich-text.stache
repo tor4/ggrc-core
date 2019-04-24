@@ -27,6 +27,6 @@
 
 {{#if withMentions}}
   <people-mention
-    {editor}="{editor}">
+    editor:from="editor">
   </people-mention>
 {{/if}}

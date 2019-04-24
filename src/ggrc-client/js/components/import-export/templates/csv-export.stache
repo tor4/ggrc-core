@@ -3,9 +3,9 @@
   Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 {{#if currentExports.length}}
-  <current-exports {exports}="{currentExports}"
-                   {disabled}="{disabledItems}"
-                   {in-progress}="{isInProgress}"
+  <current-exports exports:from="currentExports"
+                   disabled:from="disabledItems"
+                   inProgress:from="isInProgress"
                    on:stopExport="onStopExport(%event)"
                    on:removeItem="onRemove(%event)"
                    on:viewContent="onViewContent(%event)"
@@ -14,7 +14,7 @@
 
 <h2>Export Objects</h2>
 
-<export-group {(panels)}="{panels}"></export-group>
+<export-group panels:bind="panels"></export-group>
 
 <div class="export-group__actions-wrap">
     <button type="button"

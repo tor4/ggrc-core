@@ -19,7 +19,7 @@
     <i class="fa fa-calendar"></i>
     <input type="text" class="datepicker__input date {{#if readonly}}datepicker__input--denied{{/if}}"
            placeholder="{{MOMENT_DISPLAY_FMT}}"
-           {(value)}="{_date}"
+           value:bind="_date"
            on:el:focus="onFocus"
            {{#if disabled}} disabled {{/if}}
            {{#if readonly}} readonly {{/if}}/>

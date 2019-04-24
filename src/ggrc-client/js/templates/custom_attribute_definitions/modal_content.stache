@@ -14,12 +14,12 @@
         <i class="fa fa-question-circle" rel="tooltip" title="Give new {{model.title_plural}} a name."></i>
       </label>
       <input-filter
-        {name}="'title'"
-        {(value)}="{title}"
-        {placeholder}="'Enter Title'"
-        {exclude-symbols}="'*'"
-        {tabindex}="1"
-        {autofocus}="{true}">
+        name:from="'title'"
+        value:bind="title"
+        placeholder:from="'Enter Title'"
+        excludeSymbols:from="'*'"
+        tabindex:from="1"
+        autofocus:from="true">
       </input-filter>
     </div>
     <div class="span4">
@@ -28,9 +28,9 @@
         <i class="fa fa-asterisk"></i>
         <i class="fa fa-question-circle" rel="tooltip" title="Choose the type of attribute to create."></i>
       </label>
-        <dropdown-component {options-list}="{model.attributeTypes}"
+        <dropdown-component optionsList:from="model.attributeTypes"
                   name:bind="instance.attribute_type"
-                  {data-purpose}="'ca-type'">
+                  dataPurpose:from="'ca-type'">
         </dropdown-component>
     </div>
     <div class="span2">

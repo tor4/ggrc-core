@@ -5,7 +5,7 @@
 
 {{#if isLoading}}
   {{#if showSpinner}}
-    <spinner-component class="loading-status--spinner" {toggle}="{isLoading}"></spinner-component>
+    <spinner-component class="loading-status--spinner" toggle:from="isLoading"></spinner-component>
   {{/if}}
   {{loadingText}}
 {{else}}

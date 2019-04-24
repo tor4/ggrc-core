@@ -51,8 +51,8 @@
               {{#isMappableExternally instance model.model_singular}}
                 <questionnaire-mapping-link 
                   class="external-link"
-                  {instance}="{instance}"
-                  {destination-model}="{model}">                  
+                  instance:from="instance"
+                  destinationModel:from="model">                  
                     <i class="fa fa-fw fa-{{ icon }} color"></i>
                     <span class="external-link__content">
                       {{title}}

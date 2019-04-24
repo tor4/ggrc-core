@@ -3,8 +3,8 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 
-<cycle-task-modal {instance}="{instance}"
-                  {pre-mapped-stubs}="{object_params.pre_mapped_objects}">
+<cycle-task-modal instance:from="instance"
+                  preMappedStubs:from="object_params.pre_mapped_objects">
 <form action="javascript://" class="form">
   <div class="row-fluid">
     <div class="span12 {{#instance.computed_errors.title}}field-failure{{/instance.computed_errors.title}}">
@@ -23,18 +23,18 @@
         <label class="form-label">Task Description</label>
         <div class="rich-text">
           <rich-text tabindex="2"
-                     {hidden-toolbar}="{true}"
-                     {placeholder}="'Enter Description'"
-                     {(content)}="{instance.description}">
+                     hiddenToolbar:from="true"
+                     placeholder:from="'Enter Description'"
+                     content:bind="instance.description">
           </rich-text>
         </div>
       {{else}}
         <label class="form-label">
           Selection Response Options (Comma Separated)
         </label>
-          <textarea-array {(array)}="{instance.response_options}" 
-                          {class-name}="'span12 double'" 
-                          {placeholder}="'Enter Description'" tabindex="2">
+          <textarea-array array:bind="instance.response_options" 
+                          className:from="'span12 double'" 
+                          placeholder:from="'Enter Description'" tabindex="2">
           </textarea-array>
       {{/is}}
       <br>
@@ -44,9 +44,9 @@
         <option value="checkbox" {{#is(instance.task_type, "checkbox")}}selected="selected"{{/is}}>Checkbox</option>
       </select>
       <deferred-mapper
-          {instance}="{instance}"
-          {mapped-objects}="{mappedObjects}"
-          {pre-mapped-objects}="{preMappedObjects}"
+          instance:from="instance"
+          mappedObjects:from="mappedObjects"
+          preMappedObjects:from="preMappedObjects"
         >
         <h6>Object(s) mapped to task</h6>
         {{#each list}}
@@ -87,13 +87,13 @@
     <div class="span4">
       <div class="{{#instance.computed_errors.contact}} field-failure {{/instance.computed_errors.contact}}">
         <access-control-list-roles-helper
-                {instance}="{instance}"
-                {is-new-instance}="{new_object_form}">
+                instance:from="instance"
+                isNewInstance:from="new_object_form">
         </access-control-list-roles-helper>
       </div>
       <br>
       <div class="{{#instance.computed_errors.workflow}}field-failure{{/instance.computed_errors.workflow}} {{#instance.computed_errors.cycle}}field-failure{{/instance.computed_errors.cycle}}">
-        <object-loader {path}="instance.workflow">
+        <object-loader path:from="instance.workflow">
           <label class="form-label" title="An active workflow should be created in advance">
             Active Workflow
             <i class="fa fa-asterisk"></i>
@@ -123,7 +123,7 @@
       </div>
       <br>
       <div class="{{#instance.computed_errors.cycle_task_group}}field-failure{{/instance.computed_errors.cycle_task_group}}">
-        <object-loader {path}="instance.cycle_task_group">
+        <object-loader path:from="instance.cycle_task_group">
           <label class="form-label">
             Task Group
             <i class="fa fa-asterisk"></i>
@@ -157,11 +157,11 @@
               <i class="fa fa-asterisk"></i>
           </label>
           <datepicker-component
-            {set-max-date}="{instance.end_date}"
-            {(date)}="{instance.start_date}"
-            {required}="{true}"
-            {no-weekends}="{true}"
-            {readonly}="{true}"/>
+            setMaxDate:from="instance.end_date"
+            date:bind="instance.start_date"
+            required:from="true"
+            noWeekends:from="true"
+            readonly:from="true"/>
             {{#instance.computed_errors.start_date}}<label class="help-inline warning">{{this}}</label>{{/instance.computed_errors.start_date}}
           </div>
         </div>
@@ -171,11 +171,11 @@
               <i class="fa fa-asterisk"></i>
           </label>
           <datepicker-component
-            {set-min-date}="{instance.start_date}"
-            {(date)}="{instance.end_date}"
-            {required}="{true}"
-            {no-weekends}="{true}"
-            {readonly}="{true}"/>
+            setMinDate:from="instance.start_date"
+            date:bind="instance.end_date"
+            required:from="true"
+            noWeekends:from="true"
+            readonly:from="true"/>
             {{#instance.computed_errors.end_date}}<label class="help-inline warning">{{this}}</label>{{/instance.computed_errors.end_date}}
           </div>
         </div>

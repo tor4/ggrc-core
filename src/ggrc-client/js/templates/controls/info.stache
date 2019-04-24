@@ -6,10 +6,10 @@
 {{#instance}}
   <section class="info{{#is_info_pin}} sticky-info-panel{{/is_info_pin}}">
     <div class="tier-content">
-      <general-page-header {instance}="{instance}"></general-page-header>
+      <general-page-header instance:from="instance"></general-page-header>
 
-      <tab-container {instance}="{instance}">
-        <tab-panel {(panels)}="{panels}" {title-text}="'Attributes'">
+      <tab-container instance:from="instance">
+        <tab-panel panels:bind="panels" titleText:from="'Attributes'">
           <div class="info-pane__body">
             <div class="info-pane__main-content {{^if isSnapshot}}info-pane__main-content-with-sidebar{{/if}}">
               {{#if review_status}}
@@ -26,14 +26,14 @@
               <div class="row-fluid wrap-row">
                 <div data-test-id="title_description_7a906d2e" class="span12">
                   <proposable-attribute
-                    {instance}="{instance}"
-                    {title}="'Description'"
-                    {attr-name}="'description'"
+                    instance:from="instance"
+                    title:from="'Description'"
+                    attrName:from="'description'"
                   >
                     <div data-test-id="title_description_content_7a906d2e" class="rtf-block">
                       <read-more
-                        {text}="{description}"
-                        {handle-markdown}="{instance.class.isChangeableExternally}">
+                        text:from="description"
+                        handleMarkdown:from="instance.class.isChangeableExternally">
                       </read-more>
                     </div>
                   </proposable-attribute>
@@ -43,14 +43,14 @@
               <div class="row-fluid wrap-row">
                 <div class="span12">
                   <proposable-attribute
-                    {instance}="{instance}"
-                    {title}="'Assessment Procedure'"
-                    {attr-name}="'test_plan'"
+                    instance:from="instance"
+                    title:from="'Assessment Procedure'"
+                    attrName:from="'test_plan'"
                   >
                     <div class="rtf-block">
                       <read-more
-                        {text}="{test_plan}"
-                        {handle-markdown}="{instance.class.isChangeableExternally}">
+                        text:from="test_plan"
+                        handleMarkdown:from="instance.class.isChangeableExternally">
                       </read-more>
                     </div>
                   </proposable-attribute>
@@ -60,14 +60,14 @@
               <div class="row-fluid wrap-row">
                 <div data-test-id="title_notes_ef5bc3a71e88" class="span12">
                   <proposable-attribute
-                    {instance}="{instance}"
-                    {title}="'Notes'"
-                    {attr-name}="'notes'"
+                    instance:from="instance"
+                    title:from="'Notes'"
+                    attrName:from="'notes'"
                   >
                     <div data-test-id="title_notes_content_ef5bc3a71e88" class="rtf-block">
                       <read-more
-                        {text}="{notes}"
-                        {handle-markdown}="{instance.class.isChangeableExternally}">
+                        text:from="notes"
+                        handleMarkdown:from="instance.class.isChangeableExternally">
                       </read-more>
                     </div>
                   </proposable-attribute>
@@ -112,9 +112,9 @@
                     </div>
                     <div class="span4">
                       <proposable-attribute
-                        {instance}="{instance}"
-                        {title}="'Kind/Nature'"
-                        {attr-name}="'kind'"
+                        instance:from="instance"
+                        title:from="'Kind/Nature'"
+                        attrName:from="'kind'"
                       >
                         {{#if kind}}
                           <p>
@@ -127,9 +127,9 @@
                     </div>
                     <div class="span4">
                       <proposable-attribute
-                        {instance}="{instance}"
-                        {title}="'Fraud Related'"
-                        {attr-name}="'is_fraud_related'"
+                        instance:from="instance"
+                        title:from="'Fraud Related'"
+                        attrName:from="'is_fraud_related'"
                       >
                         <p>
                           {{#if fraud_related}}
@@ -148,9 +148,9 @@
                   <div class="row-fluid wrap-row">
                     <div class="span8">
                       <proposable-attribute
-                        {instance}="{instance}"
-                        {title}="'Significance'"
-                        {attr-name}="'is_key_control'"
+                        instance:from="instance"
+                        title:from="'Significance'"
+                        attrName:from="'is_key_control'"
                       >
                         <p>
                           {{#if key_control}}
@@ -167,9 +167,9 @@
                     </div>
                     <div class="span4">
                       <proposable-attribute
-                        {instance}="{instance}"
-                        {title}="'Type/Means'"
-                        {attr-name}="'means'"
+                        instance:from="instance"
+                        title:from="'Type/Means'"
+                        attrName:from="'means'"
                       >
                         {{#if means}}
                           <p>
@@ -184,9 +184,9 @@
                   <div class="row-fluid wrap-row">
                     <div class="span4">
                       <proposable-attribute
-                        {instance}="{instance}"
-                        {title}="'Effective Date'"
-                        {attr-name}="'start_date'"
+                        instance:from="instance"
+                        title:from="'Effective Date'"
+                        attrName:from="'start_date'"
                       >
                         {{#if start_date}}
                           <p>
@@ -215,9 +215,9 @@
                     </div>
                     <div class="span4">
                       <proposable-attribute
-                        {instance}="{instance}"
-                        {title}="'Frequency'"
-                        {attr-name}="'verify_frequency'"
+                        instance:from="instance"
+                        title:from="'Frequency'"
+                        attrName:from="'verify_frequency'"
                       >
                         {{#if verify_frequency}}
                           <p>
@@ -232,14 +232,14 @@
                   <div class="row-fluid wrap-row">
                     <div class="span8">
                       <proposable-attribute
-                        {instance}="{instance}"
-                        {title}="'Assertions'"
-                        {attr-name}="'control_assertions'"
-                        {mandatory}="{true}"
+                        instance:from="instance"
+                        title:from="'Assertions'"
+                        attrName:from="'control_assertions'"
+                        mandatory:from="true"
                       >
                         {{#if assertions.length}}
                           <ul>
-                            <sort-component {items}="{assertions}">
+                            <sort-component items:from="assertions">
                               {{#sortedItems}}
                                 <li>{{.}}</li>
                               {{/sortedItems}}
@@ -252,13 +252,13 @@
                     </div>
                     <div class="span4">
                       <proposable-attribute
-                        {instance}="{instance}"
-                        {title}="'Categories'"
-                        {attr-name}="'control_categories'"
+                        instance:from="instance"
+                        title:from="'Categories'"
+                        attrName:from="'control_categories'"
                       >
                         {{#if categories.length}}
                           <ul>
-                            <sort-component {items}="{categories}">
+                            <sort-component items:from="categories">
                               {{#sortedItems}}
                                 <li>{{.}}</li>
                               {{/sortedItems}}
@@ -278,8 +278,8 @@
             <div class="info-pane__sidebar">
               <div class="info-pane__section-title">Responses/Comments</div>
               <comments-section class="flex-box flex-col"
-                {instance}="{instance}"
-                {notification}="'Notify Admins, Control Operators, Control Owners and Other Contacts'">
+                instance:from="instance"
+                notification:from="'Notify Admins, Control Operators, Control Owners and Other Contacts'">
               </comments-section>
             </div>
             {{/if}}
@@ -287,22 +287,22 @@
         </tab-panel>
         {{^if isSnapshot}}
           <tab-link
-            {instance}="{instance}"
-            {(panels)}="{panels}"
-            {title-text}="'Change Proposals'"
-            {link-type}="'proposals'"
+            instance:from="instance"
+            panels:bind="panels"
+            titleText:from="'Change Proposals'"
+            linkType:from="'proposals'"
           ></tab-link>
           <tab-link
-            {instance}="{instance}"
-            {(panels)}="{panels}"
-            {title-text}="'Version History'"
-            {link-type}="'change-log'"
+            instance:from="instance"
+            panels:bind="panels"
+            titleText:from="'Version History'"
+            linkType:from="'change-log'"
           ></tab-link>
           <tab-link
-            {instance}="{instance}"
-            {(panels)}="{panels}"
-            {title-text}="'Change Log'"
-            {link-type}="'change-log'"
+            instance:from="instance"
+            panels:bind="panels"
+            titleText:from="'Change Log'"
+            linkType:from="'change-log'"
           ></tab-link>
         {{/if}}
       </tab-container>
@@ -310,9 +310,9 @@
   </section>
 
   {{#if is_info_widget}}
-    <info-pane-footer {created-at}="{instance.created_at}"
-                      {modified-at}="{instance.updated_at}"
-                      {modified-by}="{instance.modified_by}">
+    <info-pane-footer createdAt:from="instance.created_at"
+                      modifiedAt:from="instance.updated_at"
+                      modifiedBy:from="instance.modified_by">
     </info-pane-footer>
   {{/if}}
 {{/instance}}

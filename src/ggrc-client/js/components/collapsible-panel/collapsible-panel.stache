@@ -2,12 +2,12 @@
   Copyright (C) 2019 Google Inc.
   Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
-<collapsible-panel-header {(expanded)}="{expanded}" 
-                          {title-text}="{titleText}"
-                          {title-icon}="{titleIcon}">
+<collapsible-panel-header expanded:bind="expanded" 
+                          titleText:from="titleText"
+                          titleIcon:from="titleIcon">
 </collapsible-panel-header>
 <collapsible-panel-body class="{{extraCssClass}} collapsible-panel-body"
-                        {expanded}="{expanded}"
-                        {soft-mode}="{softMode}">
+                        expanded:from="expanded"
+                        softMode:from="softMode">
   <content></content>
 </collapsible-panel-body>

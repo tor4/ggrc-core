@@ -48,9 +48,9 @@
 
   <section class="content">
     {{#is(widgetType, "treeview")}}
-      <tree-widget-container {model}="{model}"
-                             {limit-depth-tree}="{treeViewDepth}"
-                             {options}="{content_controller_options}">
+      <tree-widget-container model:from="model"
+                             limitDepthTree:from="treeViewDepth"
+                             options:from="content_controller_options">
       </tree-widget-container>
     {{else}}
       {{{widget_initial_content}}}

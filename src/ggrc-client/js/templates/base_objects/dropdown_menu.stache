@@ -40,23 +40,23 @@
 
     {{^if_instance_of instance "TaskGroup|TaskGroupTask"}}
     <li>
-      <permalink-component {instance}="{instance}"/>
+      <permalink-component instance:from="instance"/>
     </li>
     {{/if_instance_of}}
 
     {{#if_instance_of instance "Assessment"}}
       {{#if_config_exist 'ASSESSMENT_SHORT_URL_PREFIX'}}
         <li>
-          <shortlink-component {instance}="{instance}"/>
+          <shortlink-component instance:from="instance"/>
         </li>
       {{/if_config_exist}}
     {{/if_instance_of}}
 
     {{#is_info_pin}}
       <unmap-dropdown-item
-        {page_instance}="{page_instance}"
-        {instance}="{instance}"
-        {options}="{options}">
+        page_instance:from="page_instance"
+        instance:from="instance"
+        options:from="options">
       </unmap-dropdown-item>
       {{#if instance.viewLink}}
         <li>
@@ -70,7 +70,7 @@
 
     {{#if instance.class.isChangeableExternally}}
       <li>
-        <questionnaire-link {instance}="{instance}" {show-icon}="{true}">
+        <questionnaire-link instance:from="instance" showIcon:from="true">
           Open {{instance.class.title_singular}} in new frontend
         </questionnaire-link>
       </li>

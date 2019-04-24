@@ -48,7 +48,7 @@
         </label>
         <a data-id="hide_status_lk" href="javascript://" class="field-hide" tabindex="-1">hide</a>
         <div tabindex="4">
-            <dropdown-component {options-list}="{model.statuses}"
+            <dropdown-component optionsList:from="model.statuses"
                       name:bind="instance.status"
                       tabindex="23">
             </dropdown-component>
@@ -58,8 +58,8 @@
     <div class="row-fluid">
       <div class="span12 hide-wrap">
         <access-control-list-roles-helper
-          {instance}="{.}"
-          {is-new-instance}="{new_object_form}">
+          instance:from="{.}"
+          isNewInstance:from="new_object_form">
         </access-control-list-roles-helper>
       </div>
     </div>
@@ -74,9 +74,9 @@
           <div class="rich-text">
               <rich-text
                 tabindex="10"
-                {hidden-toolbar}="{true}"
-                {placeholder}="'Enter Description'"
-                {(content)}="{instance.description}">
+                hiddenToolbar:from="true"
+                placeholder:from="'Enter Description'"
+                content:bind="instance.description">
               </rich-text>
           </div>
 
@@ -86,7 +86,7 @@
           <div class="row-fluid inner-hide">
             <div data-id="audit_firm_hidden" class="span12 hidable">
               <div class="objective-selector {{#instance.computed_errors.audit_firm}}field-failure{{/instance.computed_errors.audit_firm}}">
-                <object-loader {path}="instance.audit_firm">
+                <object-loader path:from="instance.audit_firm">
                   <label>
                     Audit Firm
                   </label>
@@ -108,17 +108,17 @@
     <div class="row-fluid">
       <div data-id="planned_start_date_hidden" class="span3 hidable">
         <a data-id="hide_effective_date_lk" href="javascript://" class="field-hide" tabindex="-1">hide</a>
-        <datepicker-component {(date)}="{start_date}"
-                    {label}="'Planned Start Date'"
-                    {set-max-date}="{end_date}"
+        <datepicker-component date:bind="start_date"
+                    label:from="'Planned Start Date'"
+                    setMaxDate:from="end_date"
                     tabindex="20">
         </datepicker-component>
       </div>
       <div data-id="planned_end_date_hidden" class="span3 hidable">
         <a data-id="hide_stop_date_lk" href="javascript://" class="field-hide" tabindex="-1">hide</a>
-        <datepicker-component {(date)}="{end_date}"
-                    {set-min-date}="{start_date}"
-                    {label}="'Planned End Date'"
+        <datepicker-component date:bind="end_date"
+                    setMinDate:from="start_date"
+                    label:from="'Planned End Date'"
                     tabindex="21">
         </datepicker-component>
         <label>
@@ -133,43 +133,43 @@
         <a data-id="hide_planned_report_period_from_lk" href="javascript://" class="field-hide" tabindex="-1">hide</a>
         <div class="row-fluid">
           <div class="span6">
-            <datepicker-component {(date)}="{report_start_date}"
-                        {set-max-date}="{report_end_date}"
+            <datepicker-component date:bind="report_start_date"
+                        setMaxDate:from="report_end_date"
                         tabindex="22">
             </datepicker-component>
           </div>
           <div class="span6">
-            <datepicker-component {(date)}="{report_end_date}"
-                        {set-min-date}="{report_start_date}">
+            <datepicker-component date:bind="report_end_date"
+                        setMinDate:from="report_start_date">
             </datepicker-component>
           </div>
         </div>
       </div>
       <div data-id="folder_hidden" class="span3 hidable">
-        <ggrc-gdrive-folder-picker {instance}="{instance}" {deferred}="{true}" tabindex="13"></ggrc-gdrive-folder-picker>
+        <ggrc-gdrive-folder-picker instance:from="instance" deferred:from="true" tabindex="13"></ggrc-gdrive-folder-picker>
       </div>
       <div class="span3 hidable">
         <deferred-mapper
-          {instance}="{instance}">
+          instance:from="instance">
           <related-documents
-            {instance}="{instance}"
-            {model-type}="'Evidence'"
-            {kind}="'URL'"
-            {autorefresh}="{false}"
+            instance:from="instance"
+            modelType:from="'Evidence'"
+            kind:from="'URL'"
+            autorefresh:from="false"
             on:addMappings="addMappings(%event.objects)"
             on:removeMappings="removeMappings(%event.object)">
             <related-urls
               tabindex="20"
-              {instance}="{instance}"
-              {allow-to-remove}="{new_object_form}"
-              {(urls)}="{documents}"
-              {is-disabled}="{isLoading}"
+              instance:from="instance"
+              allowToRemove:from="new_object_form"
+              urls:bind="documents"
+              isDisabled:from="isLoading"
               on:createUrl="markDocumentForAddition(%event.payload)"
               on:removeUrl="markDocumentForDeletion(%event.payload)">
               <label>
                 Evidence URL
                 <i class="fa fa-question-circle" rel="tooltip" title="Web links to other references."></i>
-                <spinner-component {toggle}="{isDisabled}"></spinner-component>
+                <spinner-component toggle:from="isDisabled"></spinner-component>
               </label>
               <a data-id="hide_url_lk" href="javascript://" class="field-hide" tabindex="-1">hide</a>
             </related-urls>
@@ -222,11 +222,11 @@
         <div class="hidden-fields-area">
           <div class="ggrc-form">
             <issue-tracker-switcher
-              {instance}="{instance}"
-              {(is-integration-enabled)}="{instance.issue_tracker.enabled}">
+              instance:from="instance"
+              isIntegrationEnabled:bind="instance.issue_tracker.enabled">
                 <modal-issue-tracker-fields
-                  {instance}="{instance}"
-                  {note}="'Turns on Ticket Tracker integration.'">
+                  instance:from="instance"
+                  note:from="'Turns on Ticket Tracker integration.'">
                 </modal-issue-tracker-fields>
             </issue-tracker-switcher>
           </div>

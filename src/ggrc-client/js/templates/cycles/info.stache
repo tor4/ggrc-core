@@ -24,9 +24,9 @@
 
           <div class="pane-header__toolbar">
             {{#is_info_pin}}
-              <info-pin-buttons {maximized}="{maximized}"
-                                {on-change-maximized-state}="{@onChangeMaximizedState}"
-                                {on-close}="{@onClose}">
+              <info-pin-buttons maximized:from="maximized"
+                                onChangeMaximizedState:from="@onChangeMaximizedState"
+                                onClose:from="@onClose">
               </info-pin-buttons>
             {{/is_info_pin}}
 
@@ -52,31 +52,31 @@
         <div class="span12">
           <h6>Description</h6>
           <div class="rtf-block">
-            <read-more {text}="{instance.description}"
-                       {handle-markdown}="{instance.class.isChangeableExternally}">
+            <read-more text:from="instance.description"
+                       handleMarkdown:from="instance.class.isChangeableExternally">
             </read-more>
           </div>
         </div>
       </div>
 
-      <object-loader {path}="instance.workflow">
+      <object-loader path:from="instance.workflow">
         {{#if loadedObject}}
-          <custom-roles {instance}="{loadedObject}"
-                        {read-only}="{true}">
+          <custom-roles instance:from="loadedObject"
+                        readOnly:from="true">
           </custom-roles>
           <div class="row-fluid wrap-row">
             <div class="span6">
               <ggrc-gdrive-folder-picker
-                {instance}="{loadedObject}"
-                {placeholder}="'If selected, all workflow attachments go here.''"
-                {{^is_allowed 'update' loadedObject}}{readonly}="{true}"{{/is_allowed}}>
+                instance:from="loadedObject"
+                placeholder:from="'If selected, all workflow attachments go here.''"
+                {{^is_allowed 'update' loadedObject}}readonly:from="true"{{/is_allowed}}>
               </ggrc-gdrive-folder-picker>
             </div>
             <div class="span6">
               <h6>Repeat Cycle</h6>
-              <repeat-on-summary {unit}="{loadedObject.unit}"
-                                 {repeat-every}="{loadedObject.repeat_every}"
-                                 {hide-repeat-off}="{false}">
+              <repeat-on-summary unit:from="loadedObject.unit"
+                                 repeatEvery:from="loadedObject.repeat_every"
+                                 hideRepeatOff:from="false">
               </repeat-on-summary>
             </div>
           </div>

@@ -11,26 +11,26 @@ Copyright (C) 2019 Google Inc.
         {{/if}}
             <inline-edit-control
                 on:inlineSave="saveInlineForm(%event)"
-                {prop-name}="'title'"
-                {type}="'input'"
-                {hide-content-in-edit-mode}="{true}"
-                {mandatory}="{true}"
-                {is-loading}="{isLoading}"
-                {instance}="{instance}"
-                {value}="{instance.title}"
-                {is-edit-icon-denied}="{isEditDenied}">
+                propName:from="'title'"
+                type:from="'input'"
+                hideContentInEditMode:from="true"
+                mandatory:from="true"
+                isLoading:from="isLoading"
+                instance:from="instance"
+                value:from="instance.title"
+                isEditIconDenied:from="isEditDenied">
                     {{#unless editMode}}
                         <confirm-edit-action
                             on:setEditMode="setEditModeInline(%event)"
                             on:setInProgress="setInProgressState()"
-                            {is-edit-icon-denied}="{isEditIconDenied}"
-                            {instance}="{instance}"
-                            {on-state-change-dfd}="{onStateChangeDfd}"
-                            {edit-mode}="{editMode}">
+                            isEditIconDenied:from="isEditIconDenied"
+                            instance:from="instance"
+                            onStateChangeDfd:from="onStateChangeDfd"
+                            editMode:from="editMode">
                                 <base-inline-control-title
                                     class="inline__header"
-                                    {edit-mode}="{editMode}"
-                                    {is-edit-icon-denied}="{isEditIconDenied}"
+                                    editMode:from="editMode"
+                                    isEditIconDenied:from="isEditIconDenied"
                                     on:setEditModeInline="confirmEdit()">
                                         <h3 class="pane-header__title-name">{{instance.title}}</h3>
                                         <div class="pane-header__title-item">
@@ -60,9 +60,9 @@ Copyright (C) 2019 Google Inc.
     </div>
         <div class="pane-header__toolbar">
           {{#is_info_pin}}
-            <info-pin-buttons {maximized}="{maximized}"
-                              {on-change-maximized-state}="{@onChangeMaximizedState}"
-                              {on-close}="{@onClose}">
+            <info-pin-buttons maximized:from="maximized"
+                              onChangeMaximizedState:from="@onChangeMaximizedState"
+                              onClose:from="@onClose">
             </info-pin-buttons>
           {{/is_info_pin}}
           <div class="info-pane-utility">
@@ -73,18 +73,18 @@ Copyright (C) 2019 Google Inc.
                       {{/if}}
                   {{/is_allowed}}
                   <li>
-                    <permalink-component {instance}="{instance}"/>
+                    <permalink-component instance:from="instance"/>
                   </li>
                   {{#if_config_exist 'ASSESSMENT_SHORT_URL_PREFIX'}}
                     <li>
-                      <shortlink-component {instance}="{instance}"/>
+                      <shortlink-component instance:from="instance"/>
                     </li>
                   {{/if_config_exist}}
                   {{#is_info_pin}}
                   <unmap-dropdown-item
-                      {page_instance}="{page_instance}"
-                      {instance}="{instance}"
-                      {options}="{options}">
+                      page_instance:from="page_instance"
+                      instance:from="instance"
+                      options:from="options">
                   </unmap-dropdown-item>
                   {{#if instance.viewLink}}
                       <li>
@@ -102,20 +102,20 @@ Copyright (C) 2019 Google Inc.
                           {{#unless instance.archived}}
                               {{#if verifiers.length}}
                                 <reminder-component
-                                        {instance}="{instance}"
-                                        {type}="{statusToPerson}"
-                                        {modal_title}="'Reminder for Assignees set'"
-                                        {modal_description}="'Tomorrow all Assignees will receive a notification to look at this Assessment if they didn&#39;t move it to &#39;Finished&#39; in between.'">
+                                        instance:from="instance"
+                                        type:from="statusToPerson"
+                                        modal_title:from="'Reminder for Assignees set'"
+                                        modal_description:from="'Tomorrow all Assignees will receive a notification to look at this Assessment if they didn&#39;t move it to &#39;Finished&#39; in between.'">
                                 <a href="javascript://" on:el:click="reminder">
                                     <i class="fa fa-bell-o"></i>
                                     Send reminder to assignees
                                 </a>
                                 </reminder-component>
                               {{else}}
-                                <reminder-component {instance}="{instance}"
-                                        {type}="{statusToPerson}"
-                                        {modal_title}="'Reminder for Assignees set'"
-                                        {modal_description}="'Tomorrow all Assignees will receive a notification to look at this Assessment if they didn&#39;t move it to &#39;Final&#39; in between.'">
+                                <reminder-component instance:from="instance"
+                                        type:from="statusToPerson"
+                                        modal_title:from="'Reminder for Assignees set'"
+                                        modal_description:from="'Tomorrow all Assignees will receive a notification to look at this Assessment if they didn&#39;t move it to &#39;Final&#39; in between.'">
                                 <a href="javascript://" on:el:click="reminder">
                                     <i class="fa fa-bell-o"></i>
                                     Send reminder to assignees
@@ -133,14 +133,14 @@ Copyright (C) 2019 Google Inc.
                               {{^is(instance.status, "Rework Needed")}}
                                   {{#is(instance.status, "Deprecated")}}
                                       {{! Set default state }}
-                                      <object-change-state {to-state}="{initialState}"
+                                      <object-change-state toState:from="initialState"
                                                            on:onStateChange="onStateChange(%event)">
                                           <a href="javascript:void(0)">
                                               <i class="fa fa-reply"></i> Restore
                                           </a>
                                       </object-change-state>
                                   {{else}}
-                                      <object-change-state {to-state}="{deprecatedState}"
+                                      <object-change-state toState:from="deprecatedState"
                                                            on:onStateChange="onStateChange(%event)"
                                       >
                                           <a href="javascript:void(0)">
@@ -149,7 +149,7 @@ Copyright (C) 2019 Google Inc.
                                       </object-change-state>
                                   {{/is}}
                               {{else}}
-                                  <object-change-state {to-state}="{deprecatedState}"
+                                  <object-change-state toState:from="deprecatedState"
                                                        on:onStateChange="onStateChange(%event)"
                                   >
                                       <a href="javascript:void(0)">
@@ -178,29 +178,29 @@ Copyright (C) 2019 Google Inc.
             {{#is_info_pin}}
                 {{#unless options.isSubTreeItem}}
                     <div>
-                        <prev-next-buttons {disabled}="{isInfoPaneSaving}"
-                                           {(current-index)}="{options.selectedItem}"
-                                           {(total-count)}="{options.pageInfo.total}">
+                        <prev-next-buttons disabled:from="isInfoPaneSaving"
+                                           currentIndex:bind="options.selectedItem"
+                                           totalCount:bind="options.pageInfo.total">
                         </prev-next-buttons>
                     </div>
                 {{/unless}}
             {{/is_info_pin}}
 
             {{#unless isEditDenied}}
-                    <object-state-toolbar {verifiers}="{verifiers}"
-                                          {instance}="{instance}"
-                                          {disabled}="{isInfoPaneSaving}"
-                                          {instance-state}="{currentState}"
-                                          {is-undo-button-visible}="{isUndoButtonVisible}"
+                    <object-state-toolbar verifiers:from="verifiers"
+                                          instance:from="instance"
+                                          disabled:from="isInfoPaneSaving"
+                                          instanceState:from="currentState"
+                                          isUndoButtonVisible:from="isUndoButtonVisible"
                                           on:onStateChange="onStateChange(%event)">
                     </object-state-toolbar>
             {{/unless}}
             <div class="form-status">
-                <info-pane-save-status {info-pane-saving}="{isInfoPaneSaving}">
+                <info-pane-save-status infoPaneSaving:from="isInfoPaneSaving">
                     <loading-status class="loading-status"
-                                    {is-loading}="{infoPaneSaving}"
-                                    {loading-text}="'Saving...'"
-                                    {show-Spinner}="{true}">
+                                    isLoading:from="infoPaneSaving"
+                                    loadingText:from="'Saving...'"
+                                    showSpinner:from="true">
                     </loading-status>
                 </info-pane-save-status>
             </div>

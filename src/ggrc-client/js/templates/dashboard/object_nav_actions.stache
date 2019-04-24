@@ -4,7 +4,7 @@
 }}
 
 <span class="inner-nav__actions">
-  <nav-actions {instance}="{instance}">
+  <nav-actions instance:from="instance">
     {{#if showSetupRequirement}}
       <p class="tiny-help-text">
         You need to setup task group(s) before activating workflow.
@@ -21,8 +21,8 @@
       </p>
     {{/if}}
     {{#if canEdit}}
-      <workflow-activate {instance}="{instance}">
-        <spinner-component {toggle}="{waiting}"></spinner-component>
+      <workflow-activate instance:from="instance">
+        <spinner-component toggle:from="waiting"></spinner-component>
 
         {{^if waiting}}
           {{#is(instance.status, "Draft")}}

@@ -3,24 +3,24 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 <div class="folder-attachments-list">
-    <related-documents {instance}="{instance}" {kind}="'FILE'" {^is-loading}="{isListLoading}">
+    <related-documents instance:from="instance" kind:from="'FILE'" isLoading:to="isListLoading">
         <div class="folder-attachments-list__heading">
-            <spinner-component class="folder-attachments-list__spinner" {toggle}="{showSpinner}"></spinner-component>
+            <spinner-component class="folder-attachments-list__spinner" toggle:from="showSpinner"></spinner-component>
             <h6>{{title}}</h6>
         </div>
-            <ggrc-gdrive-folder-picker {hide-label}="{true}"
-                                       {readonly}="{readonly}"
-                                       {instance}="{instance}"
-                                       {^current_folder}="*currentFolder"
-                                       {(folder_error)}="{folderError}"
+            <ggrc-gdrive-folder-picker hideLabel:from="true"
+                                       readonly:from="readonly"
+                                       instance:from="instance"
+                                       current_folder:to="*currentFolder"
+                                       folder_error:bind="folderError"
             ></ggrc-gdrive-folder-picker>
-        <object-list {items}="{documents}" {empty-message}="{noItemsText}" {show-more}="{showMore}">
-            <editable-document-object-list-item {document}="{.}">
+        <object-list items:from="documents" emptyMessage:from="noItemsText" showMore:from="showMore">
+            <editable-document-object-list-item document:from="{.}">
             {{#unless readonly}}
                 <unmap-button
-                    {destination}="{instance}"
-                    {source}="{document}"
-                    {^is-unmapping}="../../../../isUnmapping">
+                    destination:from="instance"
+                    source:from="document"
+                    isUnmapping:to="../../../../isUnmapping">
                     <action-toolbar-control>
                       <i class="fa fa-trash"></i>
                     </action-toolbar-control>

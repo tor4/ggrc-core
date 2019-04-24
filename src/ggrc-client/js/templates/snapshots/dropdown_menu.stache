@@ -10,16 +10,16 @@
         {{^if isMapperDetails}}
             <li>
                 <snapshot-comparer-config
-                    {instance}="{instance}"
-                    {left-revision-id}="{instance.snapshot.revision_id}"
-                    {right-revisions}="{instance.snapshot.revisions}">
+                    instance:from="instance"
+                    leftRevisionId:from="instance.snapshot.revision_id"
+                    rightRevisions:from="instance.snapshot.revisions">
                     <revisions-comparer
-                        {modal-title}="{modalTitle}"
-                        {modal-confirm}="{modalConfirm}"
-                        {button-view}="{buttonView}"
-                        {instance}="{instance}"
-                        {left-revision-id}="{leftRevisionId}"
-                        {right-revision}="{rightRevision}">
+                        modalTitle:from="modalTitle"
+                        modalConfirm:from="modalConfirm"
+                        buttonView:from="buttonView"
+                        instance:from="instance"
+                        leftRevisionId:from="leftRevisionId"
+                        rightRevision:from="rightRevision">
                         <a href="javascript://" on:el:click="compareIt">
                           <i class="fa fa-refresh"></i>
                           Get the latest version
@@ -49,7 +49,7 @@
     {{#if instance.class.isChangeableExternally}}
         {{^if instance.originalObjectDeleted}}
             <li>
-                <questionnaire-link {instance}="{instance}" {show-icon}="{true}">
+                <questionnaire-link instance:from="instance" showIcon:from="true">
                     Open {{instance.class.title_singular}} in new frontend
                 </questionnaire-link>
             </li>
@@ -58,9 +58,9 @@
 
     {{#is_info_pin}}
       <unmap-dropdown-item
-        {page_instance}="{page_instance}"
-        {instance}="{instance.snapshot}"
-        {options}="{options}">
+        page_instance:from="page_instance"
+        instance:from="instance.snapshot"
+        options:from="options">
       </unmap-dropdown-item>
     {{/is_info_pin}}
     {{^if instance.snapshot.archived}}
@@ -68,7 +68,7 @@
         {{#is_allowed 'delete' instance.snapshot}}
           <li>
             <delete-button
-              {instance}="{instance.snapshot}">
+              instance:from="instance.snapshot">
             </delete-button>
           </li>
         {{/is_allowed}}

@@ -6,32 +6,32 @@
 {{#switch type}}
   {{#case "input"}}
     <text-form-field-view
-      {value}="{value}"
+      value:from="value"
     ></text-form-field-view>
   {{/case}}
   {{#case "text"}}
     <rich-text-form-field-view
-      {value}="{value}"
+      value:from="value"
     ></rich-text-form-field-view>
   {{/case}}
   {{#case "checkbox"}}
     <checkbox-form-field-view
-      {value}="{value}"
+      value:from="value"
     ></checkbox-form-field-view>
   {{/case}}
   {{#case "dropdown"}}
     <text-form-field-view
-      {value}="{value}"
+      value:from="value"
     ></text-form-field-view>
   {{/case}}
   {{#case "date"}}
     <date-form-field-view
-      {value}="{value}"
+      value:from="value"
     ></date-form-field-view>
   {{/case}}
   {{#case "person"}}
     <person-form-field-view
-      {value}="{value}"
+      value:from="value"
     ></person-form-field-view>
   {{/case}}
 {{/switch}}

@@ -15,17 +15,17 @@
         {{#case "operator"}}
         <div class="mapping-group__operator">
           <advanced-search-filter-operator
-            {(operator)}="{value}">
+            operator:bind="value">
           </advanced-search-filter-operator>
         </div>
         {{/case}}
         {{#case "mappingCriteria"}}
         <div class="mapping-group__criteria">
           <advanced-search-mapping-criteria
-            {(criteria)}="{value}"
+            criteria:bind="value"
             on:remove="removeItem(., true)"
-            {model-name}="{modelName}"
-            {root}="{root}">
+            modelName:from="modelName"
+            root:from="root">
           </advanced-search-mapping-criteria>
         </div>
         {{/case}}

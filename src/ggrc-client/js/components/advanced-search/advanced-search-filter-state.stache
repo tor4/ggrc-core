@@ -9,7 +9,7 @@
   </div>
   {{#if showOperator}}
   <div class="filter-state__operator">
-    <select {($value)}="{stateModel.operator}">
+    <select value:bind="stateModel.operator">
       <option value="ANY">Any of</option>
       <option value="NONE">None of</option>
     </select>
@@ -17,9 +17,9 @@
   {{/if}}
   <div class="filter-state__value">
     <multiselect-dropdown
-            {options}="{filterStates}"
+            options:from="filterStates"
             on:selectedChanged="statesChanged(%event)"
-            {placeholder}="'Filter by State'">
+            placeholder:from="'Filter by State'">
     </multiselect-dropdown>
   </div>
   {{#if statusTooltipVisible}}

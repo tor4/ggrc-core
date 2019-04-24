@@ -42,9 +42,9 @@
       <div class="rich-text">
         <rich-text
           tabindex="2"
-          {hidden-toolbar}="{true}"
-          {placeholder}="'Enter Description'"
-          {(content)}="{instance.description}">
+          hiddenToolbar:from="true"
+          placeholder:from="'Enter Description'"
+          content:bind="instance.description">
         </rich-text>
       </div>
     </div>
@@ -64,9 +64,9 @@
       <div class="rich-text">
         <rich-text
           tabindex="4"
-          {hidden-toolbar}="{true}"
-          {placeholder}="'Enter Risk Type'"
-          {(content)}="{instance.risk_type}">
+          hiddenToolbar:from="true"
+          placeholder:from="'Enter Risk Type'"
+          content:bind="instance.risk_type">
         </rich-text>
       </div>
     </div>
@@ -81,9 +81,9 @@
       <div class="rich-text">
         <rich-text
           tabindex="5"
-          {hidden-toolbar}="{true}"
-          {placeholder}="'Enter Threat Source'"
-          {(content)}="{instance.threat_source}">
+          hiddenToolbar:from="true"
+          placeholder:from="'Enter Threat Source'"
+          content:bind="instance.threat_source">
         </rich-text>
       </div>
     </div>
@@ -98,9 +98,9 @@
       <div class="rich-text">
         <rich-text
           tabindex="6"
-          {hidden-toolbar}="{true}"
-          {placeholder}="'Enter Threat Event'"
-          {(content)}="{instance.threat_event}">
+          hiddenToolbar:from="true"
+          placeholder:from="'Enter Threat Event'"
+          content:bind="instance.threat_event">
         </rich-text>
       </div>
     </div>
@@ -115,9 +115,9 @@
       <div class="rich-text">
         <rich-text
           tabindex="7"
-          {hidden-toolbar}="{true}"
-          {placeholder}="'Enter Vulnerability'"
-          {(content)}="{instance.vulnerability}">
+          hiddenToolbar:from="true"
+          placeholder:from="'Enter Vulnerability'"
+          content:bind="instance.vulnerability">
         </rich-text>
       </div>
     </div>
@@ -126,9 +126,9 @@
   <div class="row">
     <div class="span12 hide-wrap hidable">
       <access-control-list-roles-helper
-        {instance}="{.}"
-        {is-proposal}="{isProposal}"
-        {is-new-instance}="{new_object_form}">
+        instance:from="{.}"
+        isProposal:from="isProposal"
+        isNewInstance:from="new_object_form">
       </access-control-list-roles-helper>
     </div>
   </div>
@@ -145,9 +145,9 @@
       <div class="rich-text">
         <rich-text
           tabindex="8"
-          {hidden-toolbar}="{true}"
-          {placeholder}="'Enter Notes'"
-          {(content)}="{instance.notes}">
+          hiddenToolbar:from="true"
+          placeholder:from="'Enter Notes'"
+          content:bind="instance.notes">
         </rich-text>
       </div>
     </div>
@@ -164,7 +164,7 @@
   {{^if isProposal}}
     <div class="row-fluid">
       <div data-id="folder_hidden" class="span6 hidable">
-        <ggrc-gdrive-folder-picker {instance}="{instance}" {deferred}="{true}" tabindex="9">
+        <ggrc-gdrive-folder-picker instance:from="instance" deferred:from="true" tabindex="9">
         </ggrc-gdrive-folder-picker>
       </div>
     </div>
@@ -183,7 +183,7 @@
       </div>
     {{/if}}
     <div class="span4 hidable">
-      <effective-dates {instance}="{instance}"/>
+      <effective-dates instance:from="instance"/>
     </div>
   </div>
 
@@ -195,9 +195,9 @@
            title="Indicates the status of this object."></i>
       </label>
       <a href="javascript://" class="field-hide" tabindex="-1">hide</a>
-      <dropdown-component {options-list}="{model.statuses}"
-                {no-value}="{true}"
-                {no-value-label}="'---'"
+      <dropdown-component optionsList:from="model.statuses"
+                noValue:from="true"
+                noValueLabel:from="'---'"
                 name:bind="instance.status"
                 tabindex="23">
       </dropdown-component>

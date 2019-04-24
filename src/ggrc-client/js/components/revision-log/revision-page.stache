@@ -15,9 +15,9 @@
         <div class="w-status">
           <div class="entry-author">
             {{#if automapping}}
-              System 
+              System
             {{else}}
-              <person-data {person}="{madeBy}"></person-data>
+              <person-data person:from="madeBy"></person-data>
             {{/if}}
 
             made changes &mdash; {{dateTime updatedAt}}
@@ -41,10 +41,10 @@
                 {{{fieldName}}}
               </div>
               <div class="third-col">
-                <revision-log-data {is-loading}="{isLoading}" {data}="{origVal}"></revision-log-data>
+                <revision-log-data isLoading:from="isLoading" data:from="origVal"></revision-log-data>
               </div>
               <div class="third-col">
-                <revision-log-data {is-loading}="{isLoading}" {data}="{newVal}"></revision-log-data>
+                <revision-log-data isLoading:from="isLoading" data:from="newVal"></revision-log-data>
               </div>
             </div>
           {{/changes}}

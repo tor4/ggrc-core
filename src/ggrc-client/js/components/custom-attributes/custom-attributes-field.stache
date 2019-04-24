@@ -5,48 +5,48 @@
 
 {{#switch type}}
   {{#case "input"}}
-    <text-form-field {value}="{value}"
-        {field-id}="{fieldId}"
-        {placeholder}="{placeholder}"
-        {disabled}="{disabled}"
+    <text-form-field value:from="value"
+        fieldId:from="fieldId"
+        placeholder:from="placeholder"
+        disabled:from="disabled"
         on:valueChanged="fieldValueChanged(%event)"
         class="inline-input-form-field"
     ></text-form-field>
   {{/case}}
   {{#case "text"}}
-    <rich-text-form-field {value}="{value}"
-			  {field-id}="{fieldId}"
-			  {placeholder}="{placeholder}"
-			  {disabled}="{disabled}"
+    <rich-text-form-field value:from="value"
+			  fieldId:from="fieldId"
+			  placeholder:from="placeholder"
+			  disabled:from="disabled"
 			  on:valueChanged="fieldValueChanged(%event)"
     ></rich-text-form-field>
   {{/case}}
   {{#case "checkbox"}}
-    <checkbox-form-field {value}="{value}"
-			 {field-id}="{fieldId}"
-			 {disabled}="{disabled}"
+    <checkbox-form-field value:from="value"
+			 fieldId:from="fieldId"
+			 disabled:from="disabled"
 			 on:valueChanged="fieldValueChanged(%event)"
     ></checkbox-form-field>
   {{/case}}
   {{#case "dropdown"}}
-    <dropdown-form-field {value}="{value}"
-			 {options}="{options}"
-			 {field-id}="{fieldId}"
-			 {disabled}="{disabled}"
+    <dropdown-form-field value:from="value"
+			 options:from="options"
+			 fieldId:from="fieldId"
+			 disabled:from="disabled"
 			 on:valueChanged="fieldValueChanged(%event)"
     ></dropdown-form-field>
   {{/case}}
   {{#case "date"}}
-    <date-form-field {value}="{value}"
-		     {field-id}="{fieldId}"
-		     {disabled}="{disabled}"
+    <date-form-field value:from="value"
+		     fieldId:from="fieldId"
+		     disabled:from="disabled"
 		     on:valueChanged="fieldValueChanged(%event)"
     ></date-form-field>
   {{/case}}
   {{#case "person"}}
-    <person-form-field {value}="{value}"
-		       {field-id}="{fieldId}"
-		       {disabled}="{disabled}"
+    <person-form-field value:from="value"
+		       fieldId:from="fieldId"
+		       disabled:from="disabled"
 		       on:valueChanged="fieldValueChanged(%event)"
     ></person-form-field>
   {{/case}}

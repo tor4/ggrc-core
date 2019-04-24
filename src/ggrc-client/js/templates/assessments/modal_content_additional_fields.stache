@@ -3,7 +3,7 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 
-<gca-controls {instance}="{instance}"></gca-controls>
+<gca-controls instance:from="instance"></gca-controls>
 
 <div class="ggrc-form-item">
   <div class="ggrc-form-item__row">
@@ -12,9 +12,9 @@
     </label>
     <rich-text 
         tabindex="10"
-        {hidden-toolbar}="{true}"
-        {placeholder}="'Enter Notes'"
-        {(content)}="{notes}">
+        hiddenToolbar:from="true"
+        placeholder:from="'Enter Notes'"
+        content:bind="notes">
     </rich-text>
   </div>
 </div>
@@ -26,9 +26,9 @@
     </label>
     <rich-text 
         tabindex="11"
-        {hidden-toolbar}="{true}"
-        {placeholder}="'Enter Description'"
-        {(content)}="{description}">
+        hiddenToolbar:from="true"
+        placeholder:from="'Enter Description'"
+        content:bind="description">
     </rich-text>
   </div>
 </div>
@@ -44,7 +44,7 @@
       name="slug"
       placeholder="ASSESSMENT-XXX"
       type="text"
-      {$value}="{slug}">
+      value:from="slug">
   </div>
   <div class="ggrc-form-item__multiple-row">
     <label class="ggrc-form-item__label">
@@ -52,9 +52,9 @@
     </label>
     <datepicker-component
       tabindex="15"
-      {(date)}="{start_date}"
-      {set-max-date}="{end_date}"
-      {helptext}="'Enter the date this object becomes effective.'"
+      date:bind="start_date"
+      setMaxDate:from="end_date"
+      helptext:from="'Enter the date this object becomes effective.'"
     />
   </div>
 </div>
@@ -69,9 +69,9 @@
         <em>Is this control design effective?</em>
       </small>
     </div>
-    <dropdown-component {options-list}="{model.conclusions}"
-              {no-value}="{true}"
-              {no-value-label}="'---'"
+    <dropdown-component optionsList:from="model.conclusions"
+              noValue:from="true"
+              noValueLabel:from="'---'"
               name:bind="instance.design"
               tabindex="17">
     </dropdown-component>
@@ -85,9 +85,9 @@
         <em>Is this control design effective?</em>
       </small>
     </div>
-    <dropdown-component {options-list}="{model.conclusions}"
-              {no-value}="{true}"
-              {no-value-label}="'---'"
+    <dropdown-component optionsList:from="model.conclusions"
+              noValue:from="true"
+              noValueLabel:from="'---'"
               name:bind="instance.operationally"
               tabindex="18">
     </dropdown-component>

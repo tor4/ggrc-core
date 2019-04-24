@@ -3,15 +3,15 @@
   Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 
-<model-loader {path}="'business-models/issue'">
-    <related-objects {base-instance}="{baseInstance}"
-                     {predefined-filter}="{relatedIssuesFilter}"
-                     {model-constructor}="{loadedModel}"
-                     {related-items-type}="'Issue'">
+<model-loader path:from="'business-models/issue'">
+    <related-objects baseInstance:from="baseInstance"
+                     predefinedFilter:from="relatedIssuesFilter"
+                     modelConstructor:from="loadedModel"
+                     relatedItemsType:from="'Issue'">
         <div class="grid-data__toolbar flex-box">
-            <tree-pagination {paging}="{paging}" class="grid-data__toolbar-item"></tree-pagination>
+            <tree-pagination paging:from="paging" class="grid-data__toolbar-item"></tree-pagination>
             {{^if baseInstance.archived}}
-                    <add-issue-button {related-instance}="{baseInstance}" class="grid-data__toolbar-item"></add-issue-button>
+                    <add-issue-button relatedInstance:from="baseInstance" class="grid-data__toolbar-item"></add-issue-button>
             {{/if}}
         </div>
         <div class="grid-data-header flex-row flex-box">
@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="grid-data-body">
-            <object-list {items}="{relatedObjects}" {is-loading}="{isLoading}" {list-type}="'GRID'">
+            <object-list items:from="relatedObjects" isLoading:from="isLoading" listType:from="'GRID'">
                 <div class="grid-data-row flex-row flex-box">
                     <div class="flex-size-2">
                         <a href="{{instance.viewLink}}" target="_blank" class="grid-data-item__title-cell">
@@ -32,9 +32,9 @@
                     </div>
                     <div class="flex-size-3">
                         <read-more
-                          {text}="{instance.description}"
-                          {max-lines-number}=2
-                          {handle-markdown}="{instance.class.isChangeableExternally}">
+                          text:from="instance.description"
+                          maxLinesNumber:from=2
+                          handleMarkdown:from="instance.class.isChangeableExternally">
                         </read-more>
                     </div>
                 </div>

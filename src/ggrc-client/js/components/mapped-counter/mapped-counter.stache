@@ -6,7 +6,7 @@
   {{#isTitleVisible}}
     {{title}}: 
   {{/isTitleVisible}}
-  <spinner-component class="extra" {toggle}="isSpinnerVisible"></spinner-component>
+  <spinner-component class="extra" toggle:from="isSpinnerVisible"></spinner-component>
   {{^isSpinnerVisible}}
     {{count}}
   {{/isSpinnerVisible}}

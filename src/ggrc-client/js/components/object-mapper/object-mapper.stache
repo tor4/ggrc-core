@@ -12,10 +12,10 @@
   </h2>
 
   <create-and-map
-    {source}="{parentInstance}"
-    {source-type}="{object}"
-    {destination-model}="{model}"
-    {mega-relation}="{config.general.megaRelation}"
+    source:from="parentInstance"
+    sourceType:from="object"
+    destinationModel:from="model"
+    megaRelation:from="config.general.megaRelation"
   ></create-and-map>
 
 </div>
@@ -28,41 +28,41 @@
   </div>
   {{/if}}
 
-  <collapsible-panel {soft-mode}="{true}" {title-text}="'filter'" {(expanded)}="{showSearch}">
+  <collapsible-panel softMode:from="true" titleText:from="'filter'" expanded:bind="showSearch">
     <advanced-search-wrapper
-      {model-name}="{model.model_singular}"
-      {model-display-name}="{model.title_plural}"
-      {^mapping-items}="*mappingItems"
-      {^filter-items}="*filterItems"
-      {^status-item}="*statusItem"
-      {relevant-to}="{relevantTo}"
+      modelName:from="model.model_singular"
+      modelDisplayName:from="model.title_plural"
+      mappingItems:to="*mappingItems"
+      filterItems:to="*filterItems"
+      statusItem:to="*statusItem"
+      relevantTo:from="relevantTo"
       on:el:enter="onSubmit()">
       <div class="object-controls">
         <div class="object-controls__row">
           <div class="object-controls__type">
             <h6>Object type</h6>
-            <mapping-type-selector {types}="{availableTypes}"
-                                   {(selected-type)}="{type}"
-                                   {disabled}="{is_loading}">
+            <mapping-type-selector types:from="availableTypes"
+                                   selectedType:bind="type"
+                                   disabled:from="is_loading">
             </mapping-type-selector>
           </div>
           {{#if hasStatusFilter}}
           <div class="object-controls__state">
             <advanced-search-filter-state
-              {model-name}="{modelName}"
-              {(state-model)}="{statusItem.value}"
-              {show-operator}="{false}">
+              modelName:from="modelName"
+              stateModel:bind="statusItem.value"
+              showOperator:from="false">
             </advanced-search-filter-state>
           </div>
           {{/if}}
         </div>
         <div class="object-controls__filters">
           <advanced-search-filter-container
-            {(items)}="{filterItems}"
-            {available-attributes}="{availableAttributes}"
-            {model-name}="{modelName}"
-            {default-status-filter}="{false}"
-            {show-add-button}="{mappingItems.length}">
+            items:bind="filterItems"
+            availableAttributes:from="availableAttributes"
+            modelName:from="modelName"
+            defaultStatusFilter:from="false"
+            showAddButton:from="mappingItems.length">
           </advanced-search-filter-container>
         </div>
         {{#if mappingItems.length}}
@@ -73,9 +73,9 @@
           </div>
           {{/each}}
           <advanced-search-mapping-container
-            {(items)}="{mappingItems}"
-            {model-name}="{modelName}"
-            {show-add-button}="{false}">
+            items:bind="mappingItems"
+            modelName:from="modelName"
+            showAddButton:from="false">
           </advanced-search-mapping-container>
         </div>
         {{/if}}
@@ -109,32 +109,32 @@
     <p class="external-map__content">Please click the button below to map {{lowercase searchModel.title_plural}}
       for this {{lowercase parentInstance.constructor.title_singular}} in new frontend.</p>
     <questionnaire-mapping-link
-      {css-classes}="'btn btn-small btn-white'"
-      {instance}="{parentInstance}"
-      {destination-model}="{searchModel}">
+      cssClasses:from="'btn btn-small btn-white'"
+      instance:from="parentInstance"
+      destinationModel:from="searchModel">
       Open in new frontend
     </questionnaire-mapping-link>
   </div>
 {{else}}
-  <collapsible-panel {soft-mode}="{true}" {title-text}="'Search Results ({{*totalObjects}})'" {(expanded)}="{showResults}">
+  <collapsible-panel softMode:from="true" titleText:from="'Search Results ({{*totalObjects}})'" expanded:bind="showResults">
     <div class="search-results">
       <mapper-results class="{{#if showAsSnapshots}}snapshot-list{{/if}}"
-                      {base-instance}="{parentInstance}"
-                      {(is-loading)}="{is_loading}"
-                      {object}="{object}"
-                      {type}="{type}"
-                      {selected}="{selected}"
-                      {submit-cbs}="{submitCbs}"
-                      {^paging.total}="*totalObjects"
-                      {use-snapshots}="{useSnapshots}"
-                      {(entries)}="{entries}"
-                      {relevant-to}="{relevantTo}"
-                      {deferred-list}="{deferred_list}"
-                      {filter-items}="*filterItems"
-                      {mapping-items}="*mappingItems"
-                      {mega-relation-obj}="megaRelationObj"
+                      baseInstance:from="parentInstance"
+                      isLoading:bind="is_loading"
+                      object:from="object"
+                      type:from="type"
+                      selected:from="selected"
+                      submitCbs:from="submitCbs"
+                      paging.total:to="*totalObjects"
+                      useSnapshots:from="useSnapshots"
+                      entries:bind="entries"
+                      relevantTo:from="relevantTo"
+                      deferredList:from="deferred_list"
+                      filterItems:from="*filterItems"
+                      mappingItems:from="*mappingItems"
+                      megaRelationObj:from="megaRelationObj"
                       on:loaded="onLoaded()"
-                      {status-item}="*statusItem">
+                      statusItem:from="*statusItem">
       </mapper-results>
     </div>
     <div class="control-buttons row-fluid">
@@ -143,7 +143,7 @@
       </div>
       <div class="span7">
         <div class="confirm-buttons">
-          <spinner-component {toggle}="{is_saving}"></spinner-component>
+          <spinner-component toggle:from="is_saving"></spinner-component>
           <span class="confirm-buttons__objects-count">
             {{selected.length}}
             object(s) selected

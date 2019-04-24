@@ -22,7 +22,7 @@
         Assignee:
         <i class="fa fa-asterisk"></i>
       </label>
-      <object-loader {path}="instance.contact">
+      <object-loader path:from="instance.contact">
         <div class="objective-selector">
           {{^if_config_exist 'external_services.Person'}}
             {{#if loadedObject}}
@@ -35,19 +35,19 @@
             {{/if}}
           {{else}}
             <inline-autocomplete-wrapper
-              {instance}="{instance}"
-              {path}="'contact'"
-              {display-prop}="'email'"
-              {text-value}="{loadedObject.email}">
+              instance:from="instance"
+              path:from="'contact'"
+              displayProp:from="'email'"
+              textValue:from="loadedObject.email">
               <external-data-autocomplete
-                {type}="'Person'"
-                {extra-css-class}="'span10 search-icon'"
-                {placeholder}="'Enter text to search for Assignee'"
+                type:from="'Person'"
+                extraCssClass:from="'span10 search-icon'"
+                placeholder:from="'Enter text to search for Assignee'"
                 on:itemSelected="setItem(%event.selectedItem)"
                 on:criteriaChanged="setItem(%event.value)"
-                {auto-clean}="{false}"
-                {min-length}="2"
-                {search-criteria}="{textValue}">
+                autoClean:from="false"
+                minLength:from="2"
+                searchCriteria:from="textValue">
               </external-data-autocomplete>
             </inline-autocomplete-wrapper>
           {{/if_config_exist}}
@@ -68,9 +68,9 @@
       <div class="rich-text">
           <rich-text
             tabindex="3"
-            {hidden-toolbar}="{true}"
-            {placeholder}="'Enter Description'"
-            {(content)}="{instance.description}">
+            hiddenToolbar:from="true"
+            placeholder:from="'Enter Description'"
+            content:bind="instance.description">
           </rich-text>
       </div>
     </div>

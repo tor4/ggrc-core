@@ -14,7 +14,7 @@ describe('dropdown component', function () {
 
     beforeAll(function () {
       template = can.stache(
-        '<dropdown-component {options-list}="{list}"></dropdown-component>');
+        '<dropdown-component optionsList:from="list"></dropdown-component>');
     });
 
     it('when input is an array of strings', function () {

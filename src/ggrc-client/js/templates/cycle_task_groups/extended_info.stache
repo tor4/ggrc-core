@@ -6,7 +6,7 @@
 {{#instance}}
   <div class="row-fluid">
     <div class="span12">
-      <object-loader {path}="instance.cycle">
+      <object-loader path:from="instance.cycle">
         <a class="main-title {{class.category}} oneline"
            href="/workflows/{{loadedObject.workflow.id}}">
         {{title}}

@@ -8,7 +8,7 @@ import './clipboard-link';
 export default can.Component.extend({
   tag: 'permalink-component',
   view: can.stache(
-    '<clipboard-link {text}="{text}">' +
+    '<clipboard-link text:from="text">' +
     '<i class="fa fa-link"></i>Get permalink</clipboard-link>'
   ),
   leakScope: true,

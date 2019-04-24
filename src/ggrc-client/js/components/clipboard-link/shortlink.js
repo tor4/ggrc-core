@@ -8,7 +8,7 @@ import './clipboard-link';
 export default can.Component.extend({
   tag: 'shortlink-component',
   view: can.stache(
-    '<clipboard-link {text}="{text}">' +
+    '<clipboard-link text:from="text">' +
     '<i class="fa fa-google"/>Get Short Url</clipboard-link>'
   ),
   leakScope: true,

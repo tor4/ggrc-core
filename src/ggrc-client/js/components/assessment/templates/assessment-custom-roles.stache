@@ -7,60 +7,60 @@
 <div class="flex-box">
   <related-people-access-control
     class="width-100"
-    {deferred-save}="{deferredSave}"
-    (save-custom-role)="{save(%event)}"
-    {conflict-roles}="{conflictRoles}"
-    {order-of-roles}="{orderOfRoles}"
-    {include-roles}="{includeRoles}"
-    {exclude-roles}="{excludeRoles}"
-    {updatable-group-id}="{updatableGroupId}"
-    {info-pane-mode}="{infoPaneMode}"
-    {is-new-instance}="{isNewInstance}"
-    {read-only}="{isReadonly}"
-    {instance}="{instance}">
+    deferredSave:from="deferredSave"
+    on:vm:saveCustomRole="{save(%event)}"
+    conflictRoles:from="conflictRoles"
+    orderOfRoles:from="orderOfRoles"
+    includeRoles:from="includeRoles"
+    excludeRoles:from="excludeRoles"
+    updatableGroupId:from="updatableGroupId"
+    infoPaneMode:from="infoPaneMode"
+    isNewInstance:from="isNewInstance"
+    readOnly:from="isReadonly"
+    instance:from="instance">
       <div class="people-groups">
         {{#groups}}
           <related-people-access-control-group
             class="people-group"
-            (update-roles)="{updateRoles(%event)}"
-            {required}="{required}"
-            {group-id}="{groupId}"
-            {title}="{title}"
-            {people}="{people}"
-            {instance}="{instance}"
-            {read-only}="{readOnly}"
-            {updatable-group-id}="{updatableGroupId}"
-            {single-user-role}="{singleUserRole}">
+            on:vm:updateRoles="{updateRoles(%event)}"
+            required:from="required"
+            groupId:from="groupId"
+            title:from="title"
+            people:from="people"
+            instance:from="instance"
+            readOnly:from="readOnly"
+            updatableGroupId:from="updatableGroupId"
+            singleUserRole:from="singleUserRole">
               <div>
                   <editable-people-group
-                    {required}="{required}"
-                    (unmap)="{removePerson(%event)}"
-                    (change-editable-mode)="{changeEditableGroup(%event)}"
-                    (save-changes)="{saveChanges()}"
-                    (person-selected)="{personSelected(%event)}"
-                    {can-unmap}="{canEdit}"
-                    {can-edit}="{canEdit}"
-                    {is-loading}="{isLoading}"
-                    {group-id}="{groupId}"
-                    {instance}="{instance}"
-                    {title}="{title}"
-                    {people}="{people}"
-                    {updatable-group-id}="{updatableGroupId}">
+                    required:from="required"
+                    on:vm:unmap="{removePerson(%event)}"
+                    on:vm:changeEditableMode="{changeEditableGroup(%event)}"
+                    on:vm:saveChanges="{saveChanges()}"
+                    on:vm:personSelected="{personSelected(%event)}"
+                    canUnmap:from="canEdit"
+                    canEdit:from="canEdit"
+                    isLoading:from="isLoading"
+                    groupId:from="groupId"
+                    instance:from="instance"
+                    title:from="title"
+                    people:from="people"
+                    updatableGroupId:from="updatableGroupId">
                       <confirm-edit-action
-                        (set-edit-mode)="{changeEditableMode(true)}"
-                        (set-in-progress)="{setInProgress()}"
-                        {instance}="{instance}"
-                        {on-state-change-dfd}="{onStateChangeDfd}">
+                        on:vm:setEditMode="{changeEditableMode(true)}"
+                        on:vm:setInProgress="{setInProgress()}"
+                        instance:from="instance"
+                        onStateChangeDfd:from="onStateChangeDfd">
                         <editable-people-group-header
-                          {editable-mode}="{editableMode}"
-                          {redirection-enabled}="{redirectionEnabled}"
-                          {is-loading}="{isLoading}"
-                          {can-edit}="{canEdit}"
-                          {title}="{title}"
-                          {required}="{required}"
-                          {people}="{people}"
-                          {single-user-role}="{singleUserRole}"
-                          (edit-people-group)="{confirmEdit()}">
+                          editableMode:from="editableMode"
+                          redirectionEnabled:from="redirectionEnabled"
+                          isLoading:from="isLoading"
+                          canEdit:from="canEdit"
+                          title:from="title"
+                          required:from="required"
+                          people:from="people"
+                          singleUserRole:from="singleUserRole"
+                          on:vm:editPeopleGroup="{confirmEdit()}">
                         </editable-people-group-header>
                       </confirm-edit-action>
                   </editable-people-group>

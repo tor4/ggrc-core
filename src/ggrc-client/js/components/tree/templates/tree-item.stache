@@ -5,11 +5,11 @@
 
 <div class="tree-item-wrapper {{extraClasses}}">
   <div class="flex-box tree-item-content">
-    <tree-item-actions {instance}="{instance}"
+    <tree-item-actions instance:from="instance"
                        on:expand="onExpand()"
                        on:preview="select($element)"
-                       {expanded}="{expanded}"
-                       {deep-limit}="{limitDepthTree}"
+                       expanded:from="expanded"
+                       deepLimit:from="limitDepthTree"
     ></tree-item-actions>
     <div class="flex-box selectable-attrs width-100" on:el:click="onClick($element, %event)">
         {{#selectedColumns}}
@@ -17,21 +17,21 @@
             {{#switch attr_type}}
               {{#case "custom"}}
                 <div class="custom attr-content">
-                  <tree-item-custom-attribute {instance}="{instance}"
-                                              {custom-attribute-id}="{attr_custom_attribute_id}"
+                  <tree-item-custom-attribute instance:from="instance"
+                                              customAttributeId:from="attr_custom_attribute_id"
                   ></tree-item-custom-attribute>
                 </div>
               {{/case}}
 
               {{#case "role"}}
                 <div class="roles attr-content">
-                  <tree-people-with-role-list-field {instance}="{instance}" {role}="{attr_name}"/>
+                  <tree-people-with-role-list-field instance:from="instance" role:from="attr_name"/>
                 </div>
               {{/case}}
 
               {{#default}}
                 <div class="owner attr-content">
-                  <tree-item-attr {instance}="{instance}" {name}="{attr_name}"></tree-item-attr>
+                  <tree-item-attr instance:from="instance" name:from="attr_name"></tree-item-attr>
                 </div>
               {{/default}}
            {{/switch}}
@@ -39,17 +39,17 @@
         {{/selectedColumns}}
     </div>
 
-    <cycle-task-actions {instance}="{instance}"></cycle-task-actions>
+    <cycle-task-actions instance:from="instance"></cycle-task-actions>
 
-    <tree-item-extra-info {instance}="{instance}"></tree-item-extra-info>
+    <tree-item-extra-info instance:from="instance"></tree-item-extra-info>
   </div>
 
-  <lazy-render {trigger}="{expanded}">
+  <lazy-render trigger:from="expanded">
     <div class="sub-tier">
-      <sub-tree-wrapper {parent}="{instance}"
-                        {limit-depth-tree}="{limitDepthTree}"
-                        {get-depth-filter}="{@getDepthFilter}"
-                        {is-open}="{expanded}"
+      <sub-tree-wrapper parent:from="instance"
+                        limitDepthTree:from="limitDepthTree"
+                        getDepthFilter:from="@getDepthFilter"
+                        isOpen:from="expanded"
                         on:collapseSubtree="collapseAndHighlightItem()"
       ></sub-tree-wrapper>
     </div>

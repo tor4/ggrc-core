@@ -4,7 +4,7 @@
 }}
 
 {{#if isLoading}}
-    <spinner-component {toggle}="{isLoading}"></spinner-component>
+    <spinner-component toggle:from="isLoading"></spinner-component>
 {{else}}
     {{#if isObject}}
         {{#each data}}

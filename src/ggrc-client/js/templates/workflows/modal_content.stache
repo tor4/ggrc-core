@@ -17,7 +17,7 @@
           placeholder="Enter Title"
           name="title"
           type="text"
-          {$value}="{instance.title}" autofocus>
+          value:from="instance.title" autofocus>
         {{#instance.computed_errors.title}}<label class="help-inline warning">{{this}}</label>{{/instance.computed_errors.title}}
       </div>
     </div>
@@ -30,17 +30,17 @@
         <div class="rich-text">
             <rich-text
               tabindex="3"
-              {hidden-toolbar}="{true}"
-              {placeholder}="'Enter Description'"
-              {(content)}="{instance.description}">
+              hiddenToolbar:from="true"
+              placeholder:from="'Enter Description'"
+              content:bind="instance.description">
             </rich-text>
         </div>
       </div>
     </div>
 
     <access-control-list-roles-helper
-      {instance}="{instance}"
-      {is-new-instance}="{new_object_form}">
+      instance:from="instance"
+      isNewInstance:from="new_object_form">
     </access-control-list-roles-helper>
 
     <div class="ggrc-form-item">
@@ -49,11 +49,11 @@
           Repeat Workflow
         </label>
         {{#if new_object_form}}
-          <repeat-on-button-wrapper {(instance)}="{instance}"></repeat-on-button-wrapper>
+          <repeat-on-button-wrapper instance:bind="instance"></repeat-on-button-wrapper>
         {{/if}}
-        <repeat-on-summary {unit}="{instance.unit}" 
-                           {repeat-every}="{instance.repeat_every}"
-                           {hide-repeat-off}="{new_object_form}">
+        <repeat-on-summary unit:from="instance.unit" 
+                           repeatEvery:from="instance.repeat_every"
+                           hideRepeatOff:from="new_object_form">
         </repeat-on-summary>
       </div>
       <div class="ggrc-form-item__multiple-row">
@@ -83,11 +83,11 @@
           <i class="fa fa-question-circle" rel="tooltip" title="If selected, all Workflow attachments go here."></i>
         </label>
         <ggrc-gdrive-folder-picker
-          {instance}="{instance}"
-          {deferred}="{true}"
+          instance:from="instance"
+          deferred:from="true"
           tabindex="5"
-          {hide-label}="{true}"
-          {placeholder}="'If selected, all workflow attachments go here.'"/>
+          hideLabel:from="true"
+          placeholder:from="'If selected, all workflow attachments go here.'"/>
       </div>
     </div>
 
@@ -102,7 +102,7 @@
             placeholder="Enter Title"
             type="text"
             tabindex="5"
-            {($value)}="{instance.task_group_title}">
+            value:bind="instance.task_group_title">
         </div>
       </div>
     {{/if}}
@@ -114,9 +114,9 @@
           <i class="fa fa-question-circle" rel="tooltip" title="This email will be sent to all workflow members once workflow starts"></i>
         </label>
         <rich-text tabindex="6"
-                   {hidden-toolbar}="{true}"
-                   {placeholder}="'Enter custom message here'"
-                   {(content)}="{instance.notify_custom_message}">
+                   hiddenToolbar:from="true"
+                   placeholder:from="'Enter custom message here'"
+                   content:bind="instance.notify_custom_message">
         </rich-text>
       </div>
     </div>
@@ -132,7 +132,7 @@
           class="input-block-level"
           placeholder="WORKFLOW-XXX"
           type="text"
-          {($value)}="{instance.slug}">
+          value:bind="instance.slug">
       </div>
     </div>
   </form>

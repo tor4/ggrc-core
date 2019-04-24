@@ -2,13 +2,13 @@
     Copyright (C) 2019 Google Inc.
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
-<object-list {(selected-item)}="{selectedItem}" {items}="{mappedItems}">
-    <business-object-list-item {instance}="{instance}">
+<object-list selectedItem:bind="selectedItem" items:from="mappedItems">
+    <business-object-list-item instance:from="instance">
         {{^if withoutDetails}}
             <read-more
               class="description"
-              {text}="{itemData.description}"
-              {handle-markdown}="{instance.constructor.isChangeableExternally}">
+              text:from="itemData.description"
+              handleMarkdown:from="instance.constructor.isChangeableExternally">
             </read-more>
             <div class="more-information-wrapper">
                 <button type="button" class="btn btn-link more-information-button">More Information</button>
@@ -17,11 +17,11 @@
     </business-object-list-item>
 </object-list>
 <simple-modal
-    {instance}="{snapshot}"
-    {modal-title}="{modalTitle}"
-    {state}="{state}"
-    {extra-css-class}="'mapped-controls-info'"
-    {replace-content}="{true}">
+    instance:from="snapshot"
+    modalTitle:from="modalTitle"
+    state:from="state"
+    extraCssClass:from="'mapped-controls-info'"
+    replaceContent:from="true">
     <div class="simple-modal__header flex-box">
         <div class="simple-modal__header-text mapped-controls-info__header-text flex-size-1">
             <div class="mapped-controls-info__title">
@@ -47,40 +47,40 @@
         </button>
     </div>
     <div class="simple-modal__body mapped-controls-info__body {{#if isLoading}}loading{{/if}}">
-        <spinner-component {toggle}="{isLoading}" class="spinner-wrapper active"
-                 {extra-css-class}="'grid-spinner'"></spinner-component>
+        <spinner-component toggle:from="isLoading" class="spinner-wrapper active"
+                 extraCssClass:from="'grid-spinner'"></spinner-component>
 
         {{^if instance.originalObjectDeleted}}
-          <questionnaire-link {instance}="{instance}" {view-type}="'button'">
+          <questionnaire-link instance:from="instance" viewType:from="'button'">
             Open {{instance.constructor.title_singular}} in new frontend
           </questionnaire-link>
         {{/if}}
 
         {{^if withoutDetails}}
-        <collapsible-panel {title-text}="'{{assessmentType}} Info'"
-                           {expanded}="{true}">
-            <detailed-business-object-list-item {instance}="{instance}"
-                                                {custom-attributes}="{customAttributes}"
+        <collapsible-panel titleText:from="'{{assessmentType}} Info'"
+                           expanded:from="true">
+            <detailed-business-object-list-item instance:from="instance"
+                                                customAttributes:from="customAttributes"
                                                 class="mapped-object-info">
             </detailed-business-object-list-item>
         </collapsible-panel>
         {{else}}
-            <detailed-business-object-list-item {instance}="{instance}"
-                    {custom-attributes}="{customAttributes}"
+            <detailed-business-object-list-item instance:from="instance"
+                    customAttributes:from="customAttributes"
                     class="mapped-object-info">
             </detailed-business-object-list-item>
         {{/if}}
         {{^if withoutDetails}}
           {{#is assessmentType 'Control'}}
             <assessment-mapped-control-related-objects class="mapped-controls-info__related-objects"
-                                                       {title-text}="'Show Related Requirements ({{requirements.length}})'"
-                                                       {type}="'Requirement'"
-                                                       {items}="{requirements}">
+                                                       titleText:from="'Show Related Requirements ({{requirements.length}})'"
+                                                       type:from="'Requirement'"
+                                                       items:from="requirements">
             </assessment-mapped-control-related-objects>
             <assessment-mapped-control-related-objects class="mapped-controls-info__related-objects"
-                                                       {title-text}="'Show Related Regulations ({{regulations.length}})'"
-                                                       {type}="'Regulation'"
-                                                       {items}="{regulations}">
+                                                       titleText:from="'Show Related Regulations ({{regulations.length}})'"
+                                                       type:from="'Regulation'"
+                                                       items:from="regulations">
             </assessment-mapped-control-related-objects>
           {{/is}}
         {{/if}}

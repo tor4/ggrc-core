@@ -4,8 +4,8 @@
 }}
 
 <div class="input-wrapper">
-  <numberbox-component {additional-class}="'text-field'"
-                       {placeholder}="{placeholder}"
-                       {(value)}="{inputValue}">
+  <numberbox-component additionalClass:from="'text-field'"
+                       placeholder:from="placeholder"
+                       value:bind="inputValue">
   </numberbox-component>
 </div>

@@ -23,7 +23,7 @@
     <div class="import-section import-buttons">
       {{#switch state}}
         {{#case 'Select'}}
-          <spinner-component {toggle}="{isLoading}"></spinner-component>
+          <spinner-component toggle:from="isLoading"></spinner-component>
 
           <button type="button"
                   on:el:click="selectFile()"
@@ -39,7 +39,7 @@
 
         {{#case 'Not Started'}}
           <label class="confirm-action">
-            <input type="checkbox" {($checked)}="{isConfirm}">
+            <input type="checkbox" checked:bind="isConfirm">
             <span>
               I confirm that the import file containing {{importedObjectsCount}}
               {{#is(importedObjectsCount, 1)}}object{{else}}objects{{/is}} is complete and accurate to the best of my knowledge.
@@ -63,7 +63,7 @@
         {{/case}}
 
         {{#case 'Analysis'}}
-          <div>Analyzing file in Progress: <spinner-component {toggle}="{true}"></spinner-component></div>
+          <div>Analyzing file in Progress: <spinner-component toggle:from="true"></spinner-component></div>
           <button type="button"
                   class="btn btn-small btn-white margin-top-20"
                   on:el:click="stopImport(jobId)">
@@ -116,7 +116,7 @@
         {{/case}}
 
         {{#case 'In Progress'}}
-          <div class="">Import in Progress: <spinner-component {toggle}="{true}"></spinner-component></div>
+          <div class="">Import in Progress: <spinner-component toggle:from="true"></spinner-component></div>
         {{/case}}
       {{/switch}}
 
@@ -124,7 +124,7 @@
     </div>
 
     {{#isImportStopped}}
-      <show-more {items}="{importDetails}" {limit}="1">
+      <show-more items:from="importDetails" limit:from="1">
         <div class="import-section border-top">
 
           <section class="import-details__stats">
@@ -153,7 +153,7 @@
           </section>
 
           {{#data}}
-            <collapsible-panel {title-text}="{title}" {expanded}="{true}">
+            <collapsible-panel titleText:from="title" expanded:from="true">
               {{#if messages.length}}
                 <ul>
                   {{#messages}}
@@ -177,7 +177,7 @@
 
   {{#history.length}}
   <div class="csv-import__import-history">
-    <import-history {history}="{history}"
+    <import-history history:from="history"
                     on:removeItem="onRemove(%event)"
                     on:downloadCsv="onDownload(%event)"
     ></import-history>

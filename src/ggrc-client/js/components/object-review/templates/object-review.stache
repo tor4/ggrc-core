@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="object-review__header-spinner">
-      <spinner-component {toggle}="{loading}"></spinner-component>
+      <spinner-component toggle:from="loading"></spinner-component>
     </div>
   </div>
   {{^if isSnapshot}}
@@ -23,7 +23,7 @@
         <div class="object-review__body">
           <div class="object-review__body-description">
             Last reviewed by
-            <person-data class="inline-block" {person}="{review.last_reviewed_by}"></person-data>
+            <person-data class="inline-block" person:from="review.last_reviewed_by"></person-data>
             on {{dateTime review.last_reviewed_at}}
           </div>
           {{^if isReviewed}}
@@ -56,14 +56,14 @@
     </div>
     {{#if hasReviewers}}
       <custom-roles
-        {read-only}="{true}"
-        {instance}="{review}">
+        readOnly:from="true"
+        instance:from="review">
       </custom-roles>
     {{/if}}
     <request-review-modal
-      {review}="{review}"
-      {parent-instance}="{instance}"
-      {(modal-state)}="{reviewersModalState}"
+      review:from="review"
+      parentInstance:from="instance"
+      modalState:bind="reviewersModalState"
       on:reviewersUpdated="reviewersUpdated(%event)">
     </request-review-modal>
   {{/if}}

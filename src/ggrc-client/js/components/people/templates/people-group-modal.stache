@@ -3,10 +3,10 @@
   Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 
-<simple-modal {modal-title}="{title}"
-              {state}="{modalState}"
-              {replace-content}="{true}"
-              {extra-css-class}="'people-group-modal'"
+<simple-modal modalTitle:from="title"
+              state:from="modalState"
+              replaceContent:from="true"
+              extraCssClass:from="'people-group-modal'"
               on:hide="cancel()">
   <div class="simple-modal__header flex-box flex-row">
     <div class="simple-modal__header-text flex-size-1">
@@ -27,28 +27,28 @@
         Add person
       </p>
       {{#if isLoading}}
-        <spinner-component {toggle}="{isLoading}"></spinner-component>
+        <spinner-component toggle:from="isLoading"></spinner-component>
       {{else}}
         {{#if_config_exist 'external_services.Person'}}
-          <external-data-autocomplete {type}="'Person'"
-                                      {placeholder}="'Type person'"
-                                      {min-length}="2"
+          <external-data-autocomplete type:from="'Person'"
+                                      placeholder:from="'Type person'"
+                                      minLength:from="2"
                                       on:itemSelected="personSelected(%event.selectedItem)">
           </external-data-autocomplete>
         {{else}}
-          <autocomplete-component {search-items-type}="'Person'"
+          <autocomplete-component searchItemsType:from="'Person'"
                         on:itemSelected="personSelected(%event.selectedItem)"
-                        {placeholder}="'Type person'">
+                        placeholder:from="'Type person'">
           </autocomplete-component>
         {{/if_config_exist}}
       {{/if}}
     </div>
     <div class="simple-modal__section people-group-modal__people-section">
       <div>
-        <object-list {(items)}="{people}"
-                     {is-disabled}="{isLoading}"
-                     {empty-message}="{emptyListMessage}">
-            <person-data {person}="{.}">
+        <object-list items:bind="people"
+                     isDisabled:from="isLoading"
+                     emptyMessage:from="emptyListMessage">
+            <person-data person:from="{.}">
               {{#unmapablePerson}}
                 <a href="javascript://"
                   class="people-group-modal__unmap {{#if isDisabled}}disabled{{/if}}"

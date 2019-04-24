@@ -4,7 +4,7 @@
 }}
 
 <div class="labels-wrapper {{cssClass}}">
-  <label-autocomplete-wrapper {objects-to-exclude}="{labels}">
+  <label-autocomplete-wrapper objectsToExclude:from="labels">
     <div class="labels">
       {{#each _labels}}
         <div class="label-box">
@@ -17,7 +17,7 @@
 
       {{#if editMode}}
         <autocomplete-input on:inputChanged="getResult(%event)"
-                            {(show-results)}="{showResults}"
+                            showResults:bind="showResults"
         ></autocomplete-input>
       {{else}}
         {{#unless labels.length}}
@@ -26,10 +26,10 @@
       {{/if}}
     </div>
     {{#if editMode}}
-      <label-autocomplete-results {(current-value)}="{currentValue}"
-                                  {items}="{result}"
-                                  {(show-results)}="{showResults}"
-                                  {show-new-value}="{showNewValue}"
+      <label-autocomplete-results currentValue:bind="currentValue"
+                                  items:from="result"
+                                  showResults:bind="showResults"
+                                  showNewValue:from="showNewValue"
                                   on:addNewItem="createLabel(%event)"
                                   on:selectItem="labelSelected(%event)">
       </label-autocomplete-results>

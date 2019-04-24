@@ -30,23 +30,23 @@
 <div class="row-fluid">
   <div class="span5">
     <div class="tiny-data">
-      <mapped-counter {instance}="instance"
-                      {type}="'Control'"
-                      {is-spinner-visible}="true"
-                      {is-title-visible}="false"
-                      {extra-css-class}="'color'">
+      <mapped-counter instance:from="instance"
+                      type:from="'Control'"
+                      isSpinnerVisible:from="true"
+                      isTitleVisible:from="false"
+                      extraCssClass:from="'color'">
       </mapped-counter>
-      <mapped-counter {instance}="instance"
-                      {type}="'Process'"
-                      {is-spinner-visible}="true"
-                      {is-title-visible}="false"
-                      {extra-css-class}="'color'">
+      <mapped-counter instance:from="instance"
+                      type:from="'Process'"
+                      isSpinnerVisible:from="true"
+                      isTitleVisible:from="false"
+                      extraCssClass:from="'color'">
       </mapped-counter>
-      <mapped-counter {instance}="instance"
-                      {type}="'System'"
-                      {is-spinner-visible}="true"
-                      {is-title-visible}="false"
-                      {extra-css-class}="'color'">
+      <mapped-counter instance:from="instance"
+                      type:from="'System'"
+                      isSpinnerVisible:from="true"
+                      isTitleVisible:from="false"
+                      extraCssClass:from="'color'">
       </mapped-counter>
     </div>
   </div>
@@ -72,7 +72,7 @@
           <a class="secondary" href="{{viewLink}}">
             Open Original {{class.title_singular}}
           </a>
-          <questionnaire-link {instance}="{instance}" {css-classes}="'secondary'">
+          <questionnaire-link instance:from="instance" cssClasses:from="'secondary'">
             Open {{class.title_singular}} in new frontend
           </questionnaire-link>
         {{/if}}

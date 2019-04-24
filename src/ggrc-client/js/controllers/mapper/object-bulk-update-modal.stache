@@ -4,6 +4,6 @@
 }}
 
 <object-bulk-update class="object-bulk-update"
-                    {type}="{type}"
-                    {object}="{object}">
+                    type:from="type"
+                    object:from="object">
 </object-bulk-update>

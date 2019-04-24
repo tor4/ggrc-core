@@ -71,7 +71,7 @@
     <div class="span6">
       <h6>Audit firm</h6>
       <p>
-        <object-loader {path}="instance.audit_firm">
+        <object-loader path:from="instance.audit_firm">
           {{#if loadedObject}}
             {{loadedObject.title}}
           {{else}}

@@ -19,21 +19,21 @@
   <div class="row-fluid">
     <div class="span3">
       <a data-id="hide_effective_date_lk" href="javascript://" class="field-hide" tabindex="-1">hide</a>
-      <datepicker-component {label}="'Effective Date'"
-                  {(date)}="{instance.start_date}"
-                  {set-max-date}="{instance.end_date}"
-                  {required}="{true}">
+      <datepicker-component label:from="'Effective Date'"
+                  date:bind="instance.start_date"
+                  setMaxDate:from="instance.end_date"
+                  required:from="true">
       </datepicker-component>
     </div>
     <div class="span3">
       <a data-id="hide_stop_date_lk" href="javascript://" class="field-hide" tabindex="-1">hide</a>
-      <datepicker-component {label}="'End Date'"
-                  {(date)}="{instance.end_date}"
-                  {required}="{true}">
+      <datepicker-component label:from="'End Date'"
+                  date:bind="instance.end_date"
+                  required:from="true">
       </datepicker-component>
     </div>
     <div class="span3 hidable">
-      <object-loader {path}="instance.ra_manager">
+      <object-loader path:from="instance.ra_manager">
         <label>
           Risk Manager
           <i class="fa fa-question-circle" rel="tooltip" title="This is the person in charge of this {{model_singular}}."></i>
@@ -46,18 +46,18 @@
                  value="{{firstexist loadedObject.email ''}}"/>
         {{else}}
           <inline-autocomplete-wrapper
-            {instance}="{instance}"
-            {path}="'ra_manager'"
-            {display-prop}="'email'"
-            {text-value}="{loadedObject.email}">
+            instance:from="instance"
+            path:from="'ra_manager'"
+            displayProp:from="'email'"
+            textValue:from="loadedObject.email">
             <external-data-autocomplete
-              {type}="'Person'"
-              {placeholder}="'Enter email address'"
+              type:from="'Person'"
+              placeholder:from="'Enter email address'"
               on:itemSelected="setItem(%event.selectedItem)"
               on:criteriaChanged="setItem(%event.value)"
-              {auto-clean}="{false}"
-              {min-length}="2"
-              {search-criteria}="{textValue}">
+              autoClean:from="false"
+              minLength:from="2"
+              searchCriteria:from="textValue">
             </external-data-autocomplete>
           </inline-autocomplete-wrapper>
         {{/if_config_exist}}
@@ -65,7 +65,7 @@
       <br>
     </div>
     <div class="span3 hidable">
-      <object-loader {path}="instance.ra_counsel">
+      <object-loader path:from="instance.ra_counsel">
         <label>
           Risk Counsel
           <i class="fa fa-question-circle" rel="tooltip" title="This is the counsel in charge of this {{model_singular}}."></i>
@@ -78,18 +78,18 @@
                  value="{{firstexist loadedObject.email ''}}" />
         {{else}}
           <inline-autocomplete-wrapper
-            {instance}="{instance}"
-            {path}="'ra_counsel'"
-            {display-prop}="'email'"
-            {text-value}="{loadedObject.email}">
+            instance:from="instance"
+            path:from="'ra_counsel'"
+            displayProp:from="'email'"
+            textValue:from="loadedObject.email">
             <external-data-autocomplete
-              {type}="'Person'"
-              {placeholder}="'Enter email address'"
+              type:from="'Person'"
+              placeholder:from="'Enter email address'"
               on:itemSelected="setItem(%event.selectedItem)"
               on:criteriaChanged="setItem(%event.value)"
-              {auto-clean}="{false}"
-              {min-length}="2"
-              {search-criteria}="{textValue}">
+              autoClean:from="false"
+              minLength:from="2"
+              searchCriteria:from="textValue">
             </external-data-autocomplete>
           </inline-autocomplete-wrapper>
         {{/if_config_exist}}
@@ -107,9 +107,9 @@
       <a href="javascript://" class="field-hide" tabindex="-1">hide</a>
       <rich-text
         tabindex="6"
-        {hidden-toolbar}="{true}"
-        {placeholder}="'Enter Description'"
-        {(content)}="{instance.description}">
+        hiddenToolbar:from="true"
+        placeholder:from="'Enter Description'"
+        content:bind="instance.description">
       </rich-text>
     </div>
 
@@ -122,9 +122,9 @@
       <div class="rich-text">
           <rich-text
             tabindex="7"
-            {hidden-toolbar}="{true}"
-            {placeholder}="'Enter Notes'"
-            {(content)}="{instance.notes}">
+            hiddenToolbar:from="true"
+            placeholder:from="'Enter Notes'"
+            content:bind="instance.notes">
           </rich-text>
       </div>
     </div>
@@ -149,7 +149,7 @@
         <i class="fa fa-question-circle" rel="tooltip" title="Indicates the status of this object."></i>
       </label>
       <a data-id="hide_state_lk" href="javascript://" class="field-hide" tabindex="-1">hide</a>
-      <dropdown-component {options-list}="{model.statuses}"
+      <dropdown-component optionsList:from="model.statuses"
                 name:bind="instance.status"
                 tabindex="9">
       </dropdown-component>

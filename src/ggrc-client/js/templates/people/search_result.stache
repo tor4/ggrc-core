@@ -16,5 +16,5 @@
 {{/each}}
 
 <li class="spinny">
-  <spinner-component {toggle}="{list.is_loading}"></spinner-component>
+  <spinner-component toggle:from="list.is_loading"></spinner-component>
 </li>

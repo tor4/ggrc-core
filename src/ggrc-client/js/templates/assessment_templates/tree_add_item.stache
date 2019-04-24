@@ -6,11 +6,11 @@
 {{#is_allowed 'update' parent_instance context='for'}}
     {{^if parent_instance.archived}}
       <assessment-template-clone-button
-        {class}="'btn btn-small btn-darkBlue'"
+        class:from="'btn btn-small btn-darkBlue'"
         on:refreshTree="loadItems()"
-        {object-type}="{model.model_singular}"
-        {parent-id}="{parent_instance.id}"
-        {parent-type}="{parent_instance.class.model_singular}">
+        objectType:from="model.model_singular"
+        parentId:from="parent_instance.id"
+        parentType:from="parent_instance.class.model_singular">
         Create
       </assessment-template-clone-button>
     {{/if}}

@@ -10,19 +10,19 @@
         {{#case "operator"}}
         <div class="mapping-container__operator">
           <advanced-search-filter-operator
-            {(operator)}="{value}">
+            operator:bind="value">
           </advanced-search-filter-operator>
         </div>
         {{/case}}
         {{#case "mappingCriteria"}}
         <div class="mapping-container__criteria">
           <advanced-search-mapping-criteria
-            {(criteria)}="{value}"
+            criteria:bind="value"
             on:remove="removeItem(.)"
-            {is-clone}="{isClone}"
-            {model-name}="{modelName}"
-            {root}="{true}"
-            {extendable}="{true}"
+            isClone:from="isClone"
+            modelName:from="modelName"
+            root:from="true"
+            extendable:from="true"
             on:createGroup="createGroup(.)">
           </advanced-search-mapping-criteria>
         </div>
@@ -30,10 +30,10 @@
         {{#case "group"}}
         <div class="mapping-container__group">
           <advanced-search-mapping-group
-            {(items)}="{value}"
+            items:bind="value"
             on:remove="removeItem(.)"
-            {model-name}="{modelName}"
-            {root}="{true}">
+            modelName:from="modelName"
+            root:from="true">
           </advanced-search-mapping-group>
         </div>
         {{/case}}

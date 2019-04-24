@@ -28,7 +28,7 @@
     </div>
     <div class="span7">
       <div class="confirm-buttons">
-        <spinner-component {toggle}="{isSaving}"></spinner-component>
+        <spinner-component toggle:from="isSaving"></spinner-component>
           {{^new_object_form}}
             <a
               tabindex="25"

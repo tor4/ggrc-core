@@ -4,7 +4,7 @@
 }}
 
 <div class="hideable-holder">
-  <wrapper-assessment-template {instance}="{instance}">
+  <wrapper-assessment-template instance:from="instance">
   <form action="javascript://">
     {{> /static/templates/base_objects/form_restore.stache}}
 
@@ -16,12 +16,12 @@
       </div>
       <div class="span12">
         <assessment-object-type-dropdown
-          {instance}="{instance}"
-          {(assessment-type)}="{instance.template_object_type}">
+          instance:from="instance"
+          assessmentType:bind="instance.template_object_type">
           <dropdown-component
             class="input-medium pull-left"
-            {options-groups}="{objectTypes}"
-            {is-grouped-dropdown}="{true}"
+            optionsGroups:from="objectTypes"
+            isGroupedDropdown:from="true"
             name:bind="assessmentType">
           </dropdown-component>
         </assessment-object-type-dropdown>
@@ -51,7 +51,7 @@
           placeholder="Enter Title"
           name="title"
           type="text"
-          {$value}="{instance.title}"
+          value:from="instance.title"
           autofocus>
 
         {{#instance.computed_errors.title}}
@@ -94,9 +94,9 @@
         <div class="rich-text">
           <rich-text
             tabindex="2"
-            {hidden-toolbar}="{true}"
-            {placeholder}="'Enter Description'"
-            {(content)}="{instance.procedure_description}">
+            hiddenToolbar:from="true"
+            placeholder:from="'Enter Description'"
+            content:bind="instance.procedure_description">
           </rich-text>
         </div>
       </div>
@@ -104,22 +104,22 @@
       <div class="span6">
         <div class="row-fluid choose-from-select">
           <people-list
-            {instance}="{instance}"
-            {list-name}="'assignees'"
-            {label-name}="'Default Assignees'"
-            {people-list-attr}="'default_people.assignees'"
-            {people-values}="{peopleValues}"
+            instance:from="instance"
+            listName:from="'assignees'"
+            labelName:from="'Default Assignees'"
+            peopleListAttr:from="'default_people.assignees'"
+            peopleValues:from="peopleValues"
           ></people-list>
         </div>
 
         <div class="row-fluid choose-from-select">
           <people-list
-            {instance}="{instance}"
-            {list-name}="'verifiers'"
-            {label-name}="'Default Verifiers'"
-            {people-list-attr}="'default_people.verifiers'"
-            {has-empty-value}="{true}"
-            {people-values}="{peopleValues}"
+            instance:from="instance"
+            listName:from="'verifiers'"
+            labelName:from="'Default Verifiers'"
+            peopleListAttr:from="'default_people.verifiers'"
+            hasEmptyValue:from="true"
+            peopleValues:from="peopleValues"
           ></people-list>
         </div>
       </div>
@@ -140,7 +140,7 @@
           <i class="fa fa-question-circle" rel="tooltip" title="Indicates the status of this object."></i>
         </label>
         <a href="javascript://" class="field-hide" tabindex="-1">hide</a>
-        <dropdown-component {options-list}="{model.statuses}"
+        <dropdown-component optionsList:from="model.statuses"
                   name:bind="instance.status"
                   tabindex="23">
         </dropdown-component>
@@ -153,7 +153,7 @@
         <div>
           <div class="row-fluid">
             <div class="custom-attr-list span12">
-              <assessment-template-attributes {fields}="{instance.custom_attribute_definitions}">
+              <assessment-template-attributes fields:from="instance.custom_attribute_definitions">
                 <div class="attr-titles">
                   <ul>
                     <li class="row-fluid">
@@ -188,16 +188,16 @@
                   <ul>
                     <li class="row-fluid add-field">
                       <add-template-field
-                        {types}="{types}"
-                        {fields}="{fields}">
+                        types:from="types"
+                        fields:from="fields">
                       </add-template-field>
                     </li>
                     {{#fields}}
                       {{^if _pending_delete}}
                           <li class="row-fluid sortable-item" {{canData 'field'}}>
                               <template-field
-                                {field}="{.}"
-                                {types}="{types}"
+                                field:from="{.}"
+                                types:from="types"
                                 on:remove="fieldRemoved"></template-field>
                           </li>
                       {{/if _pending_delete}}
@@ -230,11 +230,11 @@
           <div class="hidden-fields-area">
             <div class="ggrc-form">
               <issue-tracker-switcher
-                {instance}="{instance}"
-                {(is-integration-enabled)}="{instance.issue_tracker.enabled}">
+                instance:from="instance"
+                isIntegrationEnabled:bind="instance.issue_tracker.enabled">
                   <modal-issue-tracker-fields
-                    {instance}="{instance}"
-                    {note}="'Turns on Ticket Tracker integration.'">
+                    instance:from="instance"
+                    note:from="'Turns on Ticket Tracker integration.'">
                   </modal-issue-tracker-fields>
               </issue-tracker-switcher>
             </div>

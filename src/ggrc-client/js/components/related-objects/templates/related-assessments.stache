@@ -4,7 +4,7 @@
 }}
 
 <div class="grid-data__toolbar flex-box">
-  <tree-pagination {paging}="{paging}" class="grid-data__toolbar-item"></tree-pagination>
+  <tree-pagination paging:from="paging" class="grid-data__toolbar-item"></tree-pagination>
   {{#if needReuse}}
     {{#is_allowed 'update' baseInstance context='for'}}
       {{#unless instance.archived}}
@@ -18,22 +18,22 @@
 </div>
 <div class="grid-data-header flex-row flex-box">
   <div class="flex-size-3">
-    <sortable-column {(sort)}="{orderBy}" {sort-field}="'title'">
+    <sortable-column sort:bind="orderBy" sortField:from="'title'">
       Assessment Title
     </sortable-column>
   </div>
   <div class="grid-data-item-index">
-    <sortable-column {(sort)}="{orderBy}" {sort-field}="'status'">
+    <sortable-column sort:bind="orderBy" sortField:from="'status'">
       Assessment State
     </sortable-column>
   </div>
   <div class="grid-data-item-index">
-    <sortable-column {(sort)}="{orderBy}" {sort-field}="'finished_date'">
+    <sortable-column sort:bind="orderBy" sortField:from="'finished_date'">
       Assessment Finish Date
     </sortable-column>
   </div>
   <div class="grid-data-item-index">
-    <sortable-column {(sort)}="{orderBy}" {sort-field}="'created_at'">
+    <sortable-column sort:bind="orderBy" sortField:from="'created_at'">
       Assessment Create Date
     </sortable-column>
   </div>
@@ -51,18 +51,18 @@
   </div>
 </div>
 <div class="grid-data-body center-empty-message">
-  <object-list {(items)}="{relatedAssessments}"
-               {is-loading}="{loading}"
-               {selected-item}="{selectedItem}"
-               {item-selector}="'.grid-data__action-column button'"
-               {empty-message}="'No Related Assessments were found'"
-               {list-type}="'GRID'">
+  <object-list items:bind="relatedAssessments"
+               isLoading:from="loading"
+               selectedItem:from="selectedItem"
+               itemSelector:from="'.grid-data__action-column button'"
+               emptyMessage:from="'No Related Assessments were found'"
+               listType:from="'GRID'">
     <div class="grid-data-row flex-row flex-box">
       <div class="flex-size-3">
         <a href="{{instance.viewLink}}" class="grid-data-item__title-cell" target="_blank" title="{{instance.title}}">{{instance.title}}</a>
       </div>
       <div class="grid-data-item-index">
-        <state-colors-map {state}="{instance.status}" {verified}="{instance.verified}"></state-colors-map>
+        <state-colors-map state:from="instance.status" verified:from="instance.verified"></state-colors-map>
       </div>
       <div class="grid-data-item-index">
         {{localize_date instance.finished_date}}
@@ -72,7 +72,7 @@
       </div>
       <div class="flex-size-3">
         {{#instance.snapshots}}
-          <business-object-list-item {instance}="{.}"></business-object-list-item>
+          <business-object-list-item instance:from="{.}"></business-object-list-item>
         {{/instance.snapshots}}
       </div>
       <div class="flex-size-3">
@@ -81,12 +81,12 @@
       <div class="flex-size-3">
         {{#if instance.evidence.length}}
           {{#if needReuse}}
-            <object-list {items}="{instance.evidence}" {show-more}="{true}">
-              <reusable-objects-item {instance}="{.}"
-                                      {disabled}="{isSaving}"
-                                      {reuse-allowed}="{{isAllowedToReuse .}}"
-                                      {(selected-list)}="{selectedEvidences}">
-                <document-object-list-item {instance}="{instance}"></document-object-list-item>
+            <object-list items:from="instance.evidence" showMore:from="true">
+              <reusable-objects-item instance:from="{.}"
+                                      disabled:from="isSaving"
+                                      reuseAllowed:from="{{isAllowedToReuse .}}"
+                                      selectedList:bind="selectedEvidences">
+                <document-object-list-item instance:from="instance"></document-object-list-item>
 
                 {{^ifAllowedToReuse ../.}}
                 <div class="reusable-objets-item__control">
@@ -96,8 +96,8 @@
               </reusable-objects-item>
             </object-list>
           {{else}}
-            <object-list {items}="{instance.evidence}">
-              <document-object-list-item {instance}="{.}"></document-object-list-item>
+            <object-list items:from="instance.evidence">
+              <document-object-list-item instance:from="{.}"></document-object-list-item>
             </object-list>
           {{/if}}
         {{/if}}
@@ -108,6 +108,6 @@
     </div>
   </object-list>
   <related-assessment-popover class="object-popover related-assessments__object-popover"
-                              {(selected-assessment)}="{selectedItem}">
+                              selectedAssessment:bind="selectedItem">
   </related-assessment-popover>
 </div>

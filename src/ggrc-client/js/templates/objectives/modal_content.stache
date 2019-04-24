@@ -31,9 +31,9 @@
       <div class="rich-text">
           <rich-text
             tabindex="2"
-            {hidden-toolbar}="{true}"
-            {placeholder}="'Enter Description'"
-            {(content)}="{instance.description}">
+            hiddenToolbar:from="true"
+            placeholder:from="'Enter Description'"
+            content:bind="instance.description">
           </rich-text>
       </div>
     </div>
@@ -44,8 +44,8 @@
   <div class="row">
     <div class="span12 hide-wrap hidable">
       <access-control-list-roles-helper
-        {instance}="{.}"
-        {is-new-instance}="{new_object_form}">
+        instance:from="{.}"
+        isNewInstance:from="new_object_form">
       </access-control-list-roles-helper>
     </div>
   </div>
@@ -60,9 +60,9 @@
       <div class="rich-text">
           <rich-text
             tabindex="5"
-            {hidden-toolbar}="{true}"
-            {placeholder}="'Enter Notes'"
-            {(content)}="{instance.notes}">
+            hiddenToolbar:from="true"
+            placeholder:from="'Enter Notes'"
+            content:bind="instance.notes">
           </rich-text>
       </div>
     </div>
@@ -75,7 +75,7 @@
 
   <div class="row-fluid">
     <div data-id="folder_hidden" class="span6 hidable">
-      <ggrc-gdrive-folder-picker {instance}="{instance}" {deferred}="{true}" tabindex="6">
+      <ggrc-gdrive-folder-picker instance:from="instance" deferred:from="true" tabindex="6">
       </ggrc-gdrive-folder-picker>
     </div>
   </div>
@@ -91,7 +91,7 @@
         <input {{^if new_object_form}} disabled {{/if}} data-id="code_txtbx" tabindex="8" class="input-block-level" name="slug" placeholder="OBJECTIVE-XXX" type="text" value="{{slug}}">
       </div>
       <div class="span4 hidable">
-        <effective-dates {instance}="{instance}"/>
+        <effective-dates instance:from="instance"/>
       </div>
     </div>
   </div>
@@ -103,7 +103,7 @@
         <i class="fa fa-question-circle" rel="tooltip" title="Indicates the status of this object."></i>
       </label>
       <a data-id="hide_state_lk" href="javascript://" class="field-hide" tabindex="-1">hide</a>
-      <dropdown-component {options-list}="{model.statuses}"
+      <dropdown-component optionsList:from="model.statuses"
                 name:bind="instance.status"
                 tabindex="23">
       </dropdown-component>

@@ -25,7 +25,7 @@
     </div>
     <div class="ggrc-form-item__multiple-row">
       <dropdown-component class="issue-tracker__dropdown"
-          {options-list}="{instance.class.issue_tracker_enable_options}"
+          optionsList:from="instance.class.issue_tracker_enable_options"
           name:bind="isIntegrationEnabled"
       ></dropdown-component>
       {{#if_instance_of instance 'Audit'}}
@@ -60,10 +60,10 @@
           </div>
         </div>
         <div class="ggrc-form-item__multiple-row {{#isValidAttrProperty instance "issue_tracker" "issue_id"}}field-failure{{/isValidAttrProperty}}">
-          <numberbox-component {attr-data-id}="'code_txtbx'"
-                     {additional-class}="'input-block-level'"
-                     {placeholder}="'Enter Ticket ID'"
-                     {(value)}="{instance.issue_tracker.issue_id}">
+          <numberbox-component attrDataId:from="'code_txtbx'"
+                     additionalClass:from="'input-block-level'"
+                     placeholder:from="'Enter Ticket ID'"
+                     value:bind="instance.issue_tracker.issue_id">
           </numberbox-component>
           {{#isValidAttrProperty instance "issue_tracker" "issue_id"}}
             <label class="help-inline warning">{{this}}</label>
@@ -78,10 +78,10 @@
       <label class="ggrc-form-item__label">
         Hotlist ID
       </label>
-      <numberbox-component {attr-data-id}="'code_txtbx'"
-                 {additional-class}="'input-block-level'"
-                 {placeholder}="'Enter Hotlist ID'"
-                 {(value)}="{instance.issue_tracker.hotlist_id}">
+      <numberbox-component attrDataId:from="'code_txtbx'"
+                 additionalClass:from="'input-block-level'"
+                 placeholder:from="'Enter Hotlist ID'"
+                 value:bind="instance.issue_tracker.hotlist_id">
       </numberbox-component>
     </div>
     <div class="ggrc-form-item__multiple-row {{#isValidAttrProperty instance "issue_tracker" "component_id"}}field-failure{{/isValidAttrProperty}}">
@@ -89,10 +89,10 @@
         Component ID
         <i class="fa fa-asterisk"></i>
       </label>
-      <numberbox-component {attr-data-id}="'code_txtbx'"
-                 {additional-class}="'input-block-level'"
-                 {placeholder}="'Enter Component ID'"
-                 {(value)}="{instance.issue_tracker.component_id}">
+      <numberbox-component attrDataId:from="'code_txtbx'"
+                 additionalClass:from="'input-block-level'"
+                 placeholder:from="'Enter Component ID'"
+                 value:bind="instance.issue_tracker.component_id">
       </numberbox-component>
       {{#isValidAttrProperty instance "issue_tracker" "component_id"}}
         <label class="help-inline warning">{{this}}</label>
@@ -113,7 +113,7 @@
       <label class="ggrc-form-item__label">
         Ticket Priority
       </label>
-      <dropdown-component {options-list}="{instance.class.issue_tracker_priorities}"
+      <dropdown-component optionsList:from="instance.class.issue_tracker_priorities"
                 name:bind="instance.issue_tracker.issue_priority">
       </dropdown-component>
     </div>
@@ -121,8 +121,8 @@
       <label class="ggrc-form-item__label">
         Ticket Severity
       </label>
-      <dropdown-component {instance}="{instance}"
-                {options-list}="{instance.class.issue_tracker_severities}"
+      <dropdown-component instance:from="instance"
+                optionsList:from="instance.class.issue_tracker_severities"
                 name:bind="instance.issue_tracker.issue_severity">
       </dropdown-component>
     </div>
@@ -137,7 +137,7 @@
                class="input-block-level"
                placeholder="Enter Ticket Title"
                type="text"
-               {($value)}="{instance.issue_tracker.title}"
+               value:bind="instance.issue_tracker.title"
         />
         {{#isValidAttrProperty instance "issue_tracker" "title"}}
           <label class="help-inline warning">{{this}}</label>

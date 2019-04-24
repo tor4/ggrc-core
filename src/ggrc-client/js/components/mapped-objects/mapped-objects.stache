@@ -2,10 +2,10 @@
     Copyright (C) 2019 Google Inc.
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
-<object-list {items}="{showItems}"
-             {^selected-item}="{selectedItem}"
-             {is-loading}="{isLoading}"
-             {empty-message}="{emptyMessage}">
+<object-list items:from="showItems"
+             selectedItem:to="selectedItem"
+             isLoading:from="isLoading"
+             emptyMessage:from="emptyMessage">
     <content></content>
 </object-list>
 {{#if requireLimit}}

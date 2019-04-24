@@ -11,5 +11,5 @@
          {{#if disable}}disabled{{/if}}
          class="{{^if context.isEdit}}autocomplete_wide{{/if}} autocomplete--input"
          placeholder="{{placeholder}}"
-         {($value)}="{value}">
+         value:bind="value">
 </div>

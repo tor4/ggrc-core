@@ -6,7 +6,7 @@
 {{#unless formEditMode}}
 <confirm-edit-action
   on:setInProgress="edit()"
-  {instance}="{instance}">
+  instance:from="instance">
   <button type="button"
           class="btn btn-small btn-gray custom-attributes-actions__edit-button"
           {{#if disabled}}disabled{{/if}}

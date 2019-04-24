@@ -4,7 +4,7 @@
 }}
 
 <h6>Assessment template</h6>
-<dropdown-component {class-name}="'assessment-templates'"
-                    {options-list}="{templates}"
+<dropdown-component className:from="'assessment-templates'"
+                    optionsList:from="templates"
                     name:bind="assessmentTemplate">
 </dropdown-component>

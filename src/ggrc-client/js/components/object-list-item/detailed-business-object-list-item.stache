@@ -6,15 +6,15 @@
 <div class="mapped-object-info__item">
     <h6>Description</h6>
     <read-more
-      {text}="{itemData.description}"
-      {handle-markdown}="{instance.class.isChangeableExternally}">
+      text:from="itemData.description"
+      handleMarkdown:from="instance.class.isChangeableExternally">
     </read-more>
 </div>
 <div class="mapped-object-info__item">
     <h6>Notes</h6>
     <read-more
-      {text}="{itemData.notes}"
-      {handle-markdown}="{instance.class.isChangeableExternally}">
+      text:from="itemData.notes"
+      handleMarkdown:from="instance.class.isChangeableExternally">
     </read-more>
 </div>
 <div class="mapped-object-info__attributes">
@@ -24,23 +24,23 @@
     </div>
     <div class="width-100">
         <related-people-access-control
-            {include-roles}="{visibleRoles}"
-            {instance}="{instance}">
+            includeRoles:from="visibleRoles"
+            instance:from="instance">
             <div class="people-groups">
                 {{#groups}}
                     <div class="mapped-object-info__item">
                         <related-people-access-control-group
-                            {group-id}="{groupId}"
-                            {title}="{title}"
-                            {people}="{people}"
-                            {instance}="{instance}"
+                            groupId:from="groupId"
+                            title:from="title"
+                            people:from="people"
+                            instance:from="instance"
                             class="people-group">
                                 <deletable-people-group
-                                    {can-unmap}="{deletableAdmin}"
-                                    {is-loading}="{isUpdating}"
-                                    {group-id}="{groupId}"
-                                    {instance}="{instance}"
-                                    {people}="{people}">
+                                    canUnmap:from="deletableAdmin"
+                                    isLoading:from="isUpdating"
+                                    groupId:from="groupId"
+                                    instance:from="instance"
+                                    people:from="people">
                                     <h6>{{title}}</h6>
                                 </deletable-people-group>
                         </related-people-access-control-group>
@@ -54,8 +54,8 @@
             <div class="mapped-object-info__item">
                 <h6>{{title}}</h6>
 		<custom-attributes-field-view
-                        {type}="{type}"
-                        {value}="{value}"
+                        type:from="type"
+                        value:from="value"
 		></custom-attributes-field-view>
             </div>
         {{/each}}

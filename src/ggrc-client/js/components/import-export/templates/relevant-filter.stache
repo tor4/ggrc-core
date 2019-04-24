@@ -17,7 +17,7 @@
       <i class="fa fa-trash" on:el:click="removeFilter(%element, @index)"></i>
     {{/readOnly}}
     {{#if @index}}
-      <dropdown-component {options-list}="{operators}"
+      <dropdown-component optionsList:from="operators"
                 name:bind="operator"
                 class="inline-block">
       </dropdown-component>
@@ -25,7 +25,7 @@
     Mapped to:
     <select class="filter-type-selector select-filter{{@index}}"
             {{#readOnly}}disabled="disabled"{{/readOnly}}
-            {($value)}="{model_name}">
+            value:bind="model_name">
       {{#menu}}
         {{#if model_singular}}
           <option value="{{model_singular}}"

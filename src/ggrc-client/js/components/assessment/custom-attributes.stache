@@ -7,25 +7,25 @@
         <div class="{{#if_in attributeType 'input,text'}}ggrc-form-item__row{{else}}ggrc-form-item__multiple-row{{/if}}">
             <inline-edit-control class="inline-edit-control"
                 on:inlineSave="updateGlobalAttribute(%event, %context)"
-                {instance}="{instance}"
-                {dropdown-options}="{multiChoiceOptions}"
-                {dropdown-class}="{dropdownClass}"
-                {dropdown-no-value}="{true}"
-                {edit-mode}="{editMode}"
-                {is-allow-edit}="{isAllowEdit}"
-                {is-loading}="{isLoading}"
-                {value}="{value}"
-                {type}="{attributeType}"
-                {with-read-more}="{true}">
+                instance:from="instance"
+                dropdownOptions:from="multiChoiceOptions"
+                dropdownClass:from="dropdownClass"
+                dropdownNoValue:from="true"
+                editMode:from="editMode"
+                isAllowEdit:from="isAllowEdit"
+                isLoading:from="isLoading"
+                value:from="value"
+                type:from="attributeType"
+                withReadMore:from="true">
                       <confirm-edit-action
                           on:setEditMode="setEditModeInline(%event)"
                           on:setInProgress="setInProgressState()"
-                          {instance}="{instance}"
-                          {on-state-change-dfd}="{onStateChangeDfd}"
-                          {edit-mode}="{editMode}">
+                          instance:from="instance"
+                          onStateChangeDfd:from="onStateChangeDfd"
+                          editMode:from="editMode">
                             <base-inline-control-title
-                                {edit-mode}="{editMode}"
-                                {is-edit-icon-denied}="{isEditDenied}"
+                                editMode:from="editMode"
+                                isEditIconDenied:from="isEditDenied"
                                 on:setEditModeInline="confirmEdit()">
                               <div class="ggrc-form__title">{{title}}</div>
                             </base-inline-control-title>

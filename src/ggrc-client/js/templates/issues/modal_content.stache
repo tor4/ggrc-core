@@ -30,9 +30,9 @@
       <div class="rich-text">
           <rich-text
             tabindex="2"
-            {hidden-toolbar}="{true}"
-            {placeholder}="'Enter Description'"
-            {(content)}="{instance.description}">
+            hiddenToolbar:from="true"
+            placeholder:from="'Enter Description'"
+            content:bind="instance.description">
           </rich-text>
       </div>
     </div>
@@ -48,9 +48,9 @@
       <div class="rich-text">
           <rich-text
             tabindex="2"
-            {hidden-toolbar}="{true}"
-            {placeholder}="'Enter Remediation Plan'"
-            {(content)}="{instance.test_plan}">
+            hiddenToolbar:from="true"
+            placeholder:from="'Enter Remediation Plan'"
+            content:bind="instance.test_plan">
           </rich-text>
       </div>
     </div>
@@ -59,11 +59,11 @@
   <div class="row">
     <div class="span12 hide-wrap hidable">
       <access-control-list-roles-helper
-        {instance}="{.}"
-        {is-new-instance}="{new_object_form}"
-        {read-only}="{instance.issueTrackerEnabled}"
-        {show-group-tooltip}="{instance.issueTrackerEnabled}"
-        {group-tooltip}="'Please go to the ticket and make changes there'">
+        instance:from="{.}"
+        isNewInstance:from="new_object_form"
+        readOnly:from="instance.issueTrackerEnabled"
+        showGroupTooltip:from="instance.issueTrackerEnabled"
+        groupTooltip:from="'Please go to the ticket and make changes there'">
       </access-control-list-roles-helper>
     </div>
   </div>
@@ -78,9 +78,9 @@
         <div class="rich-text">
             <rich-text
               tabindex="5"
-              {hidden-toolbar}="{true}"
-              {placeholder}="'Enter Notes'"
-              {(content)}="{instance.notes}">
+              hiddenToolbar:from="true"
+              placeholder:from="'Enter Notes'"
+              content:bind="instance.notes">
             </rich-text>
         </div>
       </div>
@@ -93,7 +93,7 @@
 
     <div class="row-fluid">
       <div data-id="folder_hidden" class="span6 hidable">
-        <ggrc-gdrive-folder-picker {instance}="{instance}" {deferred}="{true}" tabindex="6">
+        <ggrc-gdrive-folder-picker instance:from="instance" deferred:from="true" tabindex="6">
         </ggrc-gdrive-folder-picker>
       </div>
     </div>
@@ -109,15 +109,15 @@
         <input {{^if new_object_form}} disabled {{/if}} data-id="code_txtbx" tabindex="7" class="input-block-level" name="slug" placeholder="ISSUE-XXX" type="text" value="{{slug}}">
       </div>
       <div class="span4 hidable">
-        <effective-dates {instance}="{instance}"></effective-dates>
+        <effective-dates instance:from="instance"></effective-dates>
       </div>
       <div class="span4 hidable">
         <div data-id="due_date_hidden">
           <a data-id="hide_due_date_lk" href="javascript://" class="field-hide" tabindex="-1">hide</a>
           <datepicker-component
               tabindex="21"
-              {label}="'Due Date'"
-              {(date)}="{instance.due_date}"
+              label:from="'Due Date'"
+              date:bind="instance.due_date"
           />
         </div>
       </div>
@@ -134,11 +134,11 @@
           <i class="fa fa-question-circle" rel="tooltip" title="Indicates the status of this object."></i>
         </label>
         <a data-id="hide_state_lk" href="javascript://" class="field-hide" tabindex="-1">hide</a>
-        <dropdown-component {options-list}="{model.statuses}"
-                  {no-value}="{true}"
-                  {no-value-label}="'---'"
+        <dropdown-component optionsList:from="model.statuses"
+                  noValue:from="true"
+                  noValueLabel:from="'---'"
                   name:bind="instance.status"
-                  {is-disabled}="{instance.issueTrackerEnabled}"
+                  isDisabled:from="instance.issueTrackerEnabled"
                   tabindex="23">
         </dropdown-component>
       </div>
@@ -187,16 +187,16 @@
     <div class="hidden-fields-area">
       <div class="ggrc-form">
         <issue-tracker-switcher
-          {instance}="{instance}"
-          {(is-integration-enabled)}="{instance.issue_tracker.enabled}"
-          {set-issue-title}="{true}"
-          {default-title}="{instance.title}">
+          instance:from="instance"
+          isIntegrationEnabled:bind="instance.issue_tracker.enabled"
+          setIssueTitle:from="true"
+          defaultTitle:from="instance.title">
             <modal-issue-tracker-fields
-              {instance}="{instance}"
-              {allow-to-change-id}="{true}"
-              {linking-note}="'If you would like to keep the existing ticket linked to this issue do not edit this attribute. If you would like to link to a different ticket provide an existing ticket number. You are not allowed to generate new ticket for Issues at statuses &quot;Fixed&quot;, &quot;Fixed and Verified&quot; and &quot;Deprecated&quot;.'"
-              {set-issue-title}="{setIssueTitle}"
-              {note}="'Turns on Ticket Tracker integration. Any subsequent updates to admins, primary contacts, secondary contacts and state fields should be made through tracking system and will be synced automatically to GGRC.'">
+              instance:from="instance"
+              allowToChangeId:from="true"
+              linkingNote:from="'If you would like to keep the existing ticket linked to this issue do not edit this attribute. If you would like to link to a different ticket provide an existing ticket number. You are not allowed to generate new ticket for Issues at statuses &quot;Fixed&quot;, &quot;Fixed and Verified&quot; and &quot;Deprecated&quot;.'"
+              setIssueTitle:from="setIssueTitle"
+              note:from="'Turns on Ticket Tracker integration. Any subsequent updates to admins, primary contacts, secondary contacts and state fields should be made through tracking system and will be synced automatically to GGRC.'">
             </modal-issue-tracker-fields>
         </issue-tracker-switcher>
       </div>

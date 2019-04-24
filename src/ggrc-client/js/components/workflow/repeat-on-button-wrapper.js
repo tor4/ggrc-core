@@ -8,9 +8,9 @@ import './repeat-on-button';
 export default can.Component.extend({
   tag: 'repeat-on-button-wrapper',
   view: can.stache(
-    '<repeat-on-button {unit}="{instance.unit}"' +
-    ' {repeat-every}="{instance.repeat_every}"' +
-    ' {on-save-repeat}="{@onSetRepeat}">' +
+    '<repeat-on-button unit:from="instance.unit"' +
+    ' repeatEvery:from="instance.repeat_every"' +
+    ' onSaveRepeat:from="@onSetRepeat">' +
     '</repeat-on-button>'
   ),
   leakScope: true,

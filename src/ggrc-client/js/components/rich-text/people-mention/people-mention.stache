@@ -4,21 +4,21 @@
 }}
 
 <people-autocomplete-wrapper {{#if showResults}}class="shown"{{/if}}
-    {current-value}="{mentionValue}"
-    {(show-results)}="{showResults}"
-    {model-name}="'Person'"
-    {query-field}="'email'"
-    {model-constructor}="{loadedModel}"
-    {action-key}="{actionKey}"
+    currentValue:from="mentionValue"
+    showResults:bind="showResults"
+    modelName:from="'Person'"
+    queryField:from="'email'"
+    modelConstructor:from="loadedModel"
+    actionKey:from="actionKey"
     >
 
   <people-autocomplete-results
-      {(current-value)}="{currentValue}"
-      {items}="{result}"
-      {(show-results)}="{showResults}"
-      {show-new-value}="{showNewValue}"
+      currentValue:bind="currentValue"
+      items:from="result"
+      showResults:bind="showResults"
+      showNewValue:from="showNewValue"
       on:addNewItem="createLabel(%event)"
       on:selectItem="personSelected(%event)"
-      {action-key}="{actionKey}"
+      actionKey:from="actionKey"
     ></people-autocomplete-results>
 </people-autocomplete-wrapper>

@@ -12,30 +12,30 @@
   </h2>
 </div>
 <div class="modal-filter modal-body">
-  <collapsible-panel {soft-mode}="{true}" {title-text}="'filter'" {(expanded)}="{showSearch}">
+  <collapsible-panel softMode:from="true" titleText:from="'filter'" expanded:bind="showSearch">
     <advanced-search-wrapper
-      {model-name}="{model.model_singular}"
-      {model-display-name}="{model.title_plural}"
-      {^filter-items}="*filterItems"
-      {^status-item}="*statusItem"
+      modelName:from="model.model_singular"
+      modelDisplayName:from="model.title_plural"
+      filterItems:to="*filterItems"
+      statusItem:to="*statusItem"
       on:el:enter="onSubmit()">
       <div class="object-controls">
         <div class="object-controls__row">
           <div class="object-controls__state">
             <advanced-search-filter-state
-              {model-name}="{modelName}"
-              {(state-model)}="{statusItem.value}"
-              {show-operator}="{false}">
+              modelName:from="modelName"
+              stateModel:bind="statusItem.value"
+              showOperator:from="false">
             </advanced-search-filter-state>
           </div>
         </div>
         <div class="object-controls__filters">
           <advanced-search-filter-container
-            {(items)}="{filterItems}"
-            {available-attributes}="{availableAttributes}"
-            {model-name}="{modelName}"
-            {default-status-filter}="{false}"
-            {show-add-button}="{mappingItems.length}">
+            items:bind="filterItems"
+            availableAttributes:from="availableAttributes"
+            modelName:from="modelName"
+            defaultStatusFilter:from="false"
+            showAddButton:from="mappingItems.length">
           </advanced-search-filter-container>
         </div>
         <div class="object-controls__actions">
@@ -53,33 +53,33 @@
 </div>
 
 <div class="modal-body">
-  <collapsible-panel {soft-mode}="{true}" {title-text}="'Search Results ({{*totalObjects}})'" {(expanded)}="{showResults}">
+  <collapsible-panel softMode:from="true" titleText:from="'Search Results ({{*totalObjects}})'" expanded:bind="showResults">
     <div class="search-results">
       <mapper-results
-        {base-instance}="{parentInstance}"
-        {(is-loading)}="{is_loading}"
-        {object}="{object}"
-        {type}="{type}"
-        {selected}="{selected}"
-        {submit-cbs}="{submitCbs}"
-        {default-sort}="{defaultSort}"
-        {^paging.total}="*totalObjects"
-        {(entries)}="{entries}"
-        {filter-items}="*filterItems"
-        {status-item}="*statusItem"
+        baseInstance:from="parentInstance"
+        isLoading:bind="is_loading"
+        object:from="object"
+        type:from="type"
+        selected:from="selected"
+        submitCbs:from="submitCbs"
+        defaultSort:from="defaultSort"
+        paging.total:to="*totalObjects"
+        entries:bind="entries"
+        filterItems:from="*filterItems"
+        statusItem:from="*statusItem"
         on:loaded="onLoaded()"
-        {apply-owned-filter}="{reduceToOwnedItems}">
+        applyOwnedFilter:from="reduceToOwnedItems">
       </mapper-results>
     </div>
   </collapsible-panel>
 </div>
 <div class="modal-body">
-  <collapsible-panel {soft-mode}="{true}" {title-text}="'Bulk Update'" {(expanded)}="{showTargetState}">
+  <collapsible-panel softMode:from="true" titleText:from="'Bulk Update'" expanded:bind="showTargetState">
     <bulk-update-target-state
-      {target-states}="{targetStates}"
-      {(target-state)}="{targetState}"
-      {model-name}="{model.model_singular}"
-      {enabled}="{selected.length}"
+      targetStates:from="targetStates"
+      targetState:bind="targetState"
+      modelName:from="model.model_singular"
+      enabled:from="selected.length"
       class="target-state">
     </bulk-update-target-state>
   </collapsible-panel>

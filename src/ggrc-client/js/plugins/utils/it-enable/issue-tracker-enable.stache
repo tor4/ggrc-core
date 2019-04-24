@@ -41,7 +41,7 @@
 
 <button type="button" on:el:click="open()">Bulk enable of Issue Tracker</button>
 
-<simple-modal {state}="{state}" {replace-content}="{true}" {extra-css-class}="'related-assessments'">
+<simple-modal state:from="state" replaceContent:from="true" extraCssClass:from="'related-assessments'">
   <div class="simple-modal__header">
     <div class="simple-modal__header-text">Enable Issue Tracker</div>
     <button type="button" class="btn btn-small btn-icon" {{^done}}disabled{{/done}} on:el:click="hide">
@@ -50,8 +50,8 @@
   </div>
   <div class="flex-box flex-col it-controls" style="">
     <div class="it-from-to">
-      From <input type="text" {($value)}="{from}">
-      To <input type="text" {($value)}="{to}">
+      From <input type="text" value:bind="from">
+      To <input type="text" value:bind="to">
     </div>
     <div class="flex-box" style="margin-bottom: 10px">
       <button type="button" on:el:click="enableITForAll()" >
@@ -66,7 +66,7 @@
       </button>
     </div>
 
-    <textarea {($value)}="{slugsString}" style="width: 100%"></textarea>
+    <textarea value:bind="slugsString" style="width: 100%"></textarea>
     <button type="button" on:el:click="enableForSlugs()">Enable By Slugs</button>
   </div>
   <div class="flex-box flex-box-multi it-update">
