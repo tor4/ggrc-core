@@ -195,7 +195,6 @@ import {trigger} from 'can-event';
           return;
         }
         if (instance) {
-          instance._backupStore()['-1'] = instance['-1'];
           changedInstance = instance.isDirty(true);
           if (!instance.id) {
             hasPending = false;
