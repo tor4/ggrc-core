@@ -32,7 +32,7 @@
         {{#if instance.issue_tracker.enabled}}
           <div class="ggrc-form-item__note people-sync">
             <label class="people-sync__label">
-              <input type="checkbox" can-value="instance.issue_tracker.people_sync_enabled"
+              <input type="checkbox" el:checked:bind="instance.issue_tracker.people_sync_enabled"
               >Sync people with Ticket Tracker
             </label>
             <i class="fa fa-question-circle" rel="tooltip"
