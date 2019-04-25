@@ -496,12 +496,6 @@ class ModalCreateNewAsmt(BaseModalCreateNew, CommonAssessment):
                       BaseModalCreateNew.MODAL + CommonAssessment.MAP_OBJS_BTN)
 
 
-class ModalCreateNewAsmtTmpl(BaseModalCreateNew):
-  """Locators for Create new Assessment Template modals."""
-  ASSIGNEE_DROPDOWN = (
-      By.CSS_SELECTOR, 'select[can-value="instance.default_people.assignees"]')
-
-
 class ModalEditObject(BaseModalCreateNew):
   """Locators for Edit object modals."""
   BUTTON_DELETE = (

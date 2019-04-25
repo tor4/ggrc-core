@@ -53,7 +53,7 @@ class BaseObjectModal(base.WithBrowser):
     self.title_field = self._root.text_field(name="title")
     self.description_field = self._root.div(
         data_placeholder="Enter Description")
-    self.state_select = self._root.select(can_value="instance.status")
+    self.state_select = self._root.element(id="state").select()
     self.code_field = self._root.text_field(name="slug")
     self._fields = ["title", "description", "status", "slug"]
     self.close_btn = self._root.element(class_name="modal-dismiss")
