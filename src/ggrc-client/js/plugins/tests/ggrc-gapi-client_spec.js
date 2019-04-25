@@ -357,22 +357,24 @@ describe('gapiClient', () => {
       });
 
       describe('and immediate flag was turned on', () => {
-        it('shows gapi modal', () => {
-          gapiClient.runAuthorization(true);
-
-          expect(gapiClient.showGapiModal).toHaveBeenCalled();
+        it('shows gapi modal', (done) => {
+          gapiClient.runAuthorization(true).then(() => {
+            expect(gapiClient.showGapiModal).toHaveBeenCalled();
+            done();
+          });
         });
 
         describe('and gapi modal was accepted', () => {
-          it('calls runAuthorization again', () => {
+          it('calls runAuthorization again', (done) => {
             gapiClient.showGapiModal.and.callFake(({onAccept}) => {
               spyOn(gapiClient, 'runAuthorization');
               onAccept();
             });
 
-            gapiClient.runAuthorization(true);
-
-            expect(gapiClient.runAuthorization).toHaveBeenCalled();
+            gapiClient.runAuthorization(true).then(() => {
+              expect(gapiClient.runAuthorization).toHaveBeenCalled();
+              done();
+            });
           });
         });
 
@@ -395,12 +397,13 @@ describe('gapiClient', () => {
       });
 
       describe('and immediate flag was turned off', () => {
-        it('rejects oauth', () => {
+        it('rejects oauth', (done) => {
           gapiClient.oauthResult = $.Deferred();
 
-          gapiClient.runAuthorization();
-
-          expect(gapiClient.oauthResult.state()).toBe('rejected');
+          gapiClient.runAuthorization().then(() => {
+            expect(gapiClient.oauthResult.state()).toBe('rejected');
+            done();
+          });
         });
       });
     });
