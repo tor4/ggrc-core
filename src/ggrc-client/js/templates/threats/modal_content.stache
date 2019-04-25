@@ -94,7 +94,7 @@
     </div>
   </div>
   <div class="row-fluid">
-    <div class="span4 hidable">
+    <div id="state" class="span4 hidable">
       <label>
         State
         <i class="fa fa-question-circle" rel="tooltip" title="Indicates the status of this object."></i>

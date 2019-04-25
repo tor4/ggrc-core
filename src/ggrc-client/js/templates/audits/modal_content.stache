@@ -42,7 +42,7 @@
           </label>
         {{/instance.computed_errors.title}}
       </div>
-      <div data-id="status_hidden" class="span3 hidable">
+      <div id="state" class="span3 hidable">
         <label>
           State
         </label>

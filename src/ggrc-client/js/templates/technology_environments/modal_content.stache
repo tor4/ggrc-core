@@ -97,7 +97,7 @@
     <div class="span4 hidable">
       <effective-dates instance:from="instance"/>
     </div>
-    <div data-id="state_hidden" class="span4 hidable">
+    <div id="state" class="span4 hidable">
       <label>
         Launch Status
         <i class="fa fa-question-circle" rel="tooltip" title="Indicates the status of this object."></i>
