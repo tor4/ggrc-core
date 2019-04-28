@@ -15,7 +15,7 @@
       <input type="checkbox" name="clone_tasks" {{#clone_tasks}}checked="checked"{{/clone_tasks}}>
     </div>
     <div class="span11">
-      <label for="clone_tasks">Also clone the Tasks in this Workflow's Task Groups<label>
+      <label for="clone_tasks">Also clone the Tasks in this Workflow's Task Groups</label>
     </div>
   </div>
   <div class="row-fluid">
@@ -23,7 +23,7 @@
       <input type="checkbox" name="clone_people" {{#clone_people}}checked="checked"{{/clone_people}}>
     </div>
     <div class="span11">
-      <label for="clone_people">Also clone the People in this Workflow (Admins and Workflow Members will also be Members of the new Workflow)<label>
+      <label for="clone_people">Also clone the People in this Workflow (Admins and Workflow Members will also be Members of the new Workflow)</label>
     </div>
   </div>
 </form>

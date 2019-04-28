@@ -15,7 +15,7 @@
       <input type="checkbox" name="clone_tasks" {{#clone_tasks}}checked="checked"{{/clone_tasks}}>
     </div>
     <div class="span11">
-      <label for="clone_tasks">Also clone the Tasks in this Task Group<label>
+      <label for="clone_tasks">Also clone the Tasks in this Task Group</label>
     </div>
   </div>
   <div class="row-fluid">
@@ -23,7 +23,7 @@
       <input type="checkbox" name="clone_objects" {{#clone_objects}}checked="checked"{{/clone_objects}}>
     </div>
     <div class="span11">
-      <label for="clone_objects">Also clone the Objects in this Task Group<label>
+      <label for="clone_objects">Also clone the Objects in this Task Group</label>
     </div>
   </div>
   <div class="row-fluid">
@@ -31,7 +31,7 @@
       <input type="checkbox" name="clone_people" {{#clone_people}}checked="checked"{{/clone_people}}>
     </div>
     <div class="span11">
-      <label for="clone_people">Also clone the People in this Task Group<label>
+      <label for="clone_people">Also clone the People in this Task Group</label>
     </div>
   </div>
 </form>

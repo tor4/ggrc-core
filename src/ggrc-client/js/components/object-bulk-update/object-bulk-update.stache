@@ -99,7 +99,6 @@
         {{^if selected.length}}disabled="disabled"{{/if}}>
         Update
       </button>
-      </div>
     </div>
   </div>
 </div>

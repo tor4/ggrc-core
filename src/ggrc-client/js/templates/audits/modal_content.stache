@@ -121,7 +121,6 @@
                     label:from="'Planned End Date'"
                     tabindex="21">
         </datepicker-component>
-        <label>
       </div>
     </div>
 

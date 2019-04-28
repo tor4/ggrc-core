@@ -42,7 +42,6 @@
                     <div class="span3">
                       <h6>Code</h6>
                       {{slug}}
-                      </p>
                     </div>
                     <div class="span3">
                       <h6>Network Zone</h6>

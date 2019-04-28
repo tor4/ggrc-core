@@ -51,7 +51,7 @@
             <h6>Email</h6>
             {{#if instance.email}}
               <p>
-                <a href='mailto:{{instance.email}}' target="_blank">
+                <a href="mailto:{{instance.email}}" target="_blank">
                   {{email}}
                 </a>
               </p>

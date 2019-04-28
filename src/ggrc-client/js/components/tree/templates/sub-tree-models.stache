@@ -8,7 +8,7 @@
   Filter sub tree
 </a>
 
-<div class="sub-tree-models flex-box flex-col {{#if isActive}}active{{/if}}" style="" on:el:click="innerClick(%event)">
+<div class="sub-tree-models flex-box flex-col {{#if isActive}}active{{/if}}" on:el:click="innerClick(%event)">
   <h5>Select child tree object type for {{title}}</h5>
   <div class="flex-box sub-tree-models_select" style="justify-content: flex-end">
     <span on:el:click="selectNone(%event)">Select none</span>

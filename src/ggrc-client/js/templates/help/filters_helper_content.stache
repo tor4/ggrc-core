@@ -72,13 +72,13 @@
         </tr>
         <tr>
           <td><span class="code">&lt;, &gt;</span></td>
-          <td><strong>lesser than, </br> greater than</strong></td>
+          <td><strong>lesser than, <br> greater than</strong></td>
           <td><span class="code">“modified date” &lt; 03/03/2015</span></td>
           <td>All objects last time modified before March 3rd, 2015</td>
         </tr>
         <tr>
           <td><span class="code">&lt;=, &gt;=</span></td>
-          <td><strong>lesser than or equals, </br> greater than or equals</strong></td>
+          <td><strong>lesser than or equals, <br> greater than or equals</strong></td>
           <td><span class="code">“modified date” &lt;= 03/03/2015</span></td>
           <td>All objects last time modified before or on March 3rd, 2015</td>
         </tr>

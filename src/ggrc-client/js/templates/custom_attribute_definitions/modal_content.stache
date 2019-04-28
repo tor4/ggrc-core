@@ -42,7 +42,7 @@
   </div>
   {{#switch attribute_type}}
   {{#case "Text"}}
-    <div class='row-fluid'>
+    <div class="row-fluid">
       <div class="span6">
         <label>
           Inline help
@@ -62,7 +62,7 @@
     </div>
   {{/case}}
   {{#case "Rich Text"}}
-    <div class='row-fluid'>
+    <div class="row-fluid">
       <div class="span6">
         <label>
           Inline help
@@ -83,7 +83,7 @@
   {{/case}}
 
   {{#case "Dropdown"}}
-    <div class='row-fluid'>
+    <div class="row-fluid">
       <div
         class="span12 {{#if instance.computed_errors.multi_choice_options}}field-failure{{/if}}">
         <label class="form-label">
@@ -108,7 +108,7 @@
           value="{{multi_choice_options}}">
       </div>
     </div>
-    <div class='row-fluid'>
+    <div class="row-fluid">
       <div class="span6">
         <label>
           Inline help
@@ -121,7 +121,7 @@
   {{/case}}
 
   {{#case "Checkbox"}}
-  <div class='row-fluid'>
+  <div class="row-fluid">
     <div class="span6">
       <label>
         Inline help
@@ -133,7 +133,7 @@
   </div>
   {{/case}}
   {{#case "Date"}}
-  <div class='row-fluid'>
+  <div class="row-fluid">
     <div class="span6">
       <label>
         Inline help
@@ -145,7 +145,7 @@
   </div>
   {{/case}}
   {{#case "Map:Person"}}
-  <div class='row-fluid'>
+  <div class="row-fluid">
     <div class="span6">
       <label>
         Inline help
@@ -157,7 +157,7 @@
   </div>
   {{/case}}
   {{#case "File upload"}}
-    <div class='row-fluid'>
+    <div class="row-fluid">
       File upload
     </div>
   {{/case}}

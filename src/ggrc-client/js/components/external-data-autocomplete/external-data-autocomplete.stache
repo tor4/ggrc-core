@@ -9,8 +9,7 @@
        el:value:bind="searchCriteria"
        on:el:focus="openResults()"
        on:el:blur="closeResults()"
-       placeholder="{{placeholder}}">
-</input>
+       placeholder="{{placeholder}}"/>
 <spinner-component extraCssClass:from="'saving'" toggle:from="saving"></spinner-component>
 
 {{#if renderResults}}

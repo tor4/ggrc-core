@@ -30,7 +30,6 @@
       <p class="extended-info__wf-status extended-info__wf-status_{{lowercase status}}">
         {{status}}
       </p>
-      </div>
     </div>
   </div>
 

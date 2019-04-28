@@ -150,35 +150,35 @@
           {{/if}}
         </object-loader>
       </div>
-      <div class="row-fluid">
-        <div class="{{#instance.computed_errors.start_date}}field-failure{{/instance.computed_errors.start_date}}">
-          <label class="form-label">
-              Start Date
-              <i class="fa fa-asterisk"></i>
-          </label>
-          <datepicker-component
-            setMaxDate:from="instance.end_date"
-            date:bind="instance.start_date"
-            required:from="true"
-            noWeekends:from="true"
-            readonly:from="true"/>
-            {{#instance.computed_errors.start_date}}<label class="help-inline warning">{{this}}</label>{{/instance.computed_errors.start_date}}
-          </div>
-        </div>
-        <div class="{{#instance.computed_errors.end_date}}field-failure{{/instance.computed_errors.end_date}}">
-          <label class="form-label">
-              Due Date
-              <i class="fa fa-asterisk"></i>
-          </label>
-          <datepicker-component
-            setMinDate:from="instance.start_date"
-            date:bind="instance.end_date"
-            required:from="true"
-            noWeekends:from="true"
-            readonly:from="true"/>
-            {{#instance.computed_errors.end_date}}<label class="help-inline warning">{{this}}</label>{{/instance.computed_errors.end_date}}
-          </div>
-        </div>
+      <div class="{{#instance.computed_errors.start_date}}field-failure{{/instance.computed_errors.start_date}}">
+        <label class="form-label">
+            Start Date
+            <i class="fa fa-asterisk"></i>
+        </label>
+        <datepicker-component
+          setMaxDate:from="instance.end_date"
+          date:bind="instance.start_date"
+          required:from="true"
+          noWeekends:from="true"
+          readonly:from="true"/>
+        {{#instance.computed_errors.start_date}}
+        <label class="help-inline warning">{{this}}</label>
+        {{/instance.computed_errors.start_date}}
+      </div>
+      <div class="{{#instance.computed_errors.end_date}}field-failure{{/instance.computed_errors.end_date}}">
+        <label class="form-label">
+            Due Date
+            <i class="fa fa-asterisk"></i>
+        </label>
+        <datepicker-component
+          setMinDate:from="instance.start_date"
+          date:bind="instance.end_date"
+          required:from="true"
+          noWeekends:from="true"
+          readonly:from="true"/>
+          {{#instance.computed_errors.end_date}}
+          <label class="help-inline warning">{{this}}</label>
+          {{/instance.computed_errors.end_date}}
       </div>
     </div>
     <br>
