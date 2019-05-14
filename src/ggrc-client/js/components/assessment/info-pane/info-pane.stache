@@ -308,7 +308,8 @@
                     </related-issues>
                 {{/instance}}
           </tab-panel>
-          <tab-panel {(panels)}="panels"
+          <tab-panel class="assessment-attributes-panel"
+                     {(panels)}="panels"
                      title-text="Other Attributes"
                      (update-active-tab)="initGlobalAttributes">
                 <custom-roles {exclude-roles}="assessmentMainRoles"
