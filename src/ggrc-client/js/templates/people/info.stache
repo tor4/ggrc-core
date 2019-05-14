@@ -68,7 +68,7 @@
             </div>
             <div class="row-fluid wrap-row">
               <div class="span12">
-                <h6>Authorizations</h6>
+                <h6>System Authorizations</h6>
                 <span>
                   {{#is(instance.system_wide_role, "No Access")}}
                     No Role

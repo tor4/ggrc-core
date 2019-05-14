@@ -19,7 +19,10 @@
         value="{{name}}"
         class="attr-checkbox {{#mandatory}}mandatory{{/mandatory}}">
     {{/if}}
-
-    {{title}}
+    {{#eq title 'System Authorizations' }}
+      Object Authorizations
+    {{else}}
+      {{title}}
+    {{/eq}}
   </label>
 {{/column}}

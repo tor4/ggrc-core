@@ -31,7 +31,11 @@
       {{#if disable_sorting}}
         <div class="tree-header-titles__item">
           <span class="tree-header-titles__text">
-            {{attr_title}}
+            {{#eq attr_title 'System Authorizations' }}
+              Object Authorizations
+            {{else}}
+              {{attr_title}}
+            {{/eq}}
           </span>
         </div>
       {{else}}
@@ -40,7 +44,11 @@
           sort:bind="orderBy"
           sortField:from="attr_sort_field">
           <span class="tree-header-titles__text">
-            {{attr_title}}
+            {{#eq attr_title 'System Authorizations' }}
+              Object Authorizations
+            {{else}}
+              {{attr_title}}
+            {{/eq}}
           </span>
         </sortable-column>
       {{/if}}

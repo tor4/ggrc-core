@@ -58,7 +58,7 @@ export default Cacheable.extend({
       attr_title: 'Email',
       attr_name: 'email',
     }, {
-      attr_title: 'Authorizations',
+      attr_title: 'System Authorizations',
       attr_name: 'authorizations',
     }, {
       attr_title: 'Last Updated Date',

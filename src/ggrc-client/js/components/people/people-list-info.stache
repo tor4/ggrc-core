@@ -19,7 +19,7 @@
               <user-roles-selector-button personId:from="id">
                 <a href="javascript://" on:el:click="openModal(scope.event)">
                   <i class="fa fa-address-card"></i>
-                  Edit Authorizations
+                  Edit System Authorizations
                 </a>
               </user-roles-selector-button>
             </li>
@@ -74,7 +74,7 @@
 
         <div class="row-fluid wrap-row">
           <div class="span12">
-            <h6>Authorizations</h6>
+            <h6>System Authorizations</h6>
             <p>
               {{^if isNoRole}}
                 <span class="role">
