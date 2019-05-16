@@ -250,8 +250,6 @@ export default Cacheable.extend({
         'Cannot save assessment, audit context not set.');
     }
     this.attr('context', this.attr('audit.context'));
-    this.attr('design', '');
-    this.attr('operationally', '');
   },
   _transformBackupProperty: function (badProperties) {
     let backupInstance = this._backupStore();

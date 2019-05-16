@@ -50,18 +50,6 @@ describe('Assessment model', function () {
       }).toThrow(new Error(
         'Cannot save assessment, audit context not set.'));
     });
-    it('sets empty string to design property', function () {
-      assessment.attr('audit', audit);
-      assessment.attr('design', undefined);
-      assessment.before_create();
-      expect(assessment.attr('design')).toEqual('');
-    });
-    it('sets empty string to operationally property', function () {
-      assessment.attr('audit', audit);
-      assessment.attr('operationally', undefined);
-      assessment.before_create();
-      expect(assessment.attr('operationally')).toEqual('');
-    });
   });
 
   describe('_transformBackupProperty() method', function () {
