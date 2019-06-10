@@ -58,7 +58,14 @@ export default Cacheable.extend({
       attr_title: 'Email',
       attr_name: 'email',
     }, {
-      attr_title: 'System Authorizations',
+      attr_title(viewType) {
+        viewType = _.isFunction(viewType) ? viewType() : viewType;
+        if (viewType === 'unified-mapper') {
+          return 'System Authorizations';
+        }
+
+        return 'Object Authorizations';
+      },
       attr_name: 'authorizations',
     }, {
       attr_title: 'Last Updated Date',

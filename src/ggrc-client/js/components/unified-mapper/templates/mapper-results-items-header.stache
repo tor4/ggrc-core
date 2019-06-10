@@ -7,11 +7,11 @@
   {{#each aggregatedColumns}}
     {{#if disable_sorting}}
       <div class="title">
-        {{attr_title}}
+        {{attr_title 'unified-mapper'}}
       </div>
     {{else}}
       <div class="title title_sortable" on:el:click="applySort">
-        {{attr_title}}
+        {{attr_title 'unified-mapper'}}
         {{#if isSorted}}
           <i class="fa
             {{#if isSortedAsc}}

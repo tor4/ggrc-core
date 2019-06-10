@@ -11,6 +11,7 @@ export default can.Component.extend({
   leakScope: true,
   viewModel: can.Map.extend({
     column: {},
+    viewType: null,
     onChange(attr) {
       attr.attr('selected', !attr.attr('selected'));
     },
